@@ -11,8 +11,8 @@ if($name){ ?>
 					Roadmap Planning
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="<?php echo WROOT.'/roadmap.php'?>">Features</a>
-					<a class="dropdown-item" href="<?php echo WROOT.'/epic-roadmap.php'?>">Epics</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/roadmap.php'?>">Features</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-roadmap.php'?>">Epics</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
@@ -20,7 +20,7 @@ if($name){ ?>
 					Feature Requests
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="#">New Feature Request</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php'?>">New Feature Request</a>
 					<a class="dropdown-item" href="#">My Feature Requests</a>
 				</div>
 			</li>
@@ -29,7 +29,7 @@ if($name){ ?>
     <div class="topnav-right" >
 		
             Hello, <?php echo $name;?>
-			<a href="<?php echo WROOT.'/logout.php';?>" class="btn btn-primary ml-2"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+			<a href="<?php echo W_ROOT.'/logout.php';?>" class="btn btn-primary ml-2"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
 		
 	</div>
 </nav>

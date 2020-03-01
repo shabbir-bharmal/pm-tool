@@ -1,16 +1,10 @@
 <?php
-error_reporting(E_ALL);
-session_start();
-define('WROOT', 'http://localhost/pm_tool');
-
-include_once 'database.php';
-
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style\TablePosition;
 
+// Include config
+include_once 'config.php';
 
-$db            = new Database();
-$db_connection = $db->connect();
 $action        = $_REQUEST && $_REQUEST['action'] ? $_REQUEST['action'] : '';
 
 switch ($action) {
@@ -18,11 +12,11 @@ switch ($action) {
 	case 'feature-edit':
 		
 		$db->saveFeature($_POST);
-		header("Location: " . WROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
+		header("Location: " . W_ROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
 		break;
 	case 'feature-delete':
 		$db->deleteFeature($_POST['f_id']);
-		header("Location: " . WROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
+		header("Location: " . W_ROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
 		break;
 	case 'print-feature':
 		switch ($_POST['print_option']) {
@@ -63,11 +57,11 @@ switch ($action) {
 		
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
-			header("location:" . WROOT . "/roadmap.php");
+			header("location:" . W_ROOT . "/roadmap.php");
 		} else {
 			$error             = "Your Username or Password is invalid.";
 			$_SESSION['error'] = $error;
-			header("Location: " . WROOT);
+			header("Location: " . W_ROOT);
 		}
 		break;
 	default:
@@ -75,7 +69,7 @@ switch ($action) {
 }
 function printDetailDocument($data)
 {
-	include_once 'Word_Header.php';
+	include_once F_ROOT.'Word_Header.php';
 	
 	if ($data['f_JS'] == 0) {
 		$wsjf = 0;
@@ -179,7 +173,7 @@ function printDetailDocument($data)
 function printTitleDocument($data)
 {
 	
-	include_once 'Word_Header.php';
+	include_once F_ROOT.'Word_Header.php';
 
 // New Word Document
 	$file_name = $data['f_title'] . '.docx';
@@ -212,8 +206,8 @@ function printTitleDocument($data)
 
 function printTitleNemonicDocument($data)
 {
-	
-	include_once 'Word_Header.php';
+
+	include_once F_ROOT.'Word_Header.php';
 
 // New Word Document
 	$file_name = $data['f_title'] . '.docx';
@@ -268,7 +262,7 @@ function printFeatureAntragDocument($data, $epic)
 		}
 	}
 
-	include_once 'Word_Header.php';
+	include_once F_ROOT.'Word_Header.php';
 	
 	// New Word Document
 	$file_name = $data['f_title'] . ' Feature-Antrag.docx';

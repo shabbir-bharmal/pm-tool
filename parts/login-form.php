@@ -2,7 +2,7 @@
     <div class="col-md-4 center-block mx-auto">
         <div class="card">
             <div class="card-body">
-                <form action="<?php echo WROOT; ?>/form-action.php" method="post" id="login_form">
+                <form action="<?php echo W_ROOT; ?>/form-action.php" method="post" id="login_form">
                     <input type="hidden" name="action" class="form-control" id="action" value="user-login">
                     <div class="form-group">
                         <label>Username:</label>

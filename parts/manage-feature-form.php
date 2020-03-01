@@ -48,22 +48,22 @@ $helptexts = $db->getHelpText();
 </ul>
 <div class="tab-content" id="featureTabContent">
     <div class="tab-pane fade show active" id="allgemein" role="tabpanel" aria-labelledby="allgemein-tab">
-        <?php include_once('manage-feature/allgemein_tab.php'); ?>
+        <?php include_once(F_ROOT.'parts/manage-feature/allgemein_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
-        <?php include_once('manage-feature/ranking_tab.php'); ?>
+        <?php include_once(F_ROOT.'parts/manage-feature/ranking_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
-        <?php include_once('manage-feature/file_tab.php'); ?>
+        <?php include_once(F_ROOT.'parts/manage-feature/file_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="details-1" role="tabpanel" aria-labelledby="details-1-tab">
-        <?php include_once('manage-feature/details1_tab.php'); ?>
+        <?php include_once(F_ROOT.'parts/manage-feature/details1_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="details-2" role="tabpanel" aria-labelledby="details-2-tab">
-        <?php include_once('manage-feature/details2_tab.php'); ?>
+        <?php include_once(F_ROOT.'parts/manage-feature/details2_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="details-3" role="tabpanel" aria-labelledby="details-3-tab">
-		<?php include_once('manage-feature/details3_tab.php'); ?>
+		<?php include_once(F_ROOT.'parts/manage-feature/details3_tab.php'); ?>
     </div>
 </div>
 <!-- Tab Functionality Start-->

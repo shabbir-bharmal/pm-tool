@@ -371,7 +371,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureFiles($f_id, $feature_info)
 	{
 		try {
-			define('WROOT', 'http://localhost/pm_tool');
+			define('W_ROOT', 'http://localhost/pm_tool');
 
 			$countfiles = count($_FILES['f_file']['name']);
 			if ($countfiles > 0) {
@@ -385,7 +385,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 						$newfilename = $f_file_name[0].'_'.date('dmYHis').'.'.$f_file_name[1];
 
 						move_uploaded_file($_FILES['f_file']['tmp_name'][$i], 'upload/'.$newfilename);
-						$fileurl = WROOT.'/upload/'.$newfilename;
+						$fileurl = W_ROOT.'/upload/'.$newfilename;
 
 						$file_data = [
 							':f_id'       => $f_id,

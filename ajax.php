@@ -12,7 +12,7 @@ switch ($action) {
 		echo json_encode(['success' => $success]);
 		break;
 	case 'manage-feature':
-		include_once('parts/manage-feature-form.php');
+		include_once(F_ROOT.'parts/manage-feature-form.php');
 		break;
 	
 	case 'update-feature-ranking':

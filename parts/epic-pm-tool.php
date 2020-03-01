@@ -14,7 +14,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="<?php echo WROOT; ?>/form-action.php" id="feature_form" name="feature_form" enctype='multipart/form-data'>
+            <form method="post" action="<?php echo W_ROOT; ?>/form-action.php" id="feature_form" name="feature_form" enctype='multipart/form-data'>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
                     <div class="form-group col-md-4 mr-auto p-0">

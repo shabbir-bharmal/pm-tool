@@ -4,9 +4,10 @@ error_reporting(0);
 
 session_start();
 
-define('WROOT', 'http://localhost/pm_tool');
+define('W_ROOT', 'http://localhost/pm_tool');
+define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
 
-include_once 'database.php';
+include_once F_ROOT.'database.php';
 
 $db                       = new Database();
 $db_connection            = $db->connect();
