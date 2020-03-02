@@ -2,14 +2,10 @@
 include_once 'config.php';
 
 // Include header
-$page = 'feature-request';
+$page       = 'feature-request';
 $page_title = 'Feature Request';
 include_once F_ROOT.'parts/layout/head.php';
 
-$msg = '';
-if($_SESSION['feature-request-error']){
-
-}
 ?>
 	<!--Body content-->
 
@@ -23,6 +19,31 @@ if($_SESSION['feature-request-error']){
 		<div class="row mb-3">
 			<div class="col-12">
 				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Request</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6 col-sm-6 col-xs-12">
+				<?php
+				if (isset($_SESSION['feature-request-error'])) {
+					$msg = $_SESSION['feature-request-error'];
+					unset($_SESSION['feature-request-error']);
+					?>
+					<div class="alert alert-danger" role="alert">
+						<?php echo $msg; ?>
+					</div>
+					<?php
+				}
+				if (isset($_SESSION['feature-request-success'])) {
+					$msg = $_SESSION['feature-request-success'];
+					unset($_SESSION['feature-request-success']);
+					?>
+					<div class="alert alert-success" role="alert">
+						<?php echo $msg; ?>
+					</div>
+					<?php
+				}
+				?>
 			</div>
 		</div>
 

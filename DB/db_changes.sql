@@ -4,3 +4,4 @@ UPDATE feature_details SET f_SME = NULL WHERE f_SME <= 0;
 ALTER TABLE `feature_details` ADD FOREIGN KEY (`f_SME`) REFERENCES `staff`(`staff_id`);
 INSERT INTO `feature_statuses` (`name`) VALUES ('New'); 
 INSERT INTO `feature_statuses` (`name`) VALUES ('Requested'); 
+ALTER TABLE `features` ADD COLUMN `f_is_FR` ENUM('0','1') DEFAULT '0' NOT NULL AFTER `f_JS`; 
