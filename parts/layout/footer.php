@@ -11,5 +11,8 @@
 	var wroot = '<?php echo W_ROOT;?>';
 </script>
 <script src="<?php echo W_ROOT.'/js/app.js';?>" type="text/javascript"></script>
+<?php  if(isset($page)){ ?>
+	<script src="<?php echo W_ROOT.'/js/'.$page.'.js';?>" type="text/javascript"></script>
+<?php } ?>
 </body>
 </html>

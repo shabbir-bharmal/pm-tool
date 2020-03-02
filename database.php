@@ -269,6 +269,46 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	}
 
 	/**
+	 * @param $feature_info
+	 * @return bool
+	 */
+	public function saveFeatureRequest($feature_info)
+	{
+		try {
+
+			$feature_info['f_status_id'] = isset($feature_info['einreichen']) ? 6 : 5;
+
+			$data = [
+				':f_title'       => $feature_info['f_title'],
+				':f_desc'        => $feature_info['f_desc'],
+				':f_storypoints' => 0,
+				':f_topic_id'    => 0,
+				':f_PI'          => 0,
+				':f_ranking'     => 0,
+				':f_status_id'   => $feature_info['f_status_id'],
+				':f_type'        => 1,
+				':f_BV'          => 0,
+				':f_TC'          => 0,
+				':f_RROE'        => 0,
+				':f_JS'          => 0
+			];
+
+			$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+
+			$f_id                 = $this->pdo->lastInsertId();
+			$feature_info['f_id'] = $f_id;
+
+			// Save details
+			return $this->saveFeatureDetails($f_id, $feature_info);
+
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
 	 * @param int $f_id
 	 * @param array $feature_info
 	 * @return bool
@@ -301,7 +341,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			];
 
 			$sql
-				    = "INSERT INTO `feature_details` (
+				   = "INSERT INTO `feature_details` (
 					f_id,
 					f_note,
 					f_benefit,
