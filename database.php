@@ -112,6 +112,21 @@ class Database
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getStaff()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `staff` ORDER BY staff_firstname, staff_lastname");
+			$stm->execute();
+			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $staff;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
 	 * @param $staff_id
 	 * @return bool
 	 */
@@ -290,7 +305,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_BV'          => 0,
 				':f_TC'          => 0,
 				':f_RROE'        => 0,
-				':f_JS'          => 0
+				':f_JS'          => 0,
+				':f_is_FR'       => 1
 			];
 
 			$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";

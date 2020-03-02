@@ -66,10 +66,10 @@ switch ($action) {
 		break;
 	case 'feature-request':
 		$request = $db->saveFeatureRequest($_POST);
-		//Todo: Needs to store error/success message in session and show on page.
-		$_SESSION['feature-request-error'] = 0;
 		if (!$request) {
-			$_SESSION['feature-request-error'] = 1;
+			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
+		} else {
+			$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
 		}
 		header("Location: ".W_ROOT."/feature-request.php");
 		break;
