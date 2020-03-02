@@ -4,8 +4,7 @@ UPDATE feature_details SET f_SME = NULL WHERE f_SME <= 0;
 ALTER TABLE `feature_details` ADD FOREIGN KEY (`f_SME`) REFERENCES `staff`(`staff_id`);
 INSERT INTO `feature_statuses` (`name`) VALUES ('New'); 
 INSERT INTO `feature_statuses` (`name`) VALUES ('Requested');
-
-----------------
+ALTER TABLE `features` ADD COLUMN `f_is_FR` ENUM('0','1') DEFAULT '0' NOT NULL AFTER `f_JS`;
 ALTER TABLE `staff` ADD `staff_team_id` INT(11) NOT NULL AFTER `staff_team`;
 ALTER TABLE `staff` ADD FOREIGN KEY (`staff_team_id`) REFERENCES `team`(`id`)
 UPDATE staff SET staff_team_id = (SELECT id FROM team WHERE `name` = staff.`staff_team` );

@@ -1,5 +1,5 @@
 <?php
-$feature_staff = $db->getStaffByTopic(0);
+$feature_staff = $db->getStaff();
 $epics         = $db->getEpics();
 $helptexts     = $db->getHelpText();
 ?>

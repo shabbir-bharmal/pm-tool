@@ -21,6 +21,7 @@ $(function () {
   $('#f_due_date').datetimepicker({
     format: 'YYYY-MM-DD'
   });
+  $('[data-toggle="popover"]').popover();
 
   formValidation();
 });
