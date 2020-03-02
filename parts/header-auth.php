@@ -20,7 +20,7 @@ if($name){ ?>
 					Feature Requests
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php'?>">New Feature Request</a>
+					<a class="dropdown-item" href="#">New Feature Request</a>
 					<a class="dropdown-item" href="#">My Feature Requests</a>
 				</div>
 			</li>
