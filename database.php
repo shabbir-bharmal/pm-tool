@@ -9,15 +9,15 @@ class Database
 	 * @var
 	 */
 	public $pdo;
-
+	
 	/**
 	 *
 	 */
 	public function __construct()
 	{
-
+	
 	}
-
+	
 	/**
 	 *
 	 */
@@ -25,10 +25,10 @@ class Database
 	{
 		$dsn       = "mysql:host=localhost;dbname=zhaw_pmmastaz";
 		$user      = "root";
-		$passwd    = "";
+		$passwd    = "password";
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -39,11 +39,12 @@ class Database
 			$stm->execute();
 			$topics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $topics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @return bool
@@ -56,11 +57,12 @@ class Database
 			$stm->execute();
 			$topic = $stm->fetch(PDO::FETCH_ASSOC);
 			return $topic;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -71,11 +73,12 @@ class Database
 			$stm->execute();
 			$pi = $stm->fetch(PDO::FETCH_ASSOC);
 			return $pi;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $exclude_pi_id
 	 * @return bool
@@ -89,11 +92,12 @@ class Database
 			$stm->execute();
 			$pis = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $pis;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $topic_id
 	 * @return bool
@@ -106,11 +110,12 @@ class Database
 			$stm->execute();
 			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @return bool
@@ -123,11 +128,12 @@ class Database
 			$stm->execute();
 			$staff = $stm->fetch(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @param $pi_id
@@ -142,11 +148,12 @@ class Database
 			$stm->execute();
 			$capacity = $stm->fetch(PDO::FETCH_ASSOC);
 			return $capacity;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @param $pi_id
@@ -163,11 +170,12 @@ class Database
 			if ($stm->execute()) {
 				return true;
 			}
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @param int $pi_id
@@ -183,11 +191,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $features;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $f_id
 	 * @return bool
@@ -200,11 +209,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature = $stm->fetch(PDO::FETCH_ASSOC);
 			return $feature;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $feature_info
 	 * @return bool
@@ -229,7 +239,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_JS'          => $feature_info['f_JS'],
 				':f_type'        => $feature_info['f_type'],
 				':f_status_id'   => $feature_info['f_status_id'],
-
+			
 			];
 			if ($feature_info['f_id'] == 0) {
 				$ranking = 0;
@@ -242,15 +252,15 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					$ranking = $ranking_result['ranking'] + 1;
 				}
 				$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";
-
+				
 				$stm = $this->pdo->prepare($sql);
 				unset($data[':f_id']);
 				$data[':f_topic_id'] = $feature_info['topic_id'];
 				$data[':f_PI']       = $feature_info['pi_id'];
 				$data[':f_ranking']  = $ranking;
-
+				
 				$stm->execute($data);
-
+				
 				$f_id                 = $this->pdo->lastInsertId();
 				$feature_info['f_id'] = $f_id;
 			} else {
@@ -259,15 +269,16 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$f_id = $feature_info['f_id'];
 			}
 			// Save detailss
-
+			
 			$this->saveFeatureDetails($f_id, $feature_info);
 			$this->saveFeatureFiles($f_id, $feature_info);
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $feature_info
 	 * @return bool
@@ -275,9 +286,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureRequest($feature_info)
 	{
 		try {
-
+			
 			$feature_info['f_status_id'] = isset($feature_info['einreichen']) ? 6 : 5;
-
+			
 			$data = [
 				':f_title'       => $feature_info['f_title'],
 				':f_desc'        => $feature_info['f_desc'],
@@ -292,22 +303,23 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_RROE'        => 0,
 				':f_JS'          => 0
 			];
-
+			
 			$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
-
+			
 			$f_id                 = $this->pdo->lastInsertId();
 			$feature_info['f_id'] = $f_id;
-
+			
 			// Save details
 			return $this->saveFeatureDetails($f_id, $feature_info);
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $f_id
 	 * @param array $feature_info
@@ -319,7 +331,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			if (empty($feature_info['f_due_date'])) {
 				$feature_info['f_due_date'] = date('Y-m-d');
 			}
-
+			
 			$data = [
 				':f_id'                  => $f_id,
 				':f_note'                => $feature_info['f_note'],
@@ -339,9 +351,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_outofscope'          => $feature_info['f_outofscope'],
 				':f_risks'               => $feature_info['f_risks'],
 			];
-
+			
 			$sql
-				   = "INSERT INTO `feature_details` (
+				 = "INSERT INTO `feature_details` (
 					f_id,
 					f_note,
 					f_benefit,
@@ -398,41 +410,42 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					f_risks = :f_risks
 					";
 			$stm = $this->pdo->prepare($sql);
-
+			
 			$stm->execute($data);
 			return true;
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
 	public function saveFeatureFiles($f_id, $feature_info)
 	{
 		try {
 			define('W_ROOT', 'http://localhost/pm_tool');
-
+			
 			$countfiles = count($_FILES['f_file']['name']);
 			if ($countfiles > 0) {
-
+				
 				// Looping all files
 				for ($i = 0; $i < $countfiles; $i++) {
 					$filename = $_FILES['f_file']['name'][$i];
-
+					
 					if ($filename) {
 						$f_file_name = explode('.', $filename);
-						$newfilename = $f_file_name[0].'_'.date('dmYHis').'.'.$f_file_name[1];
-
-						move_uploaded_file($_FILES['f_file']['tmp_name'][$i], 'upload/'.$newfilename);
-						$fileurl = W_ROOT.'/upload/'.$newfilename;
-
+						$newfilename = $f_file_name[0] . '_' . date('dmYHis') . '.' . $f_file_name[1];
+						
+						move_uploaded_file($_FILES['f_file']['tmp_name'][$i], 'upload/' . $newfilename);
+						$fileurl = W_ROOT . '/upload/' . $newfilename;
+						
 						$file_data = [
 							':f_id'       => $f_id,
 							':f_filename' => $newfilename,
 							':f_fileurl'  => $fileurl,
 						];
-
+						
 						$sql = "INSERT INTO `feature_files` (
 							f_id,
 							f_filename,
@@ -445,16 +458,17 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 						$stm = $this->pdo->prepare($sql);
 						$stm->execute($file_data);
 					}
-
+					
 				}
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
 	/**
 	 * @param $f_id
 	 * @return bool
@@ -465,19 +479,20 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm = $this->pdo->prepare("DELETE FROM `features` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-
+			
 			$stm = $this->pdo->prepare("DELETE FROM `feature_details` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-
+			
 			$stm = $this->pdo->prepare("DELETE FROM `feature_files` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $pi_id
 	 * @param $f_ids
@@ -487,7 +502,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		try {
 			$f_ids = explode(',', $f_ids);
-
+			
 			foreach ($f_ids as $key => $value) {
 				$stm = $this->pdo->prepare("UPDATE `features` SET f_PI = :f_PI,f_ranking = :f_ranking WHERE `f_id` = :f_id ");
 				$stm->bindParam(':f_ranking', $key);
@@ -496,11 +511,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$stm->execute();
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -511,11 +527,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature_types = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_types;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -526,11 +543,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_statuses;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @param int $pi_id
@@ -548,11 +566,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			if ($result['total_capacity']) {
 				return $result['total_capacity'];
 			}
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return 0;
 	}
-
+	
 	public function getFeatureFilesByFeatureId($f_id)
 	{
 		try {
@@ -561,40 +580,43 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$featurefiles = $stm->fetchALL(PDO::FETCH_ASSOC);
 			return $featurefiles;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	public function deleteFile($id, $file_name)
 	{
 		try {
 			$stm = $this->pdo->prepare("DELETE FROM `feature_files` WHERE `id` = :id");
 			$stm->bindParam(':id', $id);
 			$stm->execute();
-			unlink('upload/'.$file_name);
-
-		} catch (PDOException $e) {
+			unlink('upload/' . $file_name);
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	public function getUserData($username, $password)
 	{
-
+		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap FROM `staff` WHERE `username` = :username AND `password` = :password");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
 			$stm->bindParam(':password', $password);
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
 			return $userdata;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
 	public function getEpics()
 	{
 		try {
@@ -602,11 +624,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	public function getEpicsByID($e_id)
 	{
 		try {
@@ -615,11 +638,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epic = $stm->fetch(PDO::FETCH_ASSOC);
 			return $epic;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	public function getHelpText()
 	{
 		try {
@@ -631,11 +655,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$help_text[$helptext['field_name']] = $helptext['tooltip'];
 			}
 			return $help_text;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	public function getFeatureHighlightColor($id)
 	{
 		try {
@@ -644,7 +669,59 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$highlight_color = $stm->fetch(PDO::FETCH_ASSOC);
 			return $highlight_color;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getTeams()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `team`");
+			$stm->execute();
+			$teams = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $teams;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getEpicsByTeam($team_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` WHERE `team_id` = :team_id");
+			$stm->bindParam(':team_id', $team_id);
+			$stm->execute();
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getFeaturesByEpicAndPI($epic_id = 0, $pi_id = 0, $team_id = 0)
+	{
+		try {
+			
+			$sql = "
+				SELECT f.*, ep.e_title,fd.*,featuretypes.highlight_color
+				FROM features as f
+				JOIN feature_details AS fd on fd.f_id = f.f_id
+				JOIN epics as ep on ep.e_id = fd.f_epic
+				LEFT JOIN featuretypes ON f.f_type = featuretypes.id WHERE fd.f_epic = :epic_id AND f.f_pi = :pi_id
+				
+			";
+			$stm = $this->pdo->prepare($sql);
+			$stm->bindParam(':epic_id', $epic_id);
+			$stm->bindParam(':pi_id', $pi_id);
+			$stm->execute();
+			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $features;
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
