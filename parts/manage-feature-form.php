@@ -9,7 +9,7 @@ $feature_types = $db->getFeatureType();
 $feature_statuses = $db->getFeatureStatuses();
 $topic         = $db->getTopicById($topic_id);
 $feature_files  = $db->getFeatureFilesByFeatureId($f_id);
-$feature_staff = $db->getStaffByTopic($topic_id);
+$feature_staff = $db->getStaff();
 $epics = $db->getEpics();
 $helptexts = $db->getHelpText();
 
