@@ -1,7 +1,7 @@
 <?php
-$actual_pi_date           = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
-$actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $actual_product_increment['pi_id']);
+$actual_pi_date = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
 
+$can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -56,7 +56,6 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
             <tbody>
             <tr>
                 <td>
-                
                 </td>
                 <td><?php echo $actual_pi_date; ?></td>
 				<?php
@@ -64,26 +63,27 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 				foreach ($product_increments as $product_increment) {
 					if ($i > 2) {
 						$class = 'd-none';
+					} else {
+						$class = '';
 					}
 					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($product_increment['pi_end']));
 					echo "<td class='$class'>$pi_date</td>";
 					$i++;
 				} ?>
             </tr>
-            <?php
-            foreach ($topics as $topic){
-				$selected_topic = $topic['id'];
+			<?php
+			foreach ($epics as $epic) {
+				$selected_epic = $epic['e_id'];
 				?>
-                <tr class="feature-information">
+                <tr class="feature-information" data-epic_id="<?php echo $epic['e_id']; ?>">
                     <!-- Funnel features start -->
                     <td>
                         <div class="scrollable " id="pisortable_0">
-                            <h4><?php echo $topic['name'];?></h4>
+                            <h4><?php echo $epic['e_title']; ?></h4>
 							<?php
 							$pi_id    = 0;
-							$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
-				
-				
+							$features = $db->getFeaturesByEpicAndPI($epic['e_id'], $pi_id, $selected_team);
+							
 							if (isset($features) && !empty($features)) {
 								foreach ($features as $feature) {
 									if ($feature['f_JS'] == 0) {
@@ -93,13 +93,17 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 									}
 									?>
                                     <div class="card" id="<?php echo $feature['f_id']; ?>" data-sp="<?php echo $feature['f_storypoints']; ?>">
-                                        <div class="card-header" style=" background: <?php echo $feature['highlight_color'] ?>;">
+                                        <div class="card-header" style=" background: <?php echo $feature['highlight_color']; ?>;">
                                             <div class="row">
                                                 <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                                 <div class="col-4">
-                                                    <div class="float-right">
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span></div>
+													<?php if ($can_edit_feature == 1) { ?>
+                                                        <div class="float-right">
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                                                            <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                        </div>
+														<?php
+													} ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,8 +126,8 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
                                             </div>
                                         </div>
                                     </div>
-						
-						
+									
+									
 									<?php
 								}
 							}
@@ -135,10 +139,11 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
                     <!-- Actual PI features start -->
                     <td>
                         <div class="scrollable " id="_<?php echo $actual_product_increment['pi_id']; ?>">
-				
+							
 							<?php
-							$pi_id           = $actual_product_increment['pi_id'];
-							$features        = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
+							$pi_id    = $actual_product_increment['pi_id'];
+							$features = $db->getFeaturesByEpicAndPI($epic['e_id'], $pi_id, $selected_team);
+							
 							$actual_sp_total = 0;
 							if (isset($features) && !empty($features)) {
 								foreach ($features as $feature) {
@@ -148,17 +153,20 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 										$wsjf = ($feature['f_BV'] + $feature['f_TC'] + $feature['f_RROE']) / $feature['f_JS'];
 									}
 									$actual_sp_total += $feature['f_storypoints'];
-						
+									
 									?>
                                     <div class="card" id="<?php echo $feature['f_id']; ?>" data-sp="<?php echo $feature['f_storypoints']; ?>">
                                         <div class="card-header" style=" background: <?php echo $feature['highlight_color'] ?>;">
                                             <div class="row">
                                                 <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                                 <div class="col-4">
-                                                    <div class="float-right">
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-                                                    </div>
+													<?php if ($can_edit_feature == 1) { ?>
+                                                        <div class="float-right">
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                                                            <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                        </div>
+														<?php
+													} ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,9 +198,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
                     <!-- Other PI features start -->
 					<?php
-					$i = 0;
-		
-		
+					$i         = 0;
 					$sp_totals = array();
 					foreach ($product_increments as $product_increment) {
 						if ($i > 2) {
@@ -202,10 +208,12 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 						}
 						$pi_id = $product_increment['pi_id'];
 						echo "<td class='$class'><div class='scrollable ' id='_" . $pi_id . "'>";
-			
+						
 						$sp_totals[$pi_id] = 0;
-						$features          = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
-						$sp_total          = 0;
+						$features          = '';
+						$features          = $db->getFeaturesByEpicAndPI($epic['e_id'], $pi_id, $selected_team);
+						
+						$sp_total = 0;
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
 								if ($feature['f_JS'] == 0) {
@@ -215,17 +223,20 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 								}
 								$sp_total          += $feature['f_storypoints'];
 								$sp_totals[$pi_id] = $sp_total;
-					
+								
 								?>
                                 <div class="card" id="<?php echo $feature['f_id']; ?>" data-sp="<?php echo $feature['f_storypoints']; ?>">
                                     <div class="card-header" style=" background: <?php echo $feature['highlight_color'] ?>; ">
                                         <div class="row">
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
-                                                <div class="float-right">
-                                                    <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                    <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-                                                </div>
+												<?php if ($can_edit_feature == 1) { ?>
+                                                    <div class="float-right">
+                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                    </div>
+													<?php
+												} ?>
                                             </div>
                                         </div>
                                     </div>
@@ -247,111 +258,16 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
                                         </div>
                                     </div>
                                 </div>
-					
+								
 								<?php
 							}
 						}
 						echo "</div></td>";
 						$i++;
 					} ?>
-                    <!-- Other PI features end -->
+
                 </tr>
-			<?php
-            }?>
-
-           
-
-            <!-- Total capacity row start -->
-            <tr class="total-capacity-row">
-                <td>Total Capacity [<a href="javascript:void(0);">Team-Mitglieder</a>]</td>
-                <td><span class="pi_total_capacity"><?php echo $actual_pi_total_capacity; ?></span></td>
-				<?php
-				$i = 0;
-				foreach ($product_increments as $product_increment) {
-					$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
-					?>
-                    <td class="<?php if ($i > 2) {
-						echo 'd-none';
-					} ?>">
-                        <span class="pi_total_capacity"><?php echo $total_capacity; ?></span>
-                    </td>
-					<?php
-					$i++;
-				}
-				?>
-            </tr>
-            <!-- Total capacity row end -->
-
-            <!-- Staff member capacity row start -->
-			<?php
-			foreach ($staff_members as $staff_member) {
-				$capacity_input_name = "capacity_" . $staff_member['staff_id'] . "_" . $actual_product_increment['pi_id'];
-				$pi_capacity         = $db->getStaffCapacityByPI($staff_member['staff_id'], $actual_product_increment['pi_id']);
-				?>
-                <tr class="capacity-row">
-                    <td><?php echo($staff_member['staff_firstname'] . " " . $staff_member['staff_lastname']); ?></td>
-                    <td><input type="number" name="<?php echo $capacity_input_name; ?>"
-                               value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input"></td>
-					<?php
-					$i = 0;
-					
-					foreach ($product_increments as $product_increment) {
-						$capacity_input_name = "capacity_" . $staff_member['staff_id'] . "_" . $product_increment['pi_id'];
-						$pi_capacity         = $db->getStaffCapacityByPI($staff_member['staff_id'], $product_increment['pi_id']);
-						if (!isset($pi_capacity_totals[$product_increment['pi_id']])) {
-							$pi_capacity_totals[$product_increment['pi_id']] = 0;
-						}
-						$pi_capacity_totals[$product_increment['pi_id']] = $pi_capacity_totals[$product_increment['pi_id']] + $pi_capacity['capacity'];
-						?>
-                        <td class="<?php if ($i > 2) {
-							echo 'd-none';
-						} ?>"><input type="number" name="<?php echo $capacity_input_name; ?>"
-                                     value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
-                        </td>
-						
-						<?php
-						$i++;
-					} ?>
-                </tr>
-				<?php
-			}
-			?>
-            <!-- Staff member capacity row end -->
-
-            <!-- Total sp row start -->
-            <tr class="total-sp-row">
-                <td>Total Planned</td>
-				<?php
-				if ($actual_pi_total_capacity <= $actual_sp_total) {
-					$color = 'text-danger';
-				} else {
-					$color = 'text-success';
-				}
-				?>
-                <td><span class="pi_total_sp <?php echo $color; ?>"><?php echo $actual_sp_total; ?></span></td>
-				<?php
-				$i = 0;
-				foreach ($product_increments as $product_increment) {
-					$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
-					
-					if ($total_capacity <= $sp_totals[$product_increment['pi_id']]) {
-						$color = 'text-danger';
-					} else {
-						$color = 'text-success';
-					}
-					?>
-                    <td class="<?php if ($i > 2) {
-						echo 'd-none';
-					} ?>">
-                        <span class="pi_total_sp <?php echo $color; ?>"><?php echo $sp_totals[$product_increment['pi_id']]; ?></span>
-                    </td>
-					<?php
-					$i++;
-				}
-				?>
-            </tr>
-            <!-- Total sp row end -->
-
+			<?php } ?>
             </tbody>
         </table>
         <button type="button" id="show_all" class="btn btn-primary">Show All</button>

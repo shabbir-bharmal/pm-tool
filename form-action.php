@@ -11,13 +11,21 @@ $action = $_REQUEST && $_REQUEST['action'] ? $_REQUEST['action'] : '';
 switch ($action) {
 	case 'feature-add':
 	case 'feature-edit':
-
+		
 		$db->saveFeature($_POST);
-		header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+		if($_POST['return_url']){
+			header("Location: ".$_POST['return_url']);
+		}else{
+			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+		}
 		break;
 	case 'feature-delete':
 		$db->deleteFeature($_POST['f_id']);
-		header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+		if($_POST['return_url']){
+			header("Location: ".$_POST['return_url']);
+		}else{
+			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+		}
 		break;
 	case 'print-feature':
 		switch ($_POST['print_option']) {
