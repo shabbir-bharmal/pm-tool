@@ -15,7 +15,7 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 		<?php include_once(F_ROOT.'parts/header-auth.php'); ?>
 	</header>
 
-	<div class="container-fluid mt-3">
+	<div class="container-fluid mt-3 mb-3">
 
 		<div class="row mb-3">
 			<div class="col-12">
@@ -26,10 +26,52 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 		<div class="row">
 			<div class="col-12">
 				<?php
+				if (isset($_SESSION['feature-request-error'])) {
+					$msg = $_SESSION['feature-request-error'];
+					unset($_SESSION['feature-request-error']);
+					?>
+					<div class="alert alert-danger" role="alert">
+						<?php echo $msg; ?>
+					</div>
+					<?php
+				}
+				if (isset($_SESSION['feature-request-success'])) {
+					$msg = $_SESSION['feature-request-success'];
+					unset($_SESSION['feature-request-success']);
+					?>
+					<div class="alert alert-success" role="alert">
+						<?php echo $msg; ?>
+					</div>
+					<?php
+				}
+				?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<?php
 				if ($my_frs) {
 					?>
 					<table class="table">
-						<thead></thead>
+						<thead>
+						<tr>
+							<th>Feature Title</th>
+							<th>Status</th>
+						</tr>
+						</thead>
+						<tbody>
+						<?php
+						foreach($my_frs as $fr){
+							?>
+							<tr>
+								<td><a href="<?php echo W_ROOT.'/feature-request.php?f_id='.$fr['f_id'];?>"><?php echo $fr['f_title'];?></a></td>
+								<td><?php echo $fr['f_status'];?></td>
+							</tr>
+							<?php
+						}
+						?>
+						</tbody>
 					</table>
 					<?php
 				} else {
