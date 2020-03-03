@@ -4,6 +4,7 @@ use PhpOffice\PhpWord\Style\TablePosition;
 
 // Include config
 include_once 'config.php';
+include_once F_ROOT.'lib/Mailer.php';
 
 $action = $_REQUEST && $_REQUEST['action'] ? $_REQUEST['action'] : '';
 
@@ -65,11 +66,17 @@ switch ($action) {
 		}
 		break;
 	case 'feature-request':
+		echo "in";exit;
 		$request = $db->saveFeatureRequest($_POST);
 		if (!$request) {
+			echo "if";
 			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
 		} else {
+			echo "else";
 			$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
+			$mail = new Mailer();
+			$mail->sendFeatureRequestEmail();
+			exit;
 		}
 		header("Location: ".W_ROOT."/feature-request.php");
 		break;

@@ -221,6 +221,22 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	}
 
 	/**
+	 * @param int $sme
+	 * @return bool
+	 */
+	public function getFeatureRequestsBySME($sme = 0){
+		try {
+			$stm = $this->pdo->prepare("SELECT f.*, fd.* FROM `features` AS f LEFT JOIN feature_details AS fd ON fd.f_id = f.f_id WHERE f.`f_is_FR` = '1' AND fd.f_SME = :f_SME");
+			$stm->bindParam(':f_SME', $sme);
+			$stm->execute();
+			$feature = $stm->fetchALL(PDO::FETCH_ASSOC);
+			return $feature;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
 	 * @param $feature_info
 	 * @return bool
 	 */
@@ -424,6 +440,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 
 	}
 
+	/**
+	 * @param $f_id
+	 * @param $feature_info
+	 * @return bool
+	 */
 	public function saveFeatureFiles($f_id, $feature_info)
 	{
 		try {
@@ -569,6 +590,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return 0;
 	}
 
+	/**
+	 * @param $f_id
+	 * @return bool
+	 */
 	public function getFeatureFilesByFeatureId($f_id)
 	{
 		try {
@@ -582,6 +607,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $id
+	 * @param $file_name
+	 * @return bool
+	 */
 	public function deleteFile($id, $file_name)
 	{
 		try {
@@ -595,6 +625,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $username
+	 * @param $password
+	 * @return bool
+	 */
 	public function getUserData($username, $password)
 	{
 
@@ -611,6 +646,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getEpics()
 	{
 		try {
@@ -623,6 +661,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $e_id
+	 * @return bool
+	 */
 	public function getEpicsByID($e_id)
 	{
 		try {
@@ -636,6 +678,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @return array|bool
+	 */
 	public function getHelpText()
 	{
 		try {
@@ -652,6 +697,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function getFeatureHighlightColor($id)
 	{
 		try {
