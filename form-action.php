@@ -75,7 +75,6 @@ switch ($action) {
 	case 'feature-request':
 		$request = $db->saveFeatureRequest($_POST);
 		if (!$request) {
-			echo "if";
 			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
 		} else {
 			$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
