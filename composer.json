@@ -3,6 +3,7 @@
     "require": {
         "laminas/laminas-escaper": "^2.6",
         "laminas/laminas-stdlib": "^3.2",
-        "phpoffice/phpword": "^0.17.0"
+        "phpoffice/phpword": "^0.17.0",
+        "phpmailer/phpmailer": "^6.1"
     }
 }

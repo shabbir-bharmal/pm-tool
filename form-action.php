@@ -78,6 +78,7 @@ switch ($action) {
 			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
 		} else {
 			$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
+			$mailer->sendFeatureRequestEmail($_POST);
 		}
 		header("Location: ".W_ROOT."/feature-request.php");
 		break;
