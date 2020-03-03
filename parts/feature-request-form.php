@@ -2,16 +2,19 @@
 $feature_staff = $db->getStaff();
 $epics         = $db->getEpics();
 $helptexts     = $db->getHelpText();
+$f_id          = isset($_REQUEST['f_id']) ? $_REQUEST['f_id'] : 0;
+$feature_info  = $db->getFeatureByFeatureId($f_id);
 ?>
 
 <form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="feature_request_form" name="feature_request_form">
+	<input type="hidden" name="f_id" value="<?php echo $f_id; ?>">
 	<input type="hidden" name="action" id="action" value="feature-request">
 
 	<div class="form-group row">
 		<label for="f_title" class="col-2 col-xs-12 col-form-label">Title:</label>
 
 		<div class="col-4 col-xs-12">
-			<input type="text" name="f_title" class="form-control" id="f_title">
+			<input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']) ?>">
 		</div>
 	</div>
 	<div class="form-group row">
@@ -23,8 +26,10 @@ $helptexts     = $db->getHelpText();
 
 		<div class="col-4 col-xs-12">
 			<select class="form-control" name="f_epic" id="f_epic">
-				<?php foreach ($epics as $epic) { ?>
-					<option value="<?php echo $epic['e_id']; ?>"><?php echo $epic['e_title']; ?></option>
+				<?php foreach ($epics as $epic) {
+					$selected = !$f_id ? '' : ($feature_info['f_epic'] == $epic['e_id'] ? 'selected="selected"' : '');
+					?>
+					<option value="<?php echo $epic['e_id']; ?>" <?php echo $selected; ?>><?php echo $epic['e_title']; ?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -37,7 +42,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea class="form-control" name="f_desc" id="f_desc"></textarea>
+			<textarea class="form-control" name="f_desc" id="f_desc"><?php echo(!$f_id ? "" : $feature_info['f_desc']); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -48,7 +53,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_context" id="f_context" class="form-control"></textarea>
+			<textarea name="f_context" id="f_context" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_context']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -59,7 +64,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_problemdessc" id="f_problemdessc" class="form-control"></textarea>
+			<textarea name="f_problemdessc" id="f_problemdessc" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_problemdessc']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -70,7 +75,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_currentstate" id="f_currentstate" class="form-control"></textarea>
+			<textarea name="f_currentstate" id="f_currentstate" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_currentstate']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -81,7 +86,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_targetstate" id="f_targetstate" class="form-control"></textarea>
+			<textarea name="f_targetstate" id="f_targetstate" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_targetstate']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -92,7 +97,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_benefit" id="f_benefit" class="form-control"></textarea>
+			<textarea name="f_benefit" id="f_benefit" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_benefit']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -103,7 +108,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_inscope" id="f_inscope" class="form-control"></textarea>
+			<textarea name="f_inscope" id="f_inscope" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_inscope']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -114,7 +119,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_outofscope" id="f_outofscope" class="form-control"></textarea>
+			<textarea name="f_outofscope" id="f_outofscope" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_outofscope']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -125,7 +130,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<input type="text" name="f_due_date" id="f_due_date" class="form-control">
+			<input type="text" name="f_due_date" id="f_due_date" class="form-control" value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>">
 		</div>
 	</div>
 	<div class="form-group row">
@@ -143,8 +148,10 @@ $helptexts     = $db->getHelpText();
 						$staffname = $staff['staff_firstname'].' '.$staff['staff_lastname'].' ('.$staff['username'].')';
 					} else {
 						$staffname = $staff['staff_firstname'].' '.$staff['staff_lastname'];
-					} ?>
-					<option value="<?php echo $staff['staff_id']; ?>"><?php echo $staffname; ?></option>
+					}
+					$selected = !$f_id ? '' : ($feature_info['f_SME'] == $staff['staff_id'] ? 'selected="selected"' : '');
+					?>
+					<option value="<?php echo $staff['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -157,7 +164,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_dependencies" id="f_dependencies" class="form-control"></textarea>
+			<textarea name="f_dependencies" id="f_dependencies" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_dependencies']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -168,7 +175,7 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_risks" id="f_risks" class="form-control"></textarea>
+			<textarea name="f_risks" id="f_risks" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_risks']; ?></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -179,13 +186,15 @@ $helptexts     = $db->getHelpText();
 		</label>
 
 		<div class="col-4 col-xs-12">
-			<textarea name="f_note" id="f_note" class="form-control"></textarea>
+			<textarea name="f_note" id="f_note" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-row">
 		<button name="speichern" id="SPEICHERN" class="btn btn-primary">SPEICHERN</button>
+		<?php if(($f_id && $feature_info['f_status_id'] == 5) || !$f_id) { ?>
 		&nbsp;
 		<button name="einreichen" id="EINREICHEN" class="btn btn-primary">EINREICHEN</button>
+		<?php } ?>
 	</div>
 </form>

@@ -10,19 +10,19 @@ $action = $_REQUEST && $_REQUEST['action'] ? $_REQUEST['action'] : '';
 switch ($action) {
 	case 'feature-add':
 	case 'feature-edit':
-		
+
 		$db->saveFeature($_POST);
-		if($_POST['return_url']){
+		if ($_POST['return_url']) {
 			header("Location: ".$_POST['return_url']);
-		}else{
+		} else {
 			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
 		}
 		break;
 	case 'feature-delete':
 		$db->deleteFeature($_POST['f_id']);
-		if($_POST['return_url']){
+		if ($_POST['return_url']) {
 			header("Location: ".$_POST['return_url']);
-		}else{
+		} else {
 			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
 		}
 		break;
@@ -77,10 +77,18 @@ switch ($action) {
 		if (!$request) {
 			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
 		} else {
-			$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
-			$mailer->sendFeatureRequestEmail($_POST);
+			if ($_POST['f_id']) {
+				$_SESSION['feature-request-success'] = 'Feature request updated successfully.';
+				$mailer->sendFeatureRequestEmail($_POST);
+			} else {
+				$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
+			}
 		}
-		header("Location: ".W_ROOT."/feature-request.php");
+		if ($_POST['f_id']) {
+			header("Location: ".W_ROOT."/my-feature-request.php");
+		} else {
+			header("Location: ".W_ROOT."/feature-request.php");
+		}
 		break;
 	default:
 		break;
