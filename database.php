@@ -25,7 +25,7 @@ class Database
 	{
 		$dsn       = "mysql:host=localhost;dbname=zhaw_pmmastaz";
 		$user      = "root";
-		$passwd    = "password";
+		$passwd    = "";
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
 	

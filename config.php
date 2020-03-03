@@ -1,13 +1,23 @@
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
-error_reporting(0);
+error_reporting(E_ERROR);
 
 session_start();
 
-define('W_ROOT', 'http://localhost/pm_tool');
+// Web and File Roots
+define('W_ROOT', 'http://pm_tool.local');
 define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
 
-include_once F_ROOT.'database.php';
+// SMTP Settings
+define('SMTP_HOST', 'malta.metanet.ch');
+define('SMTP_USERNAME', 'pm@mastaz.ch');
+define('SMTP_PW', 'B*x1ao56');
+define('SMTP_PORT', 465);
 
-$db                       = new Database();
-$db_connection            = $db->connect();
+// Require necessary files
+include_once F_ROOT.'database.php';
+include_once F_ROOT.'lib/Mailer.php';
+
+$db            = new Database();
+$mailer        = new Mailer();
+$db_connection = $db->connect();

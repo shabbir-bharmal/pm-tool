@@ -6,43 +6,68 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 // Load Composer's autoloader
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
-class Mailer{
-	public function sendFeatureRequestEmail(){
+/**
+ * Class Mailer
+ */
+class Mailer
+{
+	/**
+	 * @var PHPMailer
+	 */
+	public $mail;
+
+	/**
+	 *
+	 */
+	public function __construct()
+	{
 		$mail = new PHPMailer(true);
 		try {
 			//Server settings
 			$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 			$mail->isSMTP();                                            // Send using SMTP
-			$mail->Host       = 'malta.metanet.ch';                    // Set the SMTP server to send through
+			$mail->Host       = SMTP_HOST;                    // Set the SMTP server to send through
 			$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-			$mail->Username   = 'pm@mastaz.ch';                     // SMTP username
-			$mail->Password   = 'B*x1ao56';                               // SMTP password
-			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-			$mail->Port       = 587;                                    // TCP port to connect to
+			$mail->Username   = SMTP_USERNAME;                     // SMTP username
+			$mail->Password   = SMTP_PW;                               // SMTP password
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+			$mail->Port       = SMTP_PORT;                                    // TCP port to connect to
+			$this->mail       = $mail;
+		} catch (Exception $e) {
+			echo "Can't establish SMTP connection. Error: {$mail->ErrorInfo}";
+		}
+	}
+
+	/**
+	 * Send mail to admin once Feature Request has submitted
+	 * @param $data
+	 * @return bool
+	 */
+	public function sendFeatureRequestEmail($data)
+	{
+		try {
+			$mail = $this->mail;
 
 			//Recipients
-			$mail->setFrom('do-not-reply@mastaz.ch', 'Mailer');
-			$mail->addAddress('shabbir.bharmal@arsenaltech.com', 'Shabbir');     // Add a recipient
-			/*$mail->addReplyTo('info@example.com', 'Information');
-			$mail->addCC('cc@example.com');
-			$mail->addBCC('bcc@example.com');*/
-
-			// Attachments
-			/*$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-			$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name*/
+			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
+			$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
 
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
-			$mail->Subject = 'Here is the subject';
-			$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-			$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+			$mail->Subject = 'Neuer Feature beantragt';
+
+			$body = '<p>Hallo, </p>';
+			$body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte prüfen.</p>';
+
+			$mail->Body = $body;
 
 			$mail->send();
-			echo 'Message has been sent';
+			return true;
 		} catch (Exception $e) {
-			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+
 		}
+		return false;
 	}
 }
