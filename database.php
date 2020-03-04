@@ -25,7 +25,7 @@ class Database
 	{
 		$dsn       = "mysql:host=localhost;dbname=zhaw_pmmastaz";
 		$user      = "root";
-		$passwd    = "";
+		$passwd    = "password";
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
 
@@ -685,7 +685,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getEpics()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `epics`");
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` ORDER BY `epics`.`e_title` ASC");
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;

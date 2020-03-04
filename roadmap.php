@@ -51,6 +51,7 @@ include_once F_ROOT.'parts/layout/head.php';
 				</form>
 			</div>
 			<div class="col-md-2 text-right">
+                <button type="button" id="incpi" class="btn btn-primary">Show -1 PI</button>
 				<button type="button" id="incpi" class="btn btn-primary">Show +1 PI</button>
 			</div>
 		</div>
