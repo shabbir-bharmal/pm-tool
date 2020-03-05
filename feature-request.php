@@ -28,7 +28,7 @@ data-content="Hier kannst Du ein neues Feature beantragen. Sobald Du alle Pflich
  
 
 		<div class="row">
-			<div class="col-lg-6 col-sm-6 col-xs-12">
+			<div class="col-lg-8 col-sm-8 col-xs-12">
 				<?php
 				if (isset($_SESSION['feature-request-error'])) {
 					$msg = $_SESSION['feature-request-error'];

@@ -35,7 +35,7 @@ class Database
 	public function getTopics()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `topics`");
+			$stm = $this->pdo->prepare("SELECT * FROM `topics` ORDER BY `topics`.`name` ASC");
 			$stm->execute();
 			$topics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $topics;
@@ -259,12 +259,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeature($feature_info)
 	{
 		try {
-			if (empty($feature_info['f_storypoints'])) {
-				$feature_info['f_storypoints'] = 0;
+			foreach ($feature_info as $key=>$value){
+				if($value == ''){
+					$feature_info[$key] = NULL;
+				}
 			}
-			if (empty($feature_info['f_responsible'])) {
-				$feature_info['f_responsible'] = 0;
-			}
+			
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
@@ -301,7 +301,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$f_id                 = $this->pdo->lastInsertId();
 				$feature_info['f_id'] = $f_id;
 			} else {
-				$stm = $this->pdo->prepare("UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_storypoints=:f_storypoints, f_status_id=:f_status_id,f_BV=:f_BV,f_TC=:f_TC,f_RROE=:f_RROE,f_JS=:f_JS,f_type=:f_type WHERE f_id=:f_id");
+				$data[':f_topic_id'] = $feature_info['topic_id'];
+				
+				$stm = $this->pdo->prepare("UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_storypoints=:f_storypoints, f_status_id=:f_status_id,f_BV=:f_BV,f_TC=:f_TC,f_RROE=:f_RROE,f_JS=:f_JS,f_type=:f_type,f_topic_id=:f_topic_id WHERE f_id=:f_id");
 				$stm->execute($data);
 				$f_id = $feature_info['f_id'];
 			}
@@ -324,13 +326,22 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		try {
 
 			$feature_info['f_status_id'] = isset($feature_info['einreichen']) ? 6 : 5;
-
+			
+			
+			foreach ($feature_info as $key=>$value){
+				
+				if($value == ''){
+					$feature_info[$key] = NULL;
+				}
+			}
+			
+			
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
 				':f_desc'        => $feature_info['f_desc'],
 				':f_storypoints' => 0,
-				':f_topic_id'    => 0,
+				':f_topic_id'    => $feature_info['f_topic'],
 				':f_PI'          => 0,
 				':f_ranking'     => 0,
 				':f_status_id'   => $feature_info['f_status_id'],
@@ -351,11 +362,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					':f_title'     => $feature_info['f_title'],
 					':f_desc'      => $feature_info['f_desc'],
 					':f_status_id' => $feature_info['f_status_id'],
+					':f_topic_id'  => $feature_info['f_topic'],
 					':f_is_FR'     => 1
 				];
-				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id, f_is_FR=:f_is_FR WHERE f_id=:f_id";
+				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_is_FR=:f_is_FR WHERE f_id=:f_id";
 			}
 			$stm = $this->pdo->prepare($sql);
+			
 			$stm->execute($data);
 
 			$f_id                 = (!$feature_info['f_id'] ? $this->pdo->lastInsertId() : $feature_info['f_id']);
@@ -377,10 +390,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureDetails($f_id, $feature_info)
 	{
 		try {
-			if (empty($feature_info['f_due_date'])) {
-				$feature_info['f_due_date'] = date('Y-m-d');
-			}
-
+			
 			$data = [
 				':f_id'                  => $f_id,
 				':f_note'                => $feature_info['f_note'],
@@ -574,7 +584,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getFeatureType()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `featuretypes`");
+			$stm = $this->pdo->prepare("SELECT * FROM `featuretypes` ORDER BY `featuretypes`.`name` ASC");
 			$stm->execute();
 			$feature_types = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_types;
@@ -589,7 +599,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getFeatureStatuses()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses`");
+			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses` ORDER BY `id` ASC");
 			$stm->execute();
 			$feature_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_statuses;
@@ -685,7 +695,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getEpics()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `epics`");
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` ORDER BY `epics`.`e_title` ASC");
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
@@ -793,6 +803,28 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $features;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getWorkingEpics()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` WHERE `e_status_id` NOT IN (5,6) ORDER BY `epics`.`e_title` ASC");
+			$stm->execute();
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getCompletedEpics()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` WHERE `e_status_id` IN (5,6) ORDER BY `epics`.`e_title` ASC");
+			$stm->execute();
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
 		} catch (PDOException $e) {
 		}
 		return false;

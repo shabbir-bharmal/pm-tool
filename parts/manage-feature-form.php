@@ -7,6 +7,14 @@ $opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20', '40');
 $feature_info  = $db->getFeatureByFeatureId($f_id);
 $feature_types = $db->getFeatureType();
 $feature_statuses = $db->getFeatureStatuses();
+$status = 1;
+$type = 1;
+if($feature_info['f_type']){
+	$type = $feature_info['f_type'];
+}
+if($feature_info['f_status_id']){
+	$status = $feature_info['f_status_id'];
+}
 if($feature_info['f_topic_id']){
 	$topic_id = $feature_info['f_topic_id'];
 }
@@ -14,7 +22,10 @@ $topic         = $db->getTopicById($topic_id);
 $feature_files  = $db->getFeatureFilesByFeatureId($f_id);
 $feature_staff = $db->getStaff();
 $epics = $db->getEpics();
+$working_epics = $db->getWorkingEpics();
+$completed_epics = $db->getCompletedEpics();
 $helptexts = $db->getHelpText();
+$topics                   = $db->getTopics();
 
 ?>
 <input type="hidden" name="return_url" class="form-control" id="return_url" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">

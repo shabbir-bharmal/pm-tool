@@ -30,13 +30,14 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
         <div class="col-2 col-xs-12">
         
 		<?php if (!$f_id) { 
-            $feature_info['f_status_id']=5;
+            $feature_info['f_status_id']=1;
 	 }   ?>    
         
         <select class="form-control" name="f_status_id" id="f_status_id" disabled="true">
+            <option value="">--bitte w<span>&#228;</span>hlen--</option>
 			<?php
 			foreach ($feature_statuses as $feature_status) {
-				$selected = !$f_id ? '' : ($feature_info['f_status_id'] == $feature_status['id'] ? 'selected="selected"' : ''); ?>
+				$selected = ($feature_info['f_status_id'] == $feature_status['id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
 			<?php } ?>
         </select>
@@ -72,9 +73,9 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
             <select class="form-control" name="f_topic" id="f_topic">
                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php foreach ($topics as $topic) {
-					$selected = !$f_id ? '' : ($feature_info['f_topic'] == $topic['t_id'] ? 'selected="selected"' : '');
+					$selected = !$f_id ? '' : ($feature_info['f_topic_id'] == $topic['id'] ? 'selected="selected"' : '');
 					?>
-                    <option value="<?php echo $topic['t_id']; ?>" <?php echo $selected; ?>><?php echo $topic['t_title']; ?></option>
+                    <option value="<?php echo $topic['id']; ?>" <?php echo $selected; ?>><?php echo $topic['name']; ?></option>
 				<?php } ?>
             </select>
         </div>

@@ -29,7 +29,7 @@ include_once F_ROOT . 'parts/layout/head.php';
 		<?php include_once(F_ROOT . 'parts/header-auth.php'); ?>
     </header>
 
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mt-3 mb-3">
 
         <div class="row align-items-center mb-3">
             <!-- Topic select box start -->

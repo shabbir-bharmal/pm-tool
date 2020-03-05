@@ -10,9 +10,10 @@
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_type'] . "'></i>";
 			} ?></label>
         <select class="form-control" name="f_type" id="f_type">
+            <option value="">--bitte w<span>&#228;</span>hlen--</option>
 			<?php
 			foreach ($feature_types as $feature_type) {
-				$selected = !$f_id ? '' : ($feature_info['f_type'] == $feature_type['id'] ? 'selected="selected"' : ''); ?>
+				$selected = ($type == $feature_type['id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $feature_type['id']; ?>" <?php echo $selected; ?>><?php echo $feature_type['name']; ?></option>
 			<?php } ?>
         </select>
@@ -22,9 +23,10 @@
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_status_id'] . "'></i>";
 			} ?></label>
         <select class="form-control" name="f_status_id" id="f_status_id">
+            <option value="">--bitte w<span>&#228;</span>hlen--</option>
 			<?php
 			foreach ($feature_statuses as $feature_status) {
-				$selected = !$f_id ? '' : ($feature_info['f_status_id'] == $feature_status['id'] ? 'selected="selected"' : ''); ?>
+				$selected = ($status == $feature_status['id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
 			<?php } ?>
         </select>
@@ -35,11 +37,21 @@
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_epic'] . "'></i>";
 			} ?></label>
         <select class="form-control" name="f_epic" id="f_epic">
-			<?php
-			foreach ($epics as $epic) {
-				$selected = !$f_id ? '' : ($feature_info['f_epic'] == $epic['e_id'] ? 'selected="selected"' : ''); ?>
-                <option value="<?php echo $epic['e_id']; ?>" <?php echo $selected; ?>><?php echo $epic['e_title']; ?></option>
-			<?php } ?>
+            <optgroup>
+                <option value="">--bitte w<span>&#228;</span>hlen--</option>
+				<?php
+				foreach ($working_epics as $epic) {
+					$selected = !$f_id ? '' : ($feature_info['f_epic'] == $epic['e_id'] ? 'selected="selected"' : ''); ?>
+					<option value="<?php echo $epic['e_id']; ?>" <?php echo $selected; ?>><?php echo $epic['e_title']; ?></option>
+				<?php } ?>
+            </optgroup>
+            <optgroup label="-- abgeschlossene Epics ---">
+				<?php
+				foreach ($completed_epics as $epic) {
+					$selected = !$f_id ? '' : ($feature_info['f_epic'] == $epic['e_id'] ? 'selected="selected"' : ''); ?>
+                    <option value="<?php echo $epic['e_id']; ?>" <?php echo $selected; ?>><?php echo $epic['e_title']; ?></option>
+				<?php } ?>
+            </optgroup>
         </select>
     </div>
 
@@ -47,8 +59,15 @@
         <label for="f_epic" class="col-form-label">Topic: <?php if ($helptexts['f_topic']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_topic'] . "'></i>";
 			} ?></label>
-        <select class="form-control" name="f_topic" id="f_topic">
+        <select class="form-control" name="topic_id" id="topic_id">
+            <option value="">--bitte w<span>&#228;</span>hlen--</option>
+            <?php
+            foreach($topics as $t){
+            $selected = !$f_id ? '' : ($feature_info['f_topic_id'] == $t['id'] ? 'selected="selected"' : ''); ?>
+            <option value="<?php echo $t['id']; ?>" <?php echo $selected; ?>><?php echo $t['name']; ?></option>
+            <?php } ?>
 
+            
         </select>
     </div>    
     <div class="form-group col-12">

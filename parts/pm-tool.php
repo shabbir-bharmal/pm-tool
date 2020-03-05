@@ -1,6 +1,8 @@
 <?php
 $actual_pi_date           = date('d.m.Y', strtotime($actual_product_increment['pi_start']))." - ".date('d.m.Y', strtotime($actual_product_increment['pi_end']));
 $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $actual_product_increment['pi_id']);
+$topic         = $db->getTopicById($selected_topic);
+
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -255,7 +257,16 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
 			<!-- Total capacity row start -->
 			<tr class="total-capacity-row">
-				<td>Total Kapazit&auml;t [<a href="javascript:void(0);">Detailanzeige</a>]</td>
+				<td>Total Kapazit&auml;t [<a href="javascript:void(0);">Detailanzeige</a>]
+                    <?php
+                    if($topic['capacity_source']){ ?>
+						<a target="_blank" href="<?php echo $topic['capacity_source'];?>"><i class="fa fa-link" aria-hidden="true"></i></a>
+                    <?php
+                    }
+                    
+                    ?>
+                
+                </td>
 				<td><span class="pi_total_capacity"><?php echo $actual_pi_total_capacity; ?></span></td>
 				<?php
 				$i = 0;
