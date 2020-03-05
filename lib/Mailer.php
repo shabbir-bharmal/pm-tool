@@ -59,7 +59,7 @@ class Mailer
 			$mail->Subject = 'Neuer Feature beantragt';
 
 			$body = '<p>Hallo, </p>';
-			$body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte prüfen.</p>';
+			$body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte prÃ¼fen.</p>';
 
 			$mail->Body = $body;
 

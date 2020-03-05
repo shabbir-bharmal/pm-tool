@@ -2,7 +2,7 @@
 include_once 'config.php';
 
 // Include header
-$page_title = 'My Feature Requests';
+$page_title = 'Meine Feature Requests';
 include_once F_ROOT.'parts/layout/head.php';
 
 // Collect data

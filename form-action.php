@@ -75,13 +75,13 @@ switch ($action) {
 	case 'feature-request':
 		$request = $db->saveFeatureRequest($_POST);
 		if (!$request) {
-			$_SESSION['feature-request-error'] = 'Something went wrong. Please try again later.';
+			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
 			if ($_POST['f_id']) {
-				$_SESSION['feature-request-success'] = 'Feature request updated successfully.';
+				$_SESSION['feature-request-success'] = 'Feature request wurder erfolgreich aktualisiert.';
 				$mailer->sendFeatureRequestEmail($_POST);
 			} else {
-				$_SESSION['feature-request-success'] = 'Feature request submitted successfully.';
+				$_SESSION['feature-request-success'] = 'Feature Request wurde erfolgreich gespeichert';
 			}
 		}
 		if ($_POST['f_id']) {
@@ -339,7 +339,7 @@ function printFeatureAntragDocument($data, $epic)
 	$section->addTitle("Out of Scope", 2);
 	$section->addText($data['f_outofscope'], 'contentstyle', 'paragraphstyle');
 
-	$section->addTitle("Gewünschtes Fertigstellungsdatum", 2);
+	$section->addTitle("Gew&uuml;nschtes Fertigstellungsdatum", 2);
 	$section->addText($data['f_due_date'], 'contentstyle', 'paragraphstyle');
 
 	$section->addTitle("Ansprechpartner", 2);

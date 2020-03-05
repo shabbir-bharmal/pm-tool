@@ -20,8 +20,8 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 						<select name="print_option" class="print_option form-control">
 							<option value="" selected="selected">Drucken</option>
 							<option value="title">Titel-Karte</option>
-							<option value="detail">Datail-Karte</option>
-							<option value="title_nemonic">Datail-Karte (Nemonic)</option>
+							<option value="detail">Detail-Karte</option>
+							<option value="title_nemonic">Titel-Karte (Nemonic)</option>
 							<option value="feature_antrag">Feature-Antrag</option>
 						</select>
 					</div>
@@ -39,7 +39,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 			<thead>
 			<tr>
 				<th scope="col">Funnel</th>
-				<th scope="col">Actual PI - <?php echo $actual_product_increment['pi_title']; ?></th>
+				<th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?></th>
 				<?php
 				$i = 0;
 				foreach ($product_increments as $product_increment) { ?>
@@ -74,7 +74,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 			<tr class="feature-information">
 				<!-- Funnel features start -->
 				<td>
-					<div class="scrollable product-increment" id="pi_sortable_0">
+					<div class=" product-increment" id="pi_sortable_0">
 						<?php
 						$pi_id    = 0;
 						$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
@@ -130,7 +130,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
 				<!-- Actual PI features start -->
 				<td>
-					<div class="scrollable product-increment" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>">
+					<div class=" product-increment" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>">
 
 						<?php
 						$pi_id           = $actual_product_increment['pi_id'];
@@ -197,7 +197,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 						$class = '';
 					}
 					$pi_id = $product_increment['pi_id'];
-					echo "<td class='$class'><div class='scrollable product-increment' id='pi_sortable_".$pi_id."'>";
+					echo "<td class='$class'><div class=' product-increment' id='pi_sortable_".$pi_id."'>";
 
 					$sp_totals[$pi_id] = 0;
 					$features          = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
@@ -255,7 +255,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
 			<!-- Total capacity row start -->
 			<tr class="total-capacity-row">
-				<td>Total Capacity [<a href="javascript:void(0);">Team-Mitglieder</a>]</td>
+				<td>Total Kapazit&auml;t [<a href="javascript:void(0);">Detailanzeige</a>]</td>
 				<td><span class="pi_total_capacity"><?php echo $actual_pi_total_capacity; ?></span></td>
 				<?php
 				$i = 0;
@@ -312,7 +312,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
 			<!-- Total sp row start -->
 			<tr class="total-sp-row">
-				<td>Total Planned</td>
+				<td>Total eingeplant</td>
 				<?php
 				if ($actual_pi_total_capacity <= $actual_sp_total) {
 					$color = 'text-danger';
@@ -346,7 +346,7 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 
 			</tbody>
 		</table>
-		<button type="button" id="show_all" class="btn btn-primary">Show All</button>
-		<button type="button" id="expand" class="btn btn-primary">Expand</button>
+		<button type="button" id="show_all" class="btn btn-primary">H&ouml;he minimieren</button>
+		<button type="button" id="expand" class="btn btn-primary">Kurzbeschreibung anzeigen</button>
 	</div>
 </div>

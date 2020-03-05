@@ -14,7 +14,7 @@ if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION[
 }
 
 // Include header
-$page_title = 'Feature Roadmap Planning';
+$page_title = 'Feature Roadmap';
 include_once F_ROOT.'parts/layout/head.php';
 ?>
 	<!--Body content-->
@@ -28,10 +28,10 @@ include_once F_ROOT.'parts/layout/head.php';
 
 		<div class="row align-items-center mb-3">
 			<!-- Topic select box start -->
-			<div class="col-md-10">
+			<div class="col-md-8">
 				<form method="get" name="filter_topic" class="form-horizontal">
 					<div class="form-group row p-3 mb-0">
-						<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Roadmap Planning</h2>
+						<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Roadmap</h2>
 
 						<div class="col-md-3">
 							<select class="form-control" id="topic" name="topic">
@@ -50,9 +50,9 @@ include_once F_ROOT.'parts/layout/head.php';
 					<input type="hidden" name="topic_id" value="<?php echo $selected_topic; ?>">
 				</form>
 			</div>
-			<div class="col-md-2 text-right">
-                <button type="button" id="incpi" class="btn btn-primary">Show -1 PI</button>
-				<button type="button" id="incpi" class="btn btn-primary">Show +1 PI</button>
+			<div class="col-md-4 text-right">
+                <button type="button" id="decpi" class="btn btn-primary">-1 PI</button>
+				<button type="button" id="incpi" class="btn btn-primary">+1 PI</button>
 			</div>
 		</div>
 		<div class="row">

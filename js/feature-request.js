@@ -1,24 +1,6 @@
 $(function () {
-    function formValidationNew() {
-        $("#feature_request_form").validate({
-            rules   : {
-                f_title: {
-                    required : true,
-                    maxlength: 55
-
-                }
-            },
-            // Setting error messages for the fields
-            messages: {
-                f_title: {
-                    required : "Please enter feature title.",
-                    maxlength: "Feature title must be less than 55 characters."
-                }
-            }
-        });
-    }
-
-    function formValidationRequest(checked) {
+    var showerror = 'no';
+    function validationForm(){
 
         $("#feature_request_form").validate({
 
@@ -98,9 +80,9 @@ $(function () {
                 }
             },
             errorPlacement: function () {
-                if (checked == true) {
-                    alert("Bitte alle Pflichtfelder ausfüllen, um den Feature Request einzureichen");
-                    checked = false;
+                if(showerror == 'yes'){
+                    showerror = 'no';
+                    $('#errorshow').modal('show');
                 }
             }
         });
@@ -108,13 +90,30 @@ $(function () {
 
     function formValidation() {
         $('#EINREICHEN').on('click', function () {
-
-            var checked = true;
-            console.log(checked);
-            formValidationRequest(checked);
+            $(document).find("#f_epic").rules("add", "required");
+            $(document).find("#f_desc").rules("add", "required");
+            $(document).find("#f_currentstate").rules("add", "required");
+            $(document).find("#f_targetstate").rules("add", "required");
+            $(document).find("#f_benefit").rules("add", "required");
+            $(document).find("#f_inscope").rules("add", "required");
+            $(document).find("#f_outofscope").rules("add", "required");
+            $(document).find("#f_due_date").rules("add", "required");
+            $(document).find("#f_SME").rules("add", "required");
+            $(document).find("#f_dependencies").rules("add", "required");
+            showerror = 'yes';
         });
         $('#SPEICHERN').on('click', function () {
-            formValidationNew();
+            $(document).find("#f_epic").rules("remove");
+            $(document).find("#f_desc").rules("remove");
+            $(document).find("#f_currentstate").rules("remove");
+            $(document).find("#f_targetstate").rules("remove");
+            $(document).find("#f_benefit").rules("remove");
+            $(document).find("#f_inscope").rules("remove");
+            $(document).find("#f_outofscope").rules("remove");
+            $(document).find("#f_due_date").rules("remove");
+            $(document).find("#f_SME").rules("remove");
+            $(document).find("#f_dependencies").rules("remove");
+            showerror = 'no';
         });
     }
 
@@ -125,7 +124,7 @@ $(function () {
 
 
     formValidation();
-
+    validationForm();
 });
 
 

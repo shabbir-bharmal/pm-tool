@@ -32,7 +32,7 @@ if ($feature_files) { ?>
 ?>
 <div class="form-row">
     <div class="form-group col-12">
-        <label for="f_file" class="col-form-label">Files:</label>
+        <label for="f_file" class="col-form-label">Dateien:</label>
         <input type="file" name="f_file[]" id="file" class="form-control-file" multiple>
     </div>
 </div>

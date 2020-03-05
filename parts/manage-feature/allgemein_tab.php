@@ -1,8 +1,8 @@
 <div class="form-row">
     <div class="form-group col-12">
-        <label for="f_desc" class="col-form-label">Description: <?php if ($helptexts['f_desc']) {
+        <label for="f_desc" class="col-form-label">Kurzbeschreibung: <?php if ($helptexts['f_desc']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_desc'] . "'></i>";
-			} ?></label>
+			} ?><span class="text-danger ml-1">*</span></label>
         <textarea class="form-control" name="f_desc" id="f_desc"><?php echo(!$f_id ? "" : $feature_info['f_desc']); ?></textarea>
     </div>
     <div class="form-group col-6">
@@ -29,12 +29,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-12">
-        <label for="f_note" class="col-form-label">Notes: <?php if ($helptexts['f_note']) {
-				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_note'] . "'></i>";
-			} ?></label>
-        <textarea name="f_note" id="f_note" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
-    </div>
+
     <div class="form-group col-6">
         <label for="f_epic" class="col-form-label">Epic: <?php if ($helptexts['f_epic']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_epic'] . "'></i>";
@@ -47,4 +42,19 @@
 			<?php } ?>
         </select>
     </div>
+
+    <div class="form-group col-6">
+        <label for="f_epic" class="col-form-label">Topic: <?php if ($helptexts['f_topic']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_topic'] . "'></i>";
+			} ?></label>
+        <select class="form-control" name="f_topic" id="f_topic">
+
+        </select>
+    </div>    
+    <div class="form-group col-12">
+        <label for="f_note" class="col-form-label">Bemerkungen: <?php if ($helptexts['f_note']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_note'] . "'></i>";
+			} ?></label>
+        <textarea name="f_note" id="f_note" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
+    </div>    
 </div>

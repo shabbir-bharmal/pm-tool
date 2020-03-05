@@ -1,6 +1,6 @@
 <div class="form-row">
     <div class="form-group col-12">
-        <label for="f_SME" class="col-form-label">Subject Mater Experts:
+        <label for="f_SME" class="col-form-label">Ansperchsperson:
             <?php if ($helptexts['f_SME']) {
 				        echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_SME'] . "'></i>";
 			      } ?>
@@ -20,13 +20,13 @@
         </select>
     </div>
     <div class="form-group col-6">
-        <label for="f_due_date" class="col-form-label">Due Date: <?php if ($helptexts['f_due_date']) {
+        <label for="f_due_date" class="col-form-label">Gew&uuml;nschtes Fertigstellungsdatum: <?php if ($helptexts['f_due_date']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_due_date'] . "'></i>";
 			} ?></label>
         <input type="text" name="f_due_date" id="f_due_date" value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>" class="form-control">
     </div>
     <div class="form-group col-6">
-        <label for="f_responsible" class="col-form-label">Responsible: <?php if ($helptexts['f_responsible']) {
+        <label for="f_responsible" class="col-form-label">Verantwortlicher Person: <?php if ($helptexts['f_responsible']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_responsible'] . "'></i>";
 			} ?></label>
         <select class="form-control" name="f_responsible" id="f_responsible">

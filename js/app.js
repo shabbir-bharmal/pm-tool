@@ -96,7 +96,7 @@ $(function () {
         });
         $('.delete_feature').on('click', function () {
             var feature_id = $(this).data('feature_id');
-            bootbox.confirm("Are you sure want to delete?", function (result) {
+            bootbox.confirm("Bist Du sicher, dass Du die Datei löschen willst?", function (result) {
                 if (result == '1') {
                     $('#delete_feature #f_id').val(feature_id);
                     $('form[name="delete_feature"]').submit();
@@ -231,11 +231,11 @@ $(function () {
         $('#show_all').on('click', function () {
             if ($(".product-increment").hasClass("scrollable")) {
                 $(".product-increment").removeClass("scrollable");
-                $("#show_all").text("Make small");
+                $("#show_all").text("Höhe minimieren");
 
             } else {
                 $(".product-increment").addClass("scrollable");
-                $("#show_all").text("Show All");
+                $("#show_all").text("Höhe vergrössern");
             }
 
         });
@@ -245,11 +245,11 @@ $(function () {
         $('#expand').on('click', function () {
             if ($(".card-body ").hasClass("height0")) {
                 $(".card-body ").removeClass("height0");
-                $("#expand").text("Small Details");
+                $("#expand").text("Kurzbeschreibung ausblenden");
 
             } else {
                 $(".card-body").addClass("height0");
-                $("#expand").text("Expand");
+                $("#expand").text("Kurzbeschreibung anzeigen");
             }
 
         });
@@ -270,7 +270,7 @@ $(function () {
         $('.delete_file').on('click', function () {
             var file_id = $(this).data('file_id');
             var file_name = $(this).data('file_name');
-            bootbox.confirm("Are you sure want to delete?", function (result) {
+            bootbox.confirm("Bist Du sicher, dass Du die Datei löschen willst?", function (result) {
                 if (result == '1') {
                     $.ajax({
                         url    : wroot + '/ajax.php?action=delete-file&file_id=' + file_id + '&file_name=' + file_name,
@@ -366,9 +366,24 @@ $(function () {
                 $('.roadmap-planning').animate( { scrollLeft: pos }, 50, 'easeOutQuad' );
             });
             if ($("td").hasClass("d-none")) {
-
+                $('#incpi').show();
             } else {
-                $('#incpi').remove();
+                $('#incpi').hide();
+            }
+        });
+    }
+
+    function decrementPI() {
+        $('#decpi').on('click', function () {
+            $('.table tr').each(function () {
+                $(this).find("td:visible").last().addClass('d-none');
+                $(this).find("th:visible").last().addClass('d-none');
+            });
+
+            if ($("td").hasClass("d-none")) {
+                $('#incpi').show();
+            } else {
+                $('#incpi').hide();
             }
         });
     }
@@ -382,6 +397,7 @@ $(function () {
     showHideCapacity();
     loginFormValidation();
     incrementPI();
+    decrementPI();
 });
 
 

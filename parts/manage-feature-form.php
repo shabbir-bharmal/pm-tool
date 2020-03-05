@@ -24,7 +24,7 @@ $helptexts = $db->getHelpText();
 <input type="hidden" name="pi_id" class="form-control" id="pi_id" value="<?php echo $pi_id; ?>">
 <input type="hidden" name="action" class="form-control" id="action" value="<?php echo(!$f_id ? "feature-add" : "feature-edit"); ?>">
 <div class="form-group">
-    <label for="f_title" class="col-form-label">Title:</label>
+    <label for="f_title" class="col-form-label">Titel:</label>
     <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>">
 </div>
 <!-- Tab Functionality Start-->
@@ -33,10 +33,10 @@ $helptexts = $db->getHelpText();
         <a class="nav-link active" id="allgemein-tab" data-toggle="tab" href="#allgemein" role="tab" aria-controls="allgemein" aria-selected="true">Allgemein</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="false">Ranking</a>
+        <a class="nav-link" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="false">Rangierung</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Dateien</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="details-1-tab" data-toggle="tab" href="#details-1" role="tab" aria-controls="details-1" aria-selected="false">Details 1</a>

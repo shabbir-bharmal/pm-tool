@@ -20,15 +20,15 @@ if($name){ ?>
 					Feature Requests
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">New Feature Request</a>
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">My Feature Requests</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">Neuer Feature Request erfassen</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">Meine Feature Requests</a>
 				</div>
 			</li>
 		</ul>
 	</div>
     <div class="topnav-right" >
 		
-            Hello, <?php echo $name;?>
+            Hallo <?php echo $name;?>
 			<a href="<?php echo W_ROOT.'/logout.php';?>" class="btn btn-primary ml-2"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
 		
 	</div>

@@ -8,6 +8,10 @@ if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }
 
+if (isset($_SESSION['login_user_data'])) {
+	header("location:".W_ROOT."/roadmap.php");
+}
+
 // Include header
 $page_title = 'Login';
 include_once F_ROOT.'parts/layout/head.php';

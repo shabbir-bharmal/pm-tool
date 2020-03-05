@@ -1,12 +1,13 @@
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
 error_reporting(E_ERROR);
+#ini_set('display_errors', 0);
 
 session_start();
 
 // Web and File Roots
-define('W_ROOT', 'http://pm_tool.local');
-define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
+define('W_ROOT', 'http://localhost/pm_tool');
+define('F_ROOT', '/var/www/html/pm_tool/');
 
 // SMTP Settings
 define('SMTP_HOST', 'malta.metanet.ch');

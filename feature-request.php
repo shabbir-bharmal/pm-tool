@@ -18,9 +18,14 @@ include_once F_ROOT.'parts/layout/head.php';
 
 		<div class="row mb-3">
 			<div class="col-12">
-				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Request</h2>
+				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Request  
+        <i class="fa fa-question-circle-o" data-container="body" data-toggle="popover" data-placement="top" 
+data-content="Hier kannst Du ein neues Feature beantragen. Sobald Du alle Pflichtfelder ausgef&uuml;llt hast, kannst Du den Antrag absenden. Du findest die Antr&auml;ge, wo Du als Ansperchsperson definiert bist, unter 'meine Feature Requests'
+" data-original-title="" title="Feature Anfrage"></i></h2>
 			</div>
 		</div>
+
+ 
 
 		<div class="row">
 			<div class="col-lg-6 col-sm-6 col-xs-12">

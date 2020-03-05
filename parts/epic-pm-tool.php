@@ -21,8 +21,8 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
                         <select name="print_option" class="print_option form-control">
                             <option value="" selected="selected">Drucken</option>
                             <option value="title">Titel-Karte</option>
-                            <option value="detail">Datail-Karte</option>
-                            <option value="title_nemonic">Datail-Karte (Nemonic)</option>
+                            <option value="detail">Detail-Karte</option>
+                            <option value="title_nemonic">Titel-Karte (Nemonic)</option>
                             <option value="feature_antrag">Feature-Antrag</option>
                         </select>
                     </div>
@@ -40,7 +40,7 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
             <thead>
             <tr>
                 <th scope="col">Funnel</th>
-                <th scope="col">Actual PI - <?php echo $actual_product_increment['pi_title']; ?></th>
+                <th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?></th>
 				<?php
 				$i = 0;
 				foreach ($product_increments as $product_increment) { ?>
@@ -78,7 +78,7 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
                 <tr class="feature-information" data-epic_id="<?php echo $epic['e_id']; ?>">
                     <!-- Funnel features start -->
                     <td>
-                        <div class="scrollable " id="pisortable_0">
+                        <div class="product-increment" id="pisortable_0">
                             <h4><?php echo $epic['e_title']; ?></h4>
 							<?php
 							$pi_id    = 0;
@@ -138,7 +138,7 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
 
                     <!-- Actual PI features start -->
                     <td>
-                        <div class="scrollable " id="_<?php echo $actual_product_increment['pi_id']; ?>">
+                        <div class="product-increment" id="_<?php echo $actual_product_increment['pi_id']; ?>">
 							
 							<?php
 							$pi_id    = $actual_product_increment['pi_id'];
@@ -207,7 +207,7 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
 							$class = '';
 						}
 						$pi_id = $product_increment['pi_id'];
-						echo "<td class='$class'><div class='scrollable ' id='_" . $pi_id . "'>";
+						echo "<td class='$class'><div class='product-increment' id='_" . $pi_id . "'>";
 						
 						$sp_totals[$pi_id] = 0;
 						$features          = '';
@@ -270,7 +270,7 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
 			<?php } ?>
             </tbody>
         </table>
-        <button type="button" id="show_all" class="btn btn-primary">Show All</button>
-        <button type="button" id="expand" class="btn btn-primary">Expand</button>
+        <button type="button" id="show_all" class="btn btn-primary">H&ouml;he minimieren</button>
+        <button type="button" id="expand" class="btn btn-primary">Kurzbeschreibung anzeigen</button>
     </div>
 </div>
