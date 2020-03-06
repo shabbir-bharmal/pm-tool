@@ -957,7 +957,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getTeams()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `team`");
+			$stm = $this->pdo->prepare("SELECT * FROM `team` ORDER BY `team`.`name` ASC");
 			$stm->execute();
 			$teams = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $teams;
@@ -1064,6 +1064,31 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				}
 			}
 			return true;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	public function getEpicsStatusByID($id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT name FROM `epics_statuses` WHERE `id` = :id");
+			$stm->bindParam(':id', $id);
+			$stm->execute();
+			$epics = $stm->fetch(PDO::FETCH_ASSOC);
+			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getTeamByID($id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `team` WHERE `id` = :id");
+			$stm->bindParam(':id', $id);
+			$stm->execute();
+			$teams = $stm->fetch(PDO::FETCH_ASSOC);
+			return $teams;
 		} catch (PDOException $e) {
 		}
 		return false;

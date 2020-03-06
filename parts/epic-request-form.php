@@ -10,7 +10,7 @@ $epic_info     = $db->getEpicById($e_id);
 <form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form">
 	<input type="hidden" name="e_id" value="<?php echo $e_id; ?>">
 	<input type="hidden" name="action" id="action" value="epic-request">
-
+    <input type="hidden" name="print_option" id="print_option" value="epic_antrag">
 	<div class="form-group row">
 		<label for="e_title" class="col-3 col-xs-12 col-form-label">Titel: <span class="text-danger ml-1">*</span></label>
 
@@ -28,7 +28,7 @@ $epic_info     = $db->getEpicById($e_id);
 				$epic_info['e_status_id'] = 1;
 			} ?>
 
-			<select class="form-control" name="e_status_id" id="e_status_id" disabled="true">
+			<select class="form-control" name="e_status_id" id="e_status_id" readonly="true">
 				<?php
 				foreach ($epic_statuses as $epic_status) {
 					$selected = ($epic_info['e_status_id'] == $epic_status['id'] ? 'selected="selected"' : ''); ?>
@@ -41,7 +41,7 @@ $epic_info     = $db->getEpicById($e_id);
 	<h5>Zielbeschreibung</h5>
 
 	<div class="form-group row">
-		<label for="e_hs_for" class="col-3 col-xs-12 col-form-label">F�r:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_for" class="col-3 col-xs-12 col-form-label">F<span>&#252;</span>r:<span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
 			<textarea class="form-control" name="e_hs_for" id="e_hs_for" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_for']); ?></textarea>
@@ -89,7 +89,7 @@ $epic_info     = $db->getEpicById($e_id);
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_oursoluion" class="col-3 col-xs-12 col-form-label">macht unsere L�sung:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_oursoluion" class="col-3 col-xs-12 col-form-label">macht unsere L<span>&#246;</span>sung:<span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
 			<textarea class="form-control" name="e_hs_oursoluion" id="e_hs_oursoluion" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_oursoluion']); ?></textarea>
@@ -99,7 +99,7 @@ $epic_info     = $db->getEpicById($e_id);
 	<h5>Umfang</h5>
 
 	<div class="form-group row">
-		<label for="e_hs_businessoutcome" class="col-3 col-xs-12 col-form-label">Schl�sselergebnisse (Hypothese):<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_businessoutcome" class="col-3 col-xs-12 col-form-label">Schl<span>&#252;</span>sselergebnisse (Hypothese):<span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
 			<textarea class="form-control" name="e_hs_businessoutcome" id="e_hs_businessoutcome" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_businessoutcome']); ?></textarea>
@@ -107,7 +107,7 @@ $epic_info     = $db->getEpicById($e_id);
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_leadingindicators" class="col-3 col-xs-12 col-form-label">Zielf�hrende Indikatoren:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_leadingindicators" class="col-3 col-xs-12 col-form-label">Zielf<span>&#252;</span>hrende Indikatoren:<span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
 			<textarea class="form-control" name="e_hs_leadingindicators" id="e_hs_leadingindicators" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_leadingindicators']); ?></textarea>

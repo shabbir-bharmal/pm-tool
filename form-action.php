@@ -82,6 +82,11 @@ switch ($action) {
 				$data['sme_detail']       = $sme;
 				printFeatureAntragDocument($data, $epic['e_title']);
 				break;
+			case 'epic_antrag':
+				$data                     = $_POST;
+				printEpicAntragDocument($db,$data);
+				break;
+				
 			case 'detail':
 			default:
 				$highlight_color          = $db->getFeatureHighlightColor($_POST['f_type']);
@@ -384,5 +389,82 @@ function printFeatureAntragDocument($data, $epic)
 	//  $section->addTextBreak(1);
 
 	$phpWord->save($file_name, 'Word2007', true);
-
+}
+function printEpicAntragDocument($db,$data){
+	
+	
+	$status = $db->getEpicsStatusByID($data['e_status_id']);
+	$e_owner = $db->getStaffById($data['e_owner']);
+	$team = $db->getTeamByID($data['team_id']);
+	
+	if($team){
+		$team = $team['name'];
+	}
+	
+	include_once F_ROOT.'Word_Header.php';
+	
+	// New Word Document
+	$file_name = $data['e_title'].' Epic-Antrag.docx';
+	
+	$phpWord = new \PhpOffice\PhpWord\PhpWord();
+	
+	$phpWord->addTitleStyle(1, array('bold' => true, 'size' => '16', 'Name' => 'Verdana', 'spaceAfter' => 0));
+	$phpWord->addTitleStyle(2, array('bold' => true, 'size' => '12', 'Name' => 'Verdana'), array('spaceBefore' => 240, 'spaceAfter' => 0));
+	
+	$fontStyleName = 'contentstyle';
+	$phpWord->addFontStyle($fontStyleName, array('bold' => false, 'italic' => true, 'size' => '11', 'Name' => 'Verdana', 'color' => '#3449eb'));
+	
+	$paragraphStyleName = 'paragraphstyle';
+	$phpWord->addParagraphStyle($paragraphStyleName, array('spaceBefore' => 0, 'spaceAfter' => 0));
+	
+	$section = $phpWord->addSection();
+	$section->addTitle("Epic", 1);
+	$section->addTitle("Titel", 2);
+	
+	$section->addText($data['e_title'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Status", 2);
+	$section->addText($status['name'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Für", 2);
+	$section->addText($data['e_hs_for'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("die", 2);
+	$section->addText($data['e_hs_for_desc'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("ist", 2);
+	$section->addText($data['e_hs_solution'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("ein", 2);
+	$section->addText($data['e_hs_how'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("welche", 2);
+	$section->addText($data['e_hs_value'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("im Vergleich zu", 2);
+	$section->addText($data['e_hs_unlike'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("macht unsere Lösung", 2);
+	$section->addText($data['e_hs_oursoluion'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Schlüsselergebnisse (Hypothese)", 2);
+	$section->addText($data['e_hs_businessoutcome'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Zielführende Indikatoren", 2);
+	$section->addText($data['e_hs_leadingindicators'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Nicht-funktionale Anforderungen", 2);
+	$section->addText($data['e_hs_nfr'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Epic Owner", 2);
+	$section->addText($e_owner['staff_firstname'].' '.$e_owner['staff_lastname'], 'contentstyle', 'paragraphstyle');
+	
+	$section->addTitle("Team", 2);
+	$section->addText($team, 'contentstyle', 'paragraphstyle');
+	
+	
+	$section->addTitle("Bemerkung", 2);
+	$section->addText($data['e_notes'], 'contentstyle', 'paragraphstyle');
+	
+	$phpWord->save($file_name, 'Word2007', true);
 }
