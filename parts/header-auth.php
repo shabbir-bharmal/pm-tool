@@ -1,38 +1,49 @@
 <?php
 $name = $_SESSION['login_user_data']['staff_firstname'];
 $roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
-
+$can_manage_config =  $_SESSION['login_user_data']['can_manage_config'];
 if($name){ ?>
 <nav class="navbar navbar-light bg-light">
     <div class="topnav-left" >
 		<ul class="nav">
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Roadmap Planning
 				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/roadmap.php'?>">Features</a>
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-roadmap.php'?>">Epics</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Epics
 				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-request.php';?>">Neuer Epic erfassen</a>
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-epic.php';?>">Meine Epics</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Feature Requests
 				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">Neuer Feature Request erfassen</a>
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">Meine Feature Requests</a>
 				</div>
 			</li>
+			<?php if($can_manage_config){
+				?>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Admin
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/admin-config.php';?>">Config</a>
+					</div>
+				</li>
+				<?php } ?>
 		</ul>
 	</div>
     <div class="topnav-right" >

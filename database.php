@@ -64,6 +64,21 @@ class Database
 	/**
 	 * @return bool
 	 */
+	public function getAllProductIncrements()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `productincrements`");
+			$stm->execute();
+			$pi = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $pi;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function getActualProductIncrement()
 	{
 		try {
@@ -171,7 +186,20 @@ class Database
 	public function updateStaffCapacityByPI($staff_id = 0, $pi_id = 0, $capacity = 0)
 	{
 		try {
-			$stm = $this->pdo->prepare("UPDATE `capacities` SET capacity = :capacity WHERE `staff_id` = :staff_id AND `pi_id` = :pi_id ");
+			$sql
+				= "INSERT INTO `capacities` (
+					pi_id,
+					staff_id,
+					capacity
+				) VALUES (
+					:pi_id,
+					:staff_id,
+					:capacity
+				)
+				ON DUPLICATE KEY UPDATE
+					capacity = :capacity
+					";
+			$stm = $this->pdo->prepare($sql);
 			$stm->bindParam(':capacity', $capacity);
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->bindParam(':pi_id', $pi_id);
@@ -794,7 +822,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature FROM `staff` WHERE `username` = :username AND `password` = :password");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
 			$stm->bindParam(':password', $password);
 			$stm->execute();
@@ -1009,6 +1037,33 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
+	 * Enter capacity of missing staff and pi
+	 * @return bool
+	 */
+	public function checkCapacity()
+	{
+		try {
+			$staff = $this->getStaff();
+			if ($staff) {
+				foreach ($staff as $staff_member) {
+					$sql = "SELECT pi_id FROM productincrements WHERE pi_id NOT IN (SELECT pi_id FROM capacities WHERE staff_id = :staff_id);";
+					$stm = $this->pdo->prepare($sql);
+					$stm->execute([':staff_id' => $staff_member['staff_id']]);
+					$pis = $stm->fetchAll(PDO::FETCH_ASSOC);
+					if ($pis) {
+						foreach ($pis as $pi) {
+							$this->updateStaffCapacityByPI($staff_member['staff_id'], $pi['pi_id'], 0);
+						}
+					}
+				}
+			}
+			return true;
 		} catch (PDOException $e) {
 		}
 		return false;
