@@ -187,7 +187,7 @@ class Database
 	{
 		try {
 			$sql
-				= "INSERT INTO `capacities` (
+				   = "INSERT INTO `capacities` (
 					pi_id,
 					staff_id,
 					capacity
@@ -287,12 +287,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeature($feature_info)
 	{
 		try {
-			foreach ($feature_info as $key=>$value){
-				if($value == ''){
-					if($key == 'f_status_id'){
+			foreach ($feature_info as $key => $value) {
+				if ($value == '') {
+					if ($key == 'f_status_id') {
 						$feature_info[$key] = 5;
-					}else{
-						$feature_info[$key] = NULL;
+					} else {
+						$feature_info[$key] = null;
 					}
 				}
 			}
@@ -1069,6 +1069,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function getEpicsStatusByID($id)
 	{
 		try {
@@ -1081,6 +1085,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function getTeamByID($id)
 	{
 		try {
