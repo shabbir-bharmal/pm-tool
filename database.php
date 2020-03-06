@@ -599,7 +599,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getFeatureStatuses()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses` ORDER BY `id` ASC");
+			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses` ORDER BY `order` ASC");
 			$stm->execute();
 			$feature_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_statuses;
