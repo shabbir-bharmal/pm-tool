@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
+
 $f_id = $_REQUEST['feature_id'];
 $pi_id         = $_REQUEST['pi_id'];
 $topic_id      = $_REQUEST['topic_id'];
@@ -9,6 +10,9 @@ $feature_types = $db->getFeatureType();
 $feature_statuses = $db->getFeatureStatuses();
 $status = 1;
 $type = 1;
+$f_SME = $_SESSION['login_user_data']['staff_id'];
+$f_responsible = $_SESSION['login_user_data']['staff_id'];
+
 if($feature_info['f_type']){
 	$type = $feature_info['f_type'];
 }
@@ -17,6 +21,12 @@ if($feature_info['f_status_id']){
 }
 if($feature_info['f_topic_id']){
 	$topic_id = $feature_info['f_topic_id'];
+}
+if($feature_info['f_SME']){
+	$f_SME = $feature_info['f_SME'];
+}
+if($feature_info['f_responsible']){
+	$f_responsible = $feature_info['f_responsible'];
 }
 $topic         = $db->getTopicById($topic_id);
 $feature_files  = $db->getFeatureFilesByFeatureId($f_id);

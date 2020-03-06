@@ -231,11 +231,11 @@ $(function () {
         $('#show_all').on('click', function () {
             if ($(".product-increment").hasClass("scrollable")) {
                 $(".product-increment").removeClass("scrollable");
-                $("#show_all").text("Höhe minimieren");
+                $("#show_all").html("H<span>&#246;</span>he minimieren");
 
             } else {
                 $(".product-increment").addClass("scrollable");
-                $("#show_all").text("Höhe vergrössern");
+                $("#show_all").html("H<span>&#246;</span>he vergr<span>&#246;</span>ssern");
             }
 
         });

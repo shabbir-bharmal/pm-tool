@@ -14,7 +14,7 @@
 				} else {
 					$staffname = $staff['staff_firstname'] . ' ' . $staff['staff_lastname'];
 				}
-				$selected = !$f_id ? '' : ($feature_info['f_SME'] == $staff['staff_id'] ? 'selected="selected"' : ''); ?>
+				$selected = ($f_SME == $staff['staff_id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $staff['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 			<?php } ?>
         </select>
@@ -38,7 +38,7 @@
 				} else {
 					$staffname = $staff['staff_firstname'] . ' ' . $staff['staff_lastname'];
 				}
-				$selected = !$f_id ? '' : ($feature_info['f_responsible'] == $staff['staff_id'] ? 'selected="selected"' : ''); ?>
+				$selected = ($f_responsible == $staff['staff_id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $staff['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 			<?php } ?>
         </select>

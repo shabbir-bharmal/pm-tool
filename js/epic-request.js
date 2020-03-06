@@ -90,8 +90,26 @@ $(function () {
     });
   }
 
+  function formValidation() {
+    $('#EINREICHEN').on('click', function () {
+      var form = $('form[name="epic_request_form"]');
+      form.find('input[name="action"]').val('epic-request');
+
+    });
+    $('#SPEICHERN').on('click', function () {
+      var form = $('form[name="epic_request_form"]');
+      form.find('input[name="action"]').val('epic-request');
+    });
+    $('#feature_antrag').on('click', function () {
+      var form = $('form[name="epic_request_form"]');
+      form.find('input[name="action"]').val('print-feature');
+      form.submit();
+    });
+  }
+
   $('[data-toggle="popover"]').popover();
   validateForm();
 });
+
 
 

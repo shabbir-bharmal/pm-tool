@@ -259,9 +259,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeature($feature_info)
 	{
 		try {
-			foreach ($feature_info as $key => $value) {
-				if ($value == '') {
-					$feature_info[$key] = null;
+			foreach ($feature_info as $key=>$value){
+				if($value == ''){
+					if($key == 'f_status_id'){
+						$feature_info[$key] = 5;
+					}else{
+						$feature_info[$key] = NULL;
+					}
 				}
 			}
 
@@ -941,7 +945,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getEpicsByTeam($team_id)
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `epics` WHERE `team_id` = :team_id");
+			$stm = $this->pdo->prepare("SELECT * FROM `epics` WHERE `team_id` = :team_id ORDER BY `epics`.`e_title` ASC");
 			$stm->bindParam(':team_id', $team_id);
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);

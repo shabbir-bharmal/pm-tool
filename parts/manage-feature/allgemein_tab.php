@@ -63,7 +63,7 @@
             <option value="">--bitte w<span>&#228;</span>hlen--</option>
             <?php
             foreach($topics as $t){
-            $selected = !$f_id ? '' : ($feature_info['f_topic_id'] == $t['id'] ? 'selected="selected"' : ''); ?>
+            $selected = ($topic_id == $t['id'] ? 'selected="selected"' : ''); ?>
             <option value="<?php echo $t['id']; ?>" <?php echo $selected; ?>><?php echo $t['name']; ?></option>
             <?php } ?>
 

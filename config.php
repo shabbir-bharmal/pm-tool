@@ -7,7 +7,7 @@ session_start();
 
 // Web and File Roots
 define('W_ROOT', 'http://localhost/pm_tool');
-define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
+define('F_ROOT', '/var/www/html/pm_tool/');
 
 // SMTP Settings
 define('SMTP_HOST', 'malta.metanet.ch');
