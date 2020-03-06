@@ -23,9 +23,9 @@ class Database
 	 */
 	public function connect()
 	{
-		$dsn       = "mysql:host=localhost;dbname=pmmastaz";
-		$user      = "root";
-		$passwd    = "password";
+		$dsn       = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
+		$user      = DB_USER;
+		$passwd    = DB_PWD;
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
 
@@ -599,7 +599,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getFeatureStatuses()
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses` ORDER BY `id` ASC");
+			$stm = $this->pdo->prepare("SELECT * FROM `feature_statuses` ORDER BY `order` ASC");
 			$stm->execute();
 			$feature_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_statuses;

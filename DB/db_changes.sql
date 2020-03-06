@@ -30,3 +30,11 @@ INSERT INTO `epics_statuses` (`id`, `name`) VALUES
 ALTER TABLE `epics` ADD `e_status_id` int(11) NOT NULL DEFAULT '1';
 ALTER TABLE `features` CHANGE `f_desc` `f_desc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `f_topic_id` `f_topic_id` INT(11) UNSIGNED NULL;
 ALTER TABLE `feature_details` CHANGE `f_epic` `f_epic` INT(11) NULL;
+
+-- 6 March 2020
+ALTER TABLE `feature_statuses` ADD COLUMN `order` INT(11) UNSIGNED DEFAULT 1 NOT NULL AFTER `name`; 
+UPDATE `feature_statuses` SET `order` = '2' WHERE `id` = '2'; 
+UPDATE `feature_statuses` SET `order` = '3' WHERE `id` = '3';
+UPDATE `feature_statuses` SET `order` = '4' WHERE `id` = '4';
+UPDATE `feature_statuses` SET `order` = '5' WHERE `id` = '5';
+UPDATE `feature_statuses` SET `order` = '6' WHERE `id` = '6';
