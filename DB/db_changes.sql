@@ -42,3 +42,4 @@ ALTER TABLE `epics` ADD COLUMN `e_owner` INT(11) UNSIGNED NULL AFTER `e_status_i
 ALTER TABLE `epics` CHANGE `e_id` `e_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT; 
 CREATE TABLE `epic_details`( `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT, `e_id` INT(11) UNSIGNED NOT NULL, `e_hs_for` TEXT NOT NULL, `e_hs_for_desc` TEXT NOT NULL, `e_hs_solution` TEXT NOT NULL, `e_hs_how` TEXT NOT NULL, `e_hs_value` TEXT NOT NULL, `e_hs_unlike` TEXT NOT NULL, `e_hs_oursoluion` TEXT NOT NULL, `e_hs_businessoutcome` TEXT NOT NULL, `e_hs_leadingindicators` TEXT NOT NULL, `e_hs_nfr` TEXT NOT NULL, `e_notes` TEXT, PRIMARY KEY (`id`), FOREIGN KEY (`e_id`) REFERENCES `epics`(`e_id`) ON DELETE CASCADE ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 ALTER TABLE `epic_details` ADD UNIQUE INDEX (`e_id`);
+ALTER TABLE `staff` ADD COLUMN `can_manage_config` ENUM('0','1') DEFAULT '0' NOT NULL AFTER `can_edit_epic_feature`;

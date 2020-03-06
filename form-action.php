@@ -113,7 +113,15 @@ switch ($action) {
 			header("Location: ".W_ROOT."/epic-request.php");
 		}
 		break;
-
+	case 'check-capacity':
+		$request = $db->checkCapacity();
+		if (!$request) {
+			$_SESSION['check-capacity-error'] = 'Etwas ging schief, bitte versuche es sp<span>&#xE4;</span>ter';
+		} else {
+			$_SESSION['check-capacity-success'] = 'Kapazit<span>&#xE4;</span>tstabelle erfolgreich gespeichert';
+		}
+		header("Location: ".W_ROOT."/admin-config.php");
+		break;
 	default:
 		break;
 }
