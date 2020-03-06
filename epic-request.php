@@ -5,10 +5,8 @@ include_once 'config.php';
 $page       = 'epic-request';
 $page_title = 'Epic Request';
 include_once F_ROOT.'parts/layout/head.php';
-
 ?>
 	<!--Body content-->
-
 	<!-- Auth navigation -->
 	<header>
 		<?php include_once(F_ROOT.'parts/header-auth.php'); ?>

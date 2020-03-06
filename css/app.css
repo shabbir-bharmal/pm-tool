@@ -72,3 +72,6 @@
     max-width: 100%;
     overflow: auto;
 }
+#epic_request_form #e_status_id{
+    pointer-events: none;
+}

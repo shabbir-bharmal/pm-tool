@@ -109,7 +109,6 @@ $(function () {
 
   $('[data-toggle="popover"]').popover();
   validateForm();
+  formValidation();
 });
-
-
 
