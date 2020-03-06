@@ -17,15 +17,6 @@ if($name){ ?>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Epics
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-request.php';?>">Neuer Epic erfassen</a>
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-epic.php';?>">Meine Epics</a>
-				</div>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Feature Requests
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
