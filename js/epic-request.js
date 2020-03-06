@@ -1,62 +1,97 @@
 $(function () {
-    var showerror = 'no';
-    function validateForm(){
+  function validateForm() {
 
-        $("#epic_request_form").validate({
-            rules:{
-
-            },
-            // Setting error messages for the fields
-            messages      : {
-                f_title       : {
-                    required : "Please enter feature title.",
-                    maxlength: "Feature title must be less than 55 characters."
-                },
-                f_epic        : {
-                    required: "Please choose feature epic.",
-                },
-                f_desc        : {
-                    required: "Please enter feature description.",
-                },
-                f_currentstate: {
-                    required: "Please enter feature Ist-Zustand.",
-                },
-                f_targetstate : {
-                    required: "Please enter feature Soll-Zustand.",
-                },
-                f_benefit     : {
-                    required: "Please enter feature Nutzen.",
-                },
-                f_inscope     : {
-                    required: "Please enter feature In Scope.",
-                },
-                f_outofscope  : {
-                    required: "Please enter feature Out-Of-Scope.",
-                },
-                f_due_date    : {
-                    required: "Please choose feature Due Date.",
-                },
-                f_SME         : {
-                    required: "Please choose feature Subject Mater Experts.",
-                },
-                f_dependencies: {
-                    required: "Please enter feature AbhÃ¤ngigkeit:.",
-                }
-            },
-            errorPlacement: function () {
-                if(showerror == 'yes'){
-                    showerror = 'no';
-                    $('#errorshow').modal('show');
-                }
-            }
-        });
-    }
-
-    $('#f_due_date').datetimepicker({
-        format: 'YYYY-MM-DD'
+    $("#epic_request_form").validate({
+      rules   : {
+        e_title               : {
+          required : true,
+          maxlength: 30
+        },
+        e_status_id           : {
+          required: true
+        },
+        e_hs_for              : {
+          required: true
+        },
+        e_hs_for_desc         : {
+          required: true
+        },
+        e_hs_solution         : {
+          required: true
+        },
+        e_hs_how              : {
+          required: true
+        },
+        e_hs_value            : {
+          required: true
+        },
+        e_hs_unlike           : {
+          required: true
+        },
+        e_hs_oursoluion       : {
+          required: true
+        },
+        e_hs_businessoutcome  : {
+          required: true
+        },
+        e_hs_leadingindicators: {
+          required: true
+        },
+        e_hs_nfr              : {
+          required: true
+        },
+        e_owner               : {
+          required: true
+        }
+      },
+      // Setting error messages for the fields
+      messages: {
+        e_title               : {
+          required : "Please enter epic title.",
+          maxlength: "Epic title must be less than 30 characters."
+        },
+        e_status_id           : {
+          required: "Please choose epic status.",
+        },
+        e_hs_for              : {
+          required: "Please enter epic F&#xFC;r.",
+        },
+        e_hs_for_desc         : {
+          required: "Please enter epic die.",
+        },
+        e_hs_solution         : {
+          required: "Please enter epic ist.",
+        },
+        e_hs_how              : {
+          required: "Please enter epic ein.",
+        },
+        e_hs_value            : {
+          required: "Please enter epic welche.",
+        },
+        e_hs_unlike           : {
+          required: "Please enter epic im Vergleich zu.",
+        },
+        e_hs_oursoluion       : {
+          required: "Please enter epic macht unsere L&#xF6;sung.",
+        },
+        e_hs_businessoutcome  : {
+          required: "Please enter epic Schl&#xFC;sselergebnisse (Hypothese).",
+        },
+        e_hs_leadingindicators: {
+          required: "Please enter epic Zielf&#xFC;hrende Indikatoren.",
+        },
+        e_hs_nfr              : {
+          required: "Please enter epic Nicht-funktionale Anforderungen.",
+        },
+        e_owner               : {
+          required: "Please choose epic owner.",
+        }
+      }
     });
-    $('[data-toggle="popover"]').popover();
-    validateForm();
+  }
+
+  $('[data-toggle="popover"]').popover();
+  validateForm();
 });
 
 

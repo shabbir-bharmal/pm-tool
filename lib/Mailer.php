@@ -70,4 +70,35 @@ class Mailer
 		}
 		return false;
 	}
+
+	/**
+	 * Send mail to admin once Epic Request has submitted
+	 * @param $data
+	 * @return bool
+	 */
+	public function sendEpicRequestEmail($data)
+	{
+		try {
+			$mail = $this->mail;
+
+			//Recipients
+			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
+			$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
+
+			// Content
+			$mail->isHTML(true);                                  // Set email format to HTML
+			$mail->Subject = 'Neuer Epic erfassen';
+
+			$body = '<p>Hallo, </p>';
+			$body .= '<p>Ein neuer Epic mit dem Titel <b>'.$data['e_title'].'</b> wurde beantragt, bitte prüfen.</p>';
+
+			$mail->Body = $body;
+
+			$mail->send();
+			return true;
+		} catch (Exception $e) {
+
+		}
+		return false;
+	}
 }

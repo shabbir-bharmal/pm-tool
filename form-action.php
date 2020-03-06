@@ -8,6 +8,22 @@ include_once 'config.php';
 $action = $_REQUEST && $_REQUEST['action'] ? $_REQUEST['action'] : '';
 
 switch ($action) {
+	case 'user-login':
+		$username = $_POST['username'];
+		$password = md5($_POST['password']);
+
+		$result = $db->getUserData($username, $password);
+		$count  = count($result);
+
+		if ($count > 1) {
+			$_SESSION['login_user_data'] = $result;
+			header("location:".W_ROOT."/roadmap.php");
+		} else {
+			$error             = "Your Username or Password is invalid.";
+			$_SESSION['error'] = $error;
+			header("Location: ".W_ROOT);
+		}
+		break;
 	case 'feature-add':
 	case 'feature-edit':
 
@@ -24,6 +40,24 @@ switch ($action) {
 			header("Location: ".$_POST['return_url']);
 		} else {
 			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+		}
+		break;
+	case 'feature-request':
+		$request = $db->saveFeatureRequest($_POST);
+		if (!$request) {
+			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
+		} else {
+			if ($_POST['f_id']) {
+				$_SESSION['feature-request-success'] = 'Feature request wurder erfolgreich aktualisiert.';
+				$mailer->sendFeatureRequestEmail($_POST);
+			} else {
+				$_SESSION['feature-request-success'] = 'Feature Request wurde erfolgreich gespeichert';
+			}
+		}
+		if ($_POST['f_id']) {
+			header("Location: ".W_ROOT."/my-feature-request.php");
+		} else {
+			header("Location: ".W_ROOT."/feature-request.php");
 		}
 		break;
 	case 'print-feature':
@@ -56,40 +90,25 @@ switch ($action) {
 				break;
 		}
 		break;
-	case 'user-login':
-		$username = $_POST['username'];
-		$password = md5($_POST['password']);
-
-		$result = $db->getUserData($username, $password);
-		$count  = count($result);
-
-		if ($count > 1) {
-			$_SESSION['login_user_data'] = $result;
-			header("location:".W_ROOT."/roadmap.php");
-		} else {
-			$error             = "Your Username or Password is invalid.";
-			$_SESSION['error'] = $error;
-			header("Location: ".W_ROOT);
-		}
-		break;
-	case 'feature-request':
-		$request = $db->saveFeatureRequest($_POST);
+	case 'epic-request':
+		$request = $db->saveEpicRequest($_POST);
 		if (!$request) {
-			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
+			$_SESSION['epic-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
-			if ($_POST['f_id']) {
-				$_SESSION['feature-request-success'] = 'Feature request wurder erfolgreich aktualisiert.';
-				$mailer->sendFeatureRequestEmail($_POST);
+			if ($_POST['e_id']) {
+				$_SESSION['epic-request-success'] = 'Epic request wurder erfolgreich aktualisiert.';
+				$mailer->sendEpicRequestEmail($_POST);
 			} else {
-				$_SESSION['feature-request-success'] = 'Feature Request wurde erfolgreich gespeichert';
+				$_SESSION['epic-request-success'] = 'Epic Request wurde erfolgreich gespeichert';
 			}
 		}
-		if ($_POST['f_id']) {
-			header("Location: ".W_ROOT."/my-feature-request.php");
+		if ($_POST['e_id']) {
+			header("Location: ".W_ROOT."/my-epic.php");
 		} else {
-			header("Location: ".W_ROOT."/feature-request.php");
+			header("Location: ".W_ROOT."/epic-request.php");
 		}
 		break;
+
 	default:
 		break;
 }
