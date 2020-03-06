@@ -38,3 +38,6 @@ UPDATE `feature_statuses` SET `order` = '3' WHERE `id` = '3';
 UPDATE `feature_statuses` SET `order` = '4' WHERE `id` = '4';
 UPDATE `feature_statuses` SET `order` = '5' WHERE `id` = '5';
 UPDATE `feature_statuses` SET `order` = '6' WHERE `id` = '6';
+ALTER TABLE `epics` ADD COLUMN `e_owner` INT(11) UNSIGNED NULL AFTER `e_status_id`, ADD FOREIGN KEY (`e_owner`) REFERENCES `staff`(`staff_id`);
+ALTER TABLE `epics` CHANGE `e_id` `e_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT; 
+CREATE TABLE `epic_details`( `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT, `e_id` INT(11) UNSIGNED NOT NULL, `e_hs_for` TEXT NOT NULL, `e_hs_for_desc` TEXT NOT NULL, `e_hs_solution` TEXT NOT NULL, `e_hs_how` TEXT NOT NULL, `e_hs_value` TEXT NOT NULL, `e_hs_unlike` TEXT NOT NULL, `e_hs_oursoluion` TEXT NOT NULL, `e_hs_businessoutcome` TEXT NOT NULL, `e_hs_leadingindicators` TEXT NOT NULL, `e_hs_nfr` TEXT NOT NULL, `e_notes` TEXT, PRIMARY KEY (`id`), FOREIGN KEY (`e_id`) REFERENCES `epics`(`e_id`) ON DELETE CASCADE ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci; 

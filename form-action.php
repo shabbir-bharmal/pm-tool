@@ -43,7 +43,7 @@ switch ($action) {
 				$highlight_color          = $db->getFeatureHighlightColor($_POST['f_type']);
 				$sme                      = $db->getStaffById($_POST['f_SME']);
 				$_POST['highlight_color'] = str_replace("#", "", $highlight_color['highlight_color']);
-				$epic                     = $db->getEpicsByID($_POST['f_epic']);
+				$epic                     = $db->getEpicById($_POST['f_epic']);
 				$data                     = $_POST;
 				$data['sme_detail']       = $sme;
 				printFeatureAntragDocument($data, $epic['e_title']);

@@ -259,12 +259,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeature($feature_info)
 	{
 		try {
-			foreach ($feature_info as $key=>$value){
-				if($value == ''){
-					$feature_info[$key] = NULL;
+			foreach ($feature_info as $key => $value) {
+				if ($value == '') {
+					$feature_info[$key] = null;
 				}
 			}
-			
+
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
@@ -302,7 +302,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$feature_info['f_id'] = $f_id;
 			} else {
 				$data[':f_topic_id'] = $feature_info['topic_id'];
-				
+
 				$stm = $this->pdo->prepare("UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_storypoints=:f_storypoints, f_status_id=:f_status_id,f_BV=:f_BV,f_TC=:f_TC,f_RROE=:f_RROE,f_JS=:f_JS,f_type=:f_type,f_topic_id=:f_topic_id WHERE f_id=:f_id");
 				$stm->execute($data);
 				$f_id = $feature_info['f_id'];
@@ -326,16 +326,16 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		try {
 
 			$feature_info['f_status_id'] = isset($feature_info['einreichen']) ? 6 : 5;
-			
-			
-			foreach ($feature_info as $key=>$value){
-				
-				if($value == ''){
-					$feature_info[$key] = NULL;
+
+
+			foreach ($feature_info as $key => $value) {
+
+				if ($value == '') {
+					$feature_info[$key] = null;
 				}
 			}
-			
-			
+
+
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
@@ -368,7 +368,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_is_FR=:f_is_FR WHERE f_id=:f_id";
 			}
 			$stm = $this->pdo->prepare($sql);
-			
+
 			$stm->execute($data);
 
 			$f_id                 = (!$feature_info['f_id'] ? $this->pdo->lastInsertId() : $feature_info['f_id']);
@@ -390,7 +390,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureDetails($f_id, $feature_info)
 	{
 		try {
-			
+
 			$data = [
 				':f_id'                  => $f_id,
 				':f_note'                => $feature_info['f_note'],
@@ -704,19 +704,65 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
-
 	/**
-	 * @param $e_id
+	 * @param int $owner_id
 	 * @return bool
 	 */
-	public function getEpicsByID($e_id)
+	public function getEpicsByOwner($owner_id = 0)
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT `e_title` FROM `epics` WHERE `e_id` = :e_id");
-			$stm->bindParam(':e_id', $e_id);
+			$sql          = "SELECT ep.*,eps.name as e_status FROM `epics` AS ep LEFT JOIN epics_statuses as eps on eps.id = ep.e_status_id WHERE ep.e_owner = :e_owner ORDER BY ep.`e_title` ASC";
+			$stm          = $this->pdo->prepare($sql);
+			$query_params = [':e_owner' => $owner_id];
+			$stm->execute($query_params);
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
+	 * @param int $e_id
+	 * @return bool
+	 */
+	public function getEpicById($e_id = 0)
+	{
+		try {
+			$sql = "
+							SELECT
+							  ep.*,
+							  eps.name AS e_status,
+							  epd.*
+							FROM
+							  `epics` AS ep
+							  LEFT JOIN epics_statuses AS eps
+							    ON eps.id = ep.e_status_id
+							  LEFT JOIN epic_details AS epd
+							    ON epd.`e_id` = ep.`e_id`
+							WHERE ep.e_id = :e_id
+			";
+
+			$stm          = $this->pdo->prepare($sql);
+			$query_params = [':e_id' => $e_id];
+			$stm->execute($query_params);
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getEpicStatuses()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `epics_statuses` ORDER BY `name` ASC");
 			$stm->execute();
-			$epic = $stm->fetch(PDO::FETCH_ASSOC);
-			return $epic;
+			$epic_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epic_statuses;
 		} catch (PDOException $e) {
 		}
 		return false;
@@ -760,6 +806,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getTeams()
 	{
 		try {
@@ -772,6 +821,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $team_id
+	 * @return bool
+	 */
 	public function getEpicsByTeam($team_id)
 	{
 		try {
@@ -785,6 +838,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param int $epic_id
+	 * @param int $pi_id
+	 * @param int $team_id
+	 * @return bool
+	 */
 	public function getFeaturesByEpicAndPI($epic_id = 0, $pi_id = 0, $team_id = 0)
 	{
 		try {
@@ -807,6 +866,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
 	public function getWorkingEpics()
 	{
 		try {
@@ -818,6 +881,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
 	public function getCompletedEpics()
 	{
 		try {
