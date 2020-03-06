@@ -23,9 +23,9 @@ class Database
 	 */
 	public function connect()
 	{
-		$dsn       = "mysql:host=localhost;dbname=pmmastaz";
-		$user      = "root";
-		$passwd    = "password";
+		$dsn       = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
+		$user      = DB_USER;
+		$passwd    = DB_PWD;
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
 
