@@ -2,8 +2,10 @@ $(function () {
     var showerror = 'no';
     function validateForm(){
 
-        $("#feature_request_form").validate({
+        $("#epic_request_form").validate({
+            rules:{
 
+            },
             // Setting error messages for the fields
             messages      : {
                 f_title       : {
@@ -50,44 +52,10 @@ $(function () {
         });
     }
 
-    function formValidation() {
-        $('#EINREICHEN').on('click', function () {
-            $("#f_title").rules("add", "required");
-            $("#f_epic").rules("add", "required");
-            $("#f_topic").rules("add", "required");
-            $("#f_desc").rules("add", "required");
-            $("#f_currentstate").rules("add", "required");
-            $("#f_targetstate").rules("add", "required");
-            $("#f_benefit").rules("add", "required");
-            $("#f_inscope").rules("add", "required");
-            $("#f_outofscope").rules("add", "required");
-            $("#f_due_date").rules("add", "required");
-            $("#f_SME").rules("add", "required");
-            $("#f_dependencies").rules("add", "required");
-            showerror = 'yes';
-        });
-        $('#SPEICHERN').on('click', function () {
-            $("#f_title").rules("add", "required");
-            $("#f_epic").rules("remove");
-            $("#f_topic").rules("remove");
-            $("#f_desc").rules("remove");
-            $("#f_currentstate").rules("remove");
-            $("#f_targetstate").rules("remove");
-            $("#f_benefit").rules("remove");
-            $("#f_inscope").rules("remove");
-            $("#f_outofscope").rules("remove");
-            $("#f_due_date").rules("remove");
-            $("#f_SME").rules("remove");
-            $("#f_dependencies").rules("remove");
-            showerror = 'no';
-        });
-    }
-
     $('#f_due_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
     $('[data-toggle="popover"]').popover();
-    formValidation();
     validateForm();
 });
 

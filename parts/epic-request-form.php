@@ -137,7 +137,7 @@ $epic_info     = $db->getEpicById($e_id);
 					} else {
 						$staffname = $staff_member['staff_firstname'].' '.$staff_member['staff_lastname'];
 					}
-					$selected = !$e_id ? '' : ($epic_info['e_owner'] == $staff_member['staff_id'] ? 'selected="selected"' : '');
+					$selected = !$e_id ? ($_SESSION['login_user_data']['staff_id'] == $staff_member['staff_id'] ? 'selected="selected"' : '') : ($epic_info['e_owner'] == $staff_member['staff_id'] ? 'selected="selected"' : '');
 					?>
 					<option value="<?php echo $staff_member['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 				<?php } ?>
@@ -165,7 +165,7 @@ $epic_info     = $db->getEpicById($e_id);
 		<label for="e_notes" class="col-3 col-xs-12 col-form-label">Bemerkung:</label>
 
 		<div class="col-6 col-xs-12">
-			<textarea name="e_notes" id="e_notes" class="form-control"><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
+			<textarea name="e_notes" id="e_notes" class="form-control" rows="1"><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
 		</div>
 	</div>
 
