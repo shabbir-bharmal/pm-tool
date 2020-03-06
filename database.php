@@ -704,6 +704,24 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param int $owner_id
+	 * @return bool
+	 */
+	public function getEpicsByOwner($owner_id = 0)
+	{
+		try {
+			$sql          = "SELECT ep.*,eps.name as e_status FROM `epics` AS ep LEFT JOIN epics_statuses as eps on eps.id = ep.e_status_id WHERE ep.e_owner = :e_owner ORDER BY ep.`e_title` ASC";
+			$stm          = $this->pdo->prepare($sql);
+			$query_params = [':e_owner' => $owner_id];
+			$stm->execute($query_params);
+			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $epics;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
 
 	/**
 	 * @param $e_id
@@ -760,6 +778,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getTeams()
 	{
 		try {
@@ -772,6 +793,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param $team_id
+	 * @return bool
+	 */
 	public function getEpicsByTeam($team_id)
 	{
 		try {
@@ -785,6 +810,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 
+	/**
+	 * @param int $epic_id
+	 * @param int $pi_id
+	 * @param int $team_id
+	 * @return bool
+	 */
 	public function getFeaturesByEpicAndPI($epic_id = 0, $pi_id = 0, $team_id = 0)
 	{
 		try {
@@ -807,6 +838,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
 	public function getWorkingEpics()
 	{
 		try {
@@ -818,6 +853,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
 	public function getCompletedEpics()
 	{
 		try {

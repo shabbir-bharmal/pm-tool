@@ -38,3 +38,4 @@ UPDATE `feature_statuses` SET `order` = '3' WHERE `id` = '3';
 UPDATE `feature_statuses` SET `order` = '4' WHERE `id` = '4';
 UPDATE `feature_statuses` SET `order` = '5' WHERE `id` = '5';
 UPDATE `feature_statuses` SET `order` = '6' WHERE `id` = '6';
+ALTER TABLE `epics` ADD COLUMN `e_owner` INT(11) UNSIGNED NULL AFTER `e_status_id`, ADD FOREIGN KEY (`e_owner`) REFERENCES `staff`(`staff_id`); 
