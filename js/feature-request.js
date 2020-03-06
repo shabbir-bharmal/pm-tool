@@ -1,6 +1,7 @@
 $(function () {
     var showerror = 'no';
-    function validateForm(){
+
+    function validateForm() {
 
         $("#feature_request_form").validate({
 
@@ -42,7 +43,7 @@ $(function () {
                 }
             },
             errorPlacement: function () {
-                if(showerror == 'yes'){
+                if (showerror == 'yes') {
                     showerror = 'no';
                     $('#errorshow').modal('show');
                 }
@@ -52,6 +53,8 @@ $(function () {
 
     function formValidation() {
         $('#EINREICHEN').on('click', function () {
+            var form = $('form[name="feature_request_form"]');
+            form.find('input[name="action"]').val('feature-request');
             $("#f_title").rules("add", "required");
             $("#f_epic").rules("add", "required");
             $("#f_topic").rules("add", "required");
@@ -67,6 +70,9 @@ $(function () {
             showerror = 'yes';
         });
         $('#SPEICHERN').on('click', function () {
+            var form = $('form[name="feature_request_form"]');
+            form.find('input[name="action"]').val('feature-request');
+
             $("#f_title").rules("add", "required");
             $("#f_epic").rules("remove");
             $("#f_topic").rules("remove");
@@ -81,16 +87,29 @@ $(function () {
             $("#f_dependencies").rules("remove");
             showerror = 'no';
         });
+        $('#feature_antrag').on('click', function () {
+            $("#f_title").rules("add", "required");
+            $("#f_epic").rules("add", "required");
+            $("#f_topic").rules("add", "required");
+            $("#f_desc").rules("add", "required");
+            $("#f_currentstate").rules("add", "required");
+            $("#f_targetstate").rules("add", "required");
+            $("#f_benefit").rules("add", "required");
+            $("#f_inscope").rules("add", "required");
+            $("#f_outofscope").rules("add", "required");
+            $("#f_due_date").rules("add", "required");
+            $("#f_SME").rules("add", "required");
+            $("#f_dependencies").rules("add", "required");
+            // showerror = 'yes';
+            var form = $('form[name="feature_request_form"]');
+            form.find('input[name="action"]').val('print-feature');
+            form.submit();
+        });
     }
-
     $('#f_due_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
     $('[data-toggle="popover"]').popover();
-
-
     formValidation();
     validateForm();
 });
-
-

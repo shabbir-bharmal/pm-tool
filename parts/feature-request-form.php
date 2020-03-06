@@ -6,15 +6,16 @@ $feature_statuses = $db->getFeatureStatuses();
 $helptexts        = $db->getHelpText();
 $f_id             = isset($_REQUEST['f_id']) ? $_REQUEST['f_id'] : 0;
 $feature_info     = $db->getFeatureByFeatureId($f_id);
+$staff_id = $_SESSION['login_user_data']['staff_id'];
+if($feature_info['f_SME']){
+	$staff_id = $feature_info['f_SME'];
+}
 ?>
-
-
-
-
 
 <form action="<?php echo W_ROOT . '/form-action.php'; ?>" method="post" id="feature_request_form" name="feature_request_form">
     <input type="hidden" name="f_id" value="<?php echo $f_id; ?>">
     <input type="hidden" name="action" id="action" value="feature-request">
+    <input type="hidden" name="print_option" id="print_option" value="feature_antrag">
 
     <div class="form-group row">
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Titel: <span class="text-danger ml-1">*</span></label>
@@ -23,16 +24,12 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
             <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']) ?>">
         </div>
     </div>
-    
     <div class="form-group row">
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Status:</label>
-
         <div class="col-2 col-xs-12">
-        
 		<?php if (!$f_id) { 
             $feature_info['f_status_id']=1;
-	 }   ?>    
-        
+	 }   ?>
         <select class="form-control" name="f_status_id" id="f_status_id" disabled="true">
             <option value="">--bitte w<span>&#228;</span>hlen--</option>
 			<?php
@@ -43,7 +40,6 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
         </select>
         </div>
     </div>
-    
     <div class="form-group row">
         <label for="f_epic" class="col-2 col-xs-12 col-form-label">Epic:
 			<?php if ($helptexts['f_epic']) {
@@ -196,7 +192,7 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
 					} else {
 						$staffname = $staff['staff_firstname'] . ' ' . $staff['staff_lastname'];
 					}
-					$selected = !$f_id ? '' : ($feature_info['f_SME'] == $staff['staff_id'] ? 'selected="selected"' : '');
+					$selected = ($staff_id == $staff['staff_id'] ? 'selected="selected"' : '');
 					?>
                     <option value="<?php echo $staff['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 				<?php } ?>
@@ -244,6 +240,9 @@ $feature_info     = $db->getFeatureByFeatureId($f_id);
             <button name="einreichen" id="EINREICHEN" class="btn btn-primary">EINREICHEN</button>
 		<?php } ?>
     &nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
+        
+        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto">Feature-Antrag</button>
+        
     </div>
 </form>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">
