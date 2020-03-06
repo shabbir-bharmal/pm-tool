@@ -479,6 +479,119 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 
 	}
 
+	/**
+	 * @param $epic_info
+	 * @return bool
+	 */
+	public function saveEpicRequest($epic_info)
+	{
+		try {
+			$epic_info['e_status_id'] = isset($epic_info['einreichen']) ? 2 : 1;
+
+			$data = [
+				':e_title'     => $epic_info['e_title'],
+				':team_id'     => $epic_info['team_id'],
+				':e_status_id' => $epic_info['e_status_id'],
+				':e_owner'     => $epic_info['e_owner']
+			];
+
+			if (!$epic_info['e_id']) {
+				$sql             = "INSERT INTO epics (e_title,e_desc,team_id,e_status_id,e_owner) VALUES (:e_title,:e_desc,:team_id,:e_status_id,:e_owner)";
+				$data[':e_desc'] = '';
+			} else {
+				$sql           = "UPDATE epics SET e_title=:e_title, team_id=:team_id, e_status_id=:e_status_id, e_owner=:e_owner WHERE e_id=:e_id";
+				$data[':e_id'] = $epic_info['e_id'];
+			}
+			$stm = $this->pdo->prepare($sql);
+
+			$stm->execute($data);
+			#echo str_replace(array_keys($data), array_values($data), $sql);exit;
+			$e_id              = (!$epic_info['e_id'] ? $this->pdo->lastInsertId() : $epic_info['e_id']);
+			$epic_info['e_id'] = $e_id;
+
+			// Save details
+			return $this->saveEpicDetails($e_id, $epic_info);
+
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+
+	/**
+	 * @param int $e_id
+	 * @param array $epic_info
+	 * @return bool
+	 */
+	public function saveEpicDetails($e_id, $epic_info)
+	{
+		try {
+
+			$data = [
+				':e_id'                   => $e_id,
+				':e_hs_for'               => $epic_info['e_hs_for'],
+				':e_hs_for_desc'          => $epic_info['e_hs_for_desc'],
+				':e_hs_solution'          => $epic_info['e_hs_solution'],
+				':e_hs_how'               => $epic_info['e_hs_how'],
+				':e_hs_value'             => $epic_info['e_hs_value'],
+				':e_hs_unlike'            => $epic_info['e_hs_unlike'],
+				':e_hs_oursoluion'        => $epic_info['e_hs_oursoluion'],
+				':e_hs_businessoutcome'   => $epic_info['e_hs_businessoutcome'],
+				':e_hs_leadingindicators' => $epic_info['e_hs_leadingindicators'],
+				':e_hs_nfr'               => $epic_info['e_hs_nfr'],
+				':e_notes'                => $epic_info['e_notes']
+			];
+
+			$sql
+				   = "INSERT INTO `epic_details` (
+								e_id,
+								`e_hs_for`,
+								`e_hs_for_desc`,
+								e_hs_solution,
+								e_hs_how,
+								e_hs_value,
+								e_hs_unlike,
+								e_hs_oursoluion,
+								e_hs_businessoutcome,
+								e_hs_leadingindicators,
+								e_hs_nfr,
+								e_notes
+							) VALUES (
+								:e_id,
+								:e_hs_for,
+								:e_hs_for_desc,
+								:e_hs_solution,
+								:e_hs_how,
+								:e_hs_value,
+								:e_hs_unlike,
+								:e_hs_oursoluion,
+								:e_hs_businessoutcome,
+								:e_hs_leadingindicators,
+								:e_hs_nfr,
+								:e_notes
+							)
+							ON DUPLICATE KEY UPDATE
+								`e_hs_for` = :e_hs_for,
+								`e_hs_for_desc` = :e_hs_for_desc,
+								e_hs_solution = :e_hs_solution,
+								e_hs_how = :e_hs_how,
+								e_hs_value = :e_hs_value,
+								e_hs_unlike = :e_hs_unlike,
+								e_hs_oursoluion = :e_hs_oursoluion,
+								e_hs_businessoutcome = :e_hs_businessoutcome,
+								e_hs_leadingindicators = :e_hs_leadingindicators,
+								e_hs_nfr = :e_hs_nfr,
+								e_notes = :e_notes
+								";
+			$stm = $this->pdo->prepare($sql);
+
+			$stm->execute($data);
+			#echo str_replace(array_keys($data), array_values($data), $sql);exit;
+			return true;
+
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
 
 	/**
 	 * @param $f_id
@@ -746,7 +859,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm          = $this->pdo->prepare($sql);
 			$query_params = [':e_id' => $e_id];
 			$stm->execute($query_params);
-			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$epics = $stm->fetch(PDO::FETCH_ASSOC);
 			return $epics;
 		} catch (PDOException $e) {
 		}

@@ -137,7 +137,7 @@ $epic_info     = $db->getEpicById($e_id);
 					} else {
 						$staffname = $staff_member['staff_firstname'].' '.$staff_member['staff_lastname'];
 					}
-					$selected = !$e_id ? '' : ($epic_info['e_owner'] == $staff_member['staff_id'] ? 'selected="selected"' : '');
+					$selected = !$e_id ? ($_SESSION['login_user_data']['staff_id'] == $staff_member['staff_id'] ? 'selected="selected"' : '') : ($epic_info['e_owner'] == $staff_member['staff_id'] ? 'selected="selected"' : '');
 					?>
 					<option value="<?php echo $staff_member['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
 				<?php } ?>
@@ -146,7 +146,7 @@ $epic_info     = $db->getEpicById($e_id);
 	</div>
 
 	<div class="form-group row">
-		<label for="team_id" class="col-3 col-xs-12 col-form-label">Team:<span class="text-danger ml-1">*</span></label>
+		<label for="team_id" class="col-3 col-xs-12 col-form-label">Team:</label>
 
 		<div class="col-2 col-xs-12">
 			<select class="form-control" name="team_id" id="team_id">
@@ -165,13 +165,13 @@ $epic_info     = $db->getEpicById($e_id);
 		<label for="e_notes" class="col-3 col-xs-12 col-form-label">Bemerkung:</label>
 
 		<div class="col-6 col-xs-12">
-			<textarea name="e_notes" id="e_notes" class="form-control"><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
+			<textarea name="e_notes" id="e_notes" class="form-control" rows="1"><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-row">
 		<button name="speichern" id="SPEICHERN" class="btn btn-primary">SPEICHERN</button>
-		<?php if (($e_id && $epic_info['e_status_id'] == 5) || !$e_id) { ?>
+		<?php if (($e_id && $epic_info['e_status_id'] == 1) || !$e_id) { ?>
 			&nbsp;
 			<button name="einreichen" id="EINREICHEN" class="btn btn-primary">EINREICHEN</button>
 		<?php } ?>

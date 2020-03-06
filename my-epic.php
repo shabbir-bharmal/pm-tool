@@ -65,7 +65,7 @@ $my_epics = $db->getEpicsByOwner($_SESSION['login_user_data']['staff_id']);
 						foreach($my_epics as $epic){
 							?>
 							<tr>
-								<td><a href="<?php echo W_ROOT.'/epic-request.php?f_id='.$epic['e_id'];?>"><?php echo $epic['e_title'];?></a></td>
+								<td><a href="<?php echo W_ROOT.'/epic-request.php?e_id='.$epic['e_id'];?>"><?php echo $epic['e_title'];?></a></td>
 								<td><?php echo $epic['e_status'];?></td>
 							</tr>
 							<?php
