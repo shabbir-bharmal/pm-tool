@@ -405,7 +405,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 
 			$f_id                 = (!$feature_info['f_id'] ? $this->pdo->lastInsertId() : $feature_info['f_id']);
 			$feature_info['f_id'] = $f_id;
-
+			$_POST['f_id'] = $f_id;
 			// Save details
 			return $this->saveFeatureDetails($f_id, $feature_info);
 
@@ -519,7 +519,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		try {
 			$epic_info['e_status_id'] = isset($epic_info['einreichen']) ? 2 : 1;
-
+			
+			foreach ($epic_info as $key=>$value){
+				if($value == ''){
+					$epic_info[$key] = NULL;
+				}
+			}
 			$data = [
 				':e_title'     => $epic_info['e_title'],
 				':team_id'     => $epic_info['team_id'],
@@ -540,6 +545,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			#echo str_replace(array_keys($data), array_values($data), $sql);exit;
 			$e_id              = (!$epic_info['e_id'] ? $this->pdo->lastInsertId() : $epic_info['e_id']);
 			$epic_info['e_id'] = $e_id;
+			$_POST['e_id'] = $e_id;
 
 			// Save details
 			return $this->saveEpicDetails($e_id, $epic_info);

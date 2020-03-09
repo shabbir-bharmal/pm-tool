@@ -50,7 +50,7 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_title'] . "'></i>";
 			} ?> <span class="text-danger ml-1">*</span>
 
-      <?
+      <?php
       $creation_date= !$f_id ? date("Y-m-d") : date("Y-m-d", strtotime($feature_info['created_date']));
       $edited_timestamp= !$f_id ? date("Y-m-d") : date("Y-m-d H:i:s", strtotime($feature_info['edited_timestamp']));
       $creation_edit_info= "Erstellt am: ". $creation_date." / Editiert am: ".$edited_timestamp;

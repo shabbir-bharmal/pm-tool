@@ -217,7 +217,7 @@ $epic_info     = $db->getEpicById($e_id);
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Feature Request einzureichen.</p>
+				<p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Epic Request einzureichen.</p>
 			</div>
 		</div>
 	</div>

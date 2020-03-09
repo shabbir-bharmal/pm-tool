@@ -55,7 +55,10 @@ $(function () {
         $('#EINREICHEN').on('click', function () {
             var form = $('form[name="feature_request_form"]');
             form.find('input[name="action"]').val('feature-request');
-            $("#f_title").rules("add", "required");
+            $("#f_title").rules("add", {
+                required : true,
+                maxlength: 55
+            });
             $("#f_epic").rules("add", "required");
             $("#f_topic").rules("add", "required");
             $("#f_desc").rules("add", "required");
@@ -73,7 +76,10 @@ $(function () {
             var form = $('form[name="feature_request_form"]');
             form.find('input[name="action"]').val('feature-request');
 
-            $("#f_title").rules("add", "required");
+            $("#f_title").rules("add", {
+                required : true,
+                maxlength: 55
+            });
             $("#f_epic").rules("remove");
             $("#f_topic").rules("remove");
             $("#f_desc").rules("remove");
@@ -88,7 +94,10 @@ $(function () {
             showerror = 'no';
         });
         $('#feature_antrag').on('click', function () {
-            $("#f_title").rules("add", "required");
+            $("#f_title").rules("add", {
+                required : true,
+                maxlength: 55
+            });
             $("#f_epic").rules("add", "required");
             $("#f_topic").rules("add", "required");
             $("#f_desc").rules("add", "required");

@@ -126,7 +126,6 @@ $(function () {
 
                 },
                 f_storypoints: {
-                    required: true,
                     number  : true
                 }
             },
@@ -137,7 +136,6 @@ $(function () {
                     maxlength: "Feature title must be less than 55 characters."
                 },
                 f_storypoints: {
-                    required: "Please enter feature story point.",
                     number  : "Please enter numeric value."
 
                 }
