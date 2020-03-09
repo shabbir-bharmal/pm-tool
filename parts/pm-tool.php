@@ -3,6 +3,8 @@ $actual_pi_date           = date('d.m.Y', strtotime($actual_product_increment['p
 $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $actual_product_increment['pi_id']);
 $topic         = $db->getTopicById($selected_topic);
 
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -26,7 +28,7 @@ $topic         = $db->getTopicById($selected_topic);
 							<option value="title_nemonic">Titel-Karte (Nemonic)</option>
 							<option value="feature_antrag">Feature-Antrag</option>
 						</select>
-					</div>
+					</div>                                                                                 
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" form="feature_form" value="Submit" class="btn btn-primary">Save</button>
 				</div>
@@ -95,10 +97,15 @@ $topic         = $db->getTopicById($selected_topic);
 										<div class="row">
 											<div class="col-8"><?php echo $feature['f_title']; ?></div>
 											<div class="col-4">
-												<div class="float-right">
-													<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-													<span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span></div>
-											</div>
+                        <div class="float-right">
+                        <?php if ($can_edit_roadmap == 1) { ?>
+                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                            <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                        <?php }else {?>
+                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                        <?php }?>
+                        </div>
+                      </div>
 										</div>
 									</div>
 									<?php if ($feature['f_desc']) { ?>
@@ -153,10 +160,14 @@ $topic         = $db->getTopicById($selected_topic);
 										<div class="row">
 											<div class="col-8"><?php echo $feature['f_title']; ?></div>
 											<div class="col-4">
-												<div class="float-right">
-													<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-													<span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-												</div>
+                          <div class="float-right">
+                          <?php if ($can_edit_roadmap == 1) { ?>
+                              <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                              <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                          <?php }else {?>
+                              <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                          <?php }?>
+                          </div>
 											</div>
 										</div>
 									</div>
@@ -220,10 +231,14 @@ $topic         = $db->getTopicById($selected_topic);
 									<div class="row">
 										<div class="col-8"><?php echo $feature['f_title']; ?></div>
 										<div class="col-4">
-											<div class="float-right">
-												<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-												<span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-											</div>
+                      <div class="float-right">
+                      <?php if ($can_edit_roadmap == 1) { ?>
+                          <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                          <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                      <?php }else {?>
+                          <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                      <?php }?>
+                      </div>
 										</div>
 									</div>
 								</div>

@@ -4,6 +4,7 @@ include_once 'config.php';
 // Include header
 $page_title = 'Meine Feature Requests';
 include_once F_ROOT.'parts/layout/head.php';
+$helptexts        = $db->getHelpText();
 
 // Collect data
 $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id']);
@@ -19,7 +20,10 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 
 		<div class="row mb-3">
 			<div class="col-12">
-				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">My Feature Requests</h2>
+				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Meine Features <?php if ($helptexts['title_my_features']) {
+				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_my_features'] . "'></i>";
+			               } ?>  </h2>
+        
 			</div>
 		</div>
 

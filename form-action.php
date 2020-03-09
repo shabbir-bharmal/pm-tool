@@ -17,9 +17,9 @@ switch ($action) {
 
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
-			header("location:".W_ROOT."/roadmap.php");
+			header("location:".W_ROOT."/index.php");
 		} else {
-			$error             = "Your Username or Password is invalid.";
+			$error             = "Dein Benutzername resp. Passwort ist ung&uuml;ltig";
 			$_SESSION['error'] = $error;
 			header("Location: ".W_ROOT);
 		}
@@ -101,7 +101,7 @@ switch ($action) {
 			$_SESSION['epic-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
 			if ($_POST['e_id']) {
-				$_SESSION['epic-request-success'] = 'Epic request wurder erfolgreich aktualisiert.';
+				$_SESSION['epic-request-success'] = 'Epic Request wurder erfolgreich aktualisiert.';
 				$mailer->sendEpicRequestEmail($_POST);
 			} else {
 				$_SESSION['epic-request-success'] = 'Epic Request wurde erfolgreich gespeichert';

@@ -52,14 +52,16 @@ class Mailer
 
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
-			$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
+			$mail->addAddress('philipp@wuermli.com');     // Add a recipient
 
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Feature beantragt';
 
 			$body = '<p>Hallo, </p>';
-			$body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte prüfen.</p>';
+      $body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte pr&uuml;fen.</p>';
+      $body .= '<p>https://pm.mastaz.ch/feature-request.php?f_id='.$data['f_id'].'</p>';      
+      
 
 			$mail->Body = $body;
 
@@ -83,14 +85,16 @@ class Mailer
 
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
-			$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
+			//$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
+      $mail->addAddress('philipp@wuermli.com');     // Add a recipient
 
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Epic erfassen';
 
 			$body = '<p>Hallo, </p>';
-			$body .= '<p>Ein neuer Epic mit dem Titel <b>'.$data['e_title'].'</b> wurde beantragt, bitte prüfen.</p>';
+			$body .= '<p>Ein neuer Epic mit dem Titel <b>'.$data['e_title'].'</b> wurde beantragt, bitte pr&uuml;fen.</p>';
+      $body .= '<p>https://pm.mastaz.ch/epic-request.php?e_id='.$data['e_id'].'</p>';      
 
 			$mail->Body = $body;
 

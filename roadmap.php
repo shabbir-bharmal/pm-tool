@@ -8,13 +8,14 @@ $selected_topic           = ($_GET && $_GET['topic']) ? $_GET['topic'] : ($topic
 $actual_product_increment = $db->getActualProductIncrement();
 $product_increments       = $db->getOtherProductIncrements($actual_product_increment['pi_id']);
 $staff_members            = $db->getStaffByTopic($selected_topic);
+$helptexts        = $db->getHelpText();
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
 	$error = "You don't have enough permission to view this page.";
 }
 
 // Include header
-$page_title = 'Feature Roadmap';
+$page_title = 'Roadmap (nach Topics)';
 include_once F_ROOT.'parts/layout/head.php';
 ?>
 	<!--Body content-->
@@ -31,7 +32,9 @@ include_once F_ROOT.'parts/layout/head.php';
 			<div class="col-md-8">
 				<form method="get" name="filter_topic" class="form-horizontal">
 					<div class="form-group row p-3 mb-0">
-						<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Feature Roadmap</h2>
+						<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Topics) <?php if ($helptexts['title_roadmap_topics']) {
+				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
+			               } ?> </h2>
 
 						<div class="col-md-3">
 							<select class="form-control" id="topic" name="topic">

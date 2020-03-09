@@ -3,7 +3,6 @@ $feature_staff    = $db->getStaff();
 $epics            = $db->getEpics();
 $topics           = $db->getTopics();
 $feature_statuses = $db->getFeatureStatuses();
-$helptexts        = $db->getHelpText();
 $f_id             = isset($_REQUEST['f_id']) ? $_REQUEST['f_id'] : 0;
 $feature_info     = $db->getFeatureByFeatureId($f_id);
 $staff_id = $_SESSION['login_user_data']['staff_id'];
@@ -176,7 +175,7 @@ if($feature_info['f_SME']){
         </div>
     </div>
     <div class="form-group row">
-        <label for="f_SME" class="col-2 col-xs-12 col-form-label">Ansprechspartner:
+        <label for="f_SME" class="col-2 col-xs-12 col-form-label">Ansprechsperson (Fach):
 			<?php if ($helptexts['f_SME']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_SME'] . "'></i>";
 			} ?><span class="text-danger ml-1">*</span>

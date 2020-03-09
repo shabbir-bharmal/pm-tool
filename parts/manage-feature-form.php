@@ -36,17 +36,29 @@ $working_epics = $db->getWorkingEpics();
 $completed_epics = $db->getCompletedEpics();
 $helptexts = $db->getHelpText();
 $topics                   = $db->getTopics();
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 
-?>
+?>          
 <input type="hidden" name="return_url" class="form-control" id="return_url" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">
 <input type="hidden" name="topic_id" class="form-control" id="topic_id" value="<?php echo $topic_id; ?>">
 <input type="hidden" name="topic_name" class="form-control" id="topic_name" value="<?php echo $topic['name']; ?>">
 <input type="hidden" name="f_id" class="form-control" id="f_id" value="<?php echo $f_id; ?>">
 <input type="hidden" name="pi_id" class="form-control" id="pi_id" value="<?php echo $pi_id; ?>">
 <input type="hidden" name="action" class="form-control" id="action" value="<?php echo(!$f_id ? "feature-add" : "feature-edit"); ?>">
-<div class="form-group">
-    <label for="f_title" class="col-form-label">Titel:</label>
-    <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>">
+<div class="form-group"> 
+    <label for="f_title" class="col-form-label">Titel: <?php if ($helptexts['f_title']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_title'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span>
+
+      <?
+      $creation_date= !$f_id ? date("Y-m-d") : date("Y-m-d", strtotime($feature_info['created_date']));
+      $edited_timestamp= !$f_id ? date("Y-m-d") : date("Y-m-d H:i:s", strtotime($feature_info['edited_timestamp']));
+      $creation_edit_info= "Erstellt am: ". $creation_date." / Editiert am: ".$edited_timestamp;
+				echo "<i class='fa fa-info-circle' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $creation_edit_info . "'></i>";
+			?>
+      
+      </label>
+    <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>"  <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 </div>
 <!-- Tab Functionality Start-->
 <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">

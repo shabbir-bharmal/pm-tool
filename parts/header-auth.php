@@ -1,18 +1,21 @@
 <?php
 $name = $_SESSION['login_user_data']['staff_firstname'];
-$roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 $can_manage_config =  $_SESSION['login_user_data']['can_manage_config'];
 if($name){ ?>
 <nav class="navbar navbar-light bg-light">
     <div class="topnav-left" >
 		<ul class="nav">
+      <li class="nav-item dropdown">
+       <a href="<?php echo W_ROOT.'/';?>"><i class="fa fa-home" style="font-size:20px;margin-top:10px;"></i></a>
+      </li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Roadmap Planning
+					Roadmaps
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/roadmap.php'?>">Features</a>
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-roadmap.php'?>">Epics</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/roadmap.php'?>">nach Topics</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/epic-roadmap.php'?>">nach Epics</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
@@ -26,11 +29,11 @@ if($name){ ?>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Feature Requests
+					Features
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">Neuer Feature Request erfassen</a>
-					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">Meine Feature Requests</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">Neuer Feature erfassen</a>
+					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">Meine Features</a>
 				</div>
 			</li>
 			<?php if($can_manage_config){
@@ -41,7 +44,14 @@ if($name){ ?>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item" href="<?php echo W_ROOT.'/admin-config.php';?>">Config</a>
-					</div>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/helptext.php';?>">Hilfe-Texte</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/product-increments.php';?>">Produkt-Inkremente</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/staff.php';?>">Mitarbeitende</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/topics.php';?>">Topics</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/epics.php';?>">Epics</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/features.php';?>">Features</a>
+						<a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/featuretypes.php';?>">Feature Typen</a>
+					</div>                                                                                                 
 				</li>
 				<?php } ?>
 		</ul>
@@ -56,19 +66,7 @@ if($name){ ?>
 	<?php
 }
 
-if($roadmap == 0){ ?>
-	<div class="container-fluid mt-3">
-		<div class="row">
-			<div class="col-12 text-center">
-				<h2><?php echo $error;?></h2>
-			</div>
-		</div>
-	</div>
-	</body>
-	</html>
-<?php
-exit;
-}
+
 
 
 ?>

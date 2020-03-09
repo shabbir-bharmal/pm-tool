@@ -4,9 +4,11 @@ include_once 'config.php';
 // Include header
 $page_title = 'Meine Epics';
 include_once F_ROOT.'parts/layout/head.php';
+$helptexts        = $db->getHelpText();
 
 // Collect data
 $my_epics = $db->getEpicsByOwner($_SESSION['login_user_data']['staff_id']);
+
 ?>
 	<!--Body content-->
 
@@ -19,7 +21,9 @@ $my_epics = $db->getEpicsByOwner($_SESSION['login_user_data']['staff_id']);
 
 		<div class="row mb-3">
 			<div class="col-12">
-				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Meine Epics</h2>
+				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Meine Epics <?php if ($helptexts['title_my_epics']) {
+				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_my_epics'] . "'></i>";
+			               } ?>  </h2>
 			</div>
 		</div>
 

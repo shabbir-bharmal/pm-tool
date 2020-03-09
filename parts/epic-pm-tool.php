@@ -1,7 +1,7 @@
 <?php
 $actual_pi_date = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
 
-$can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -97,13 +97,15 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
                                             <div class="row">
                                                 <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                                 <div class="col-4">
-													<?php if ($can_edit_feature == 1) { ?>
                                                         <div class="float-right">
+                                                        <?php if ($can_edit_roadmap == 1) { ?>
                                                             <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                                                             <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                        <?php }else {?>
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
+                                                                                                      
+                                                        <?php }?>
                                                         </div>
-														<?php
-													} ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,13 +162,16 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
                                             <div class="row">
                                                 <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                                 <div class="col-4">
-													<?php if ($can_edit_feature == 1) { ?>
+													
                                                         <div class="float-right">
+                                                        <?php if ($can_edit_roadmap == 1) { ?>
                                                             <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                                                             <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                        <?php }else {?>
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                                                        <?php }?>
                                                         </div>
-														<?php
-													} ?>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -230,13 +235,14 @@ $can_edit_feature = $_SESSION['login_user_data']['can_edit_epic_feature'];
                                         <div class="row">
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
-												<?php if ($can_edit_feature == 1) { ?>
-                                                    <div class="float-right">
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-                                                    </div>
-													<?php
-												} ?>
+                                                        <div class="float-right">
+                                                        <?php if ($can_edit_roadmap == 1) { ?>
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+                                                            <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+                                                        <?php }else {?>
+                                                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                                                        <?php }?>
+                                                        </div>
                                             </div>
                                         </div>
                                     </div>

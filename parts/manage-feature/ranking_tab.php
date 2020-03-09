@@ -3,7 +3,7 @@
         <label for="f_storypoints" class="col-form-label">Storypoint: <?php if ($helptexts['f_storypoints']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_storypoints'] . "'></i>";
 			} ?></label>
-        <input type="number" name="f_storypoints" class="form-control" id="f_storypoints" value="<?php echo(!$f_id ? "" : $feature_info['f_storypoints']); ?>">
+        <input type="number" name="f_storypoints" class="form-control" id="f_storypoints" value="<?php echo(!$f_id ? "" : $feature_info['f_storypoints']); ?>" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
     </div>
 
 </div>
@@ -12,7 +12,7 @@
         <label for="f_BV" class="col-form-label">BV: <?php if ($helptexts['f_BV']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_BV'] . "'></i>";
 			} ?></label>
-        <select class="form-control" name="f_BV" id="f_BV">
+        <select class="form-control" name="f_BV" id="f_BV" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 			<?php
 			foreach ($opt_values as $opt) {
 				$selected = !$f_id ? '' : ($feature_info['f_BV'] == $opt ? 'selected="selected"' : ''); ?>
@@ -24,7 +24,7 @@
         <label for="f_TC" class="col-form-label">TC: <?php if ($helptexts['f_TC']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_TC'] . "'></i>";
 			} ?></label>
-        <select class="form-control" name="f_TC" id="f_TC">
+        <select class="form-control" name="f_TC" id="f_TC" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 			<?php
 			foreach ($opt_values as $opt) {
 				$selected = !$f_id ? '' : ($feature_info['f_TC'] == $opt ? 'selected="selected"' : ''); ?>
@@ -36,7 +36,7 @@
         <label for="f_RROE" class="col-form-label">RROE: <?php if ($helptexts['f_RROE']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_RROE'] . "'></i>";
 			} ?></label>
-        <select class="form-control" name="f_RROE" id="f_RROE">
+        <select class="form-control" name="f_RROE" id="f_RROE" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 			<?php
 			foreach ($opt_values as $opt) {
 				$selected = !$f_id ? '' : ($feature_info['f_RROE'] == $opt ? 'selected="selected"' : ''); ?>
@@ -48,7 +48,7 @@
         <label for="f_JS" class="col-form-label">JS: <?php if ($helptexts['f_JS']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_JS'] . "'></i>";
 			} ?></label>
-        <select class="form-control" name="f_JS" id="f_JS">
+        <select class="form-control" name="f_JS" id="f_JS" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 			<?php
 			foreach ($opt_values as $opt) {
 				$selected = !$f_id ? '' : ($feature_info['f_JS'] == $opt ? 'selected="selected"' : ''); ?>

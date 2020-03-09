@@ -1,5 +1,5 @@
 <?php
-if ($feature_files) { ?>
+if ($feature_files) { ?>  
     <div class="form-row">
         <table class="table">
             <thead>
@@ -22,17 +22,29 @@ if ($feature_files) { ?>
                 </td>
             </tr>
 			<?php }
+      
+
 			?>
             </tr>
             </tbody>
         </table>
     </div>
-	<?php
+	<?php }else{ ?>
+      
+<div class="form-row">
+    <div class="form-group col-12">
+     <br/>keine Dateien vorhanden
+    </div>
+</div>    
+<?php
 }
 ?>
+<?php if ($can_edit_roadmap == 1){ ?>
 <div class="form-row">
     <div class="form-group col-12">
         <label for="f_file" class="col-form-label">Dateien:</label>
         <input type="file" name="f_file[]" id="file" class="form-control-file" multiple>
     </div>
 </div>
+<?php }?>
+              

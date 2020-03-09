@@ -12,7 +12,9 @@ $epic_info     = $db->getEpicById($e_id);
 	<input type="hidden" name="action" id="action" value="epic-request">
     <input type="hidden" name="print_option" id="print_option" value="epic_antrag">
 	<div class="form-group row">
-		<label for="e_title" class="col-3 col-xs-12 col-form-label">Titel: <span class="text-danger ml-1">*</span></label>
+		<label for="e_title" class="col-3 col-xs-12 col-form-label">Titel: <?php if ($helptexts['e_title']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_title'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
 			<input type="text" name="e_title" class="form-control" id="e_title" value="<?php echo(!$e_id ? "" : $epic_info['e_title']) ?>">
@@ -41,91 +43,113 @@ $epic_info     = $db->getEpicById($e_id);
 	<h5>Zielbeschreibung</h5>
 
 	<div class="form-group row">
-		<label for="e_hs_for" class="col-3 col-xs-12 col-form-label">F<span>&#252;</span>r:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_for" class="col-3 col-xs-12 col-form-label">F<span>&#252;</span>r: <?php if ($helptexts['e_hs_for']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_for'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_for" id="e_hs_for" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_for']); ?></textarea>
+			<textarea class="form-control" name="e_hs_for" id="e_hs_for" ><?php echo(!$e_id ? "" : $epic_info['e_hs_for']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_for_desc" class="col-3 col-xs-12 col-form-label">die:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_for_desc" class="col-3 col-xs-12 col-form-label">die: <?php if ($helptexts['e_hs_for_desc']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_for_desc'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_for_desc" id="e_hs_for_desc" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_for_desc']); ?></textarea>
+			<textarea class="form-control" name="e_hs_for_desc" id="e_hs_for_desc" ><?php echo(!$e_id ? "" : $epic_info['e_hs_for_desc']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_solution" class="col-3 col-xs-12 col-form-label">ist:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_solution" class="col-3 col-xs-12 col-form-label">ist: <?php if ($helptexts['e_hs_solution']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_solution'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_solution" id="e_hs_solution" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_solution']); ?></textarea>
+			<textarea class="form-control" name="e_hs_solution" id="e_hs_solution" ><?php echo(!$e_id ? "" : $epic_info['e_hs_solution']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_how" class="col-3 col-xs-12 col-form-label">ein:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_how" class="col-3 col-xs-12 col-form-label">ein: <?php if ($helptexts['e_hs_how']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_how'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_how" id="e_hs_how" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_how']); ?></textarea>
+			<textarea class="form-control" name="e_hs_how" id="e_hs_how" ><?php echo(!$e_id ? "" : $epic_info['e_hs_how']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_value" class="col-3 col-xs-12 col-form-label">welche:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_value" class="col-3 col-xs-12 col-form-label">welche: <?php if ($helptexts['e_hs_value']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_value'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_value" id="e_hs_value" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_value']); ?></textarea>
+			<textarea class="form-control" name="e_hs_value" id="e_hs_value" ><?php echo(!$e_id ? "" : $epic_info['e_hs_value']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_unlike" class="col-3 col-xs-12 col-form-label">im Vergleich zu:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_unlike" class="col-3 col-xs-12 col-form-label">im Vergleich zu: <?php if ($helptexts['e_hs_unlike']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_unlike'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_unlike" id="e_hs_unlike" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_unlike']); ?></textarea>
+			<textarea class="form-control" name="e_hs_unlike" id="e_hs_unlike" ><?php echo(!$e_id ? "" : $epic_info['e_hs_unlike']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_oursoluion" class="col-3 col-xs-12 col-form-label">macht unsere L<span>&#246;</span>sung:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_oursoluion" class="col-3 col-xs-12 col-form-label">macht unsere L<span>&#246;</span>sung: <?php if ($helptexts['e_hs_oursoluion']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_oursoluion'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_oursoluion" id="e_hs_oursoluion" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_oursoluion']); ?></textarea>
+			<textarea class="form-control" name="e_hs_oursoluion" id="e_hs_oursoluion" ><?php echo(!$e_id ? "" : $epic_info['e_hs_oursoluion']); ?></textarea>
 		</div>
 	</div>
 
 	<h5>Umfang</h5>
 
 	<div class="form-group row">
-		<label for="e_hs_businessoutcome" class="col-3 col-xs-12 col-form-label">Schl<span>&#252;</span>sselergebnisse (Hypothese):<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_businessoutcome" class="col-3 col-xs-12 col-form-label">Schl<span>&#252;</span>sselergebnisse (Hypothese): <?php if ($helptexts['e_hs_businessoutcome']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_businessoutcome'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_businessoutcome" id="e_hs_businessoutcome" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_businessoutcome']); ?></textarea>
+			<textarea class="form-control" name="e_hs_businessoutcome" id="e_hs_businessoutcome" r><?php echo(!$e_id ? "" : $epic_info['e_hs_businessoutcome']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_leadingindicators" class="col-3 col-xs-12 col-form-label">Zielf<span>&#252;</span>hrende Indikatoren:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_leadingindicators" class="col-3 col-xs-12 col-form-label">Zielf<span>&#252;</span>hrende Indikatoren :<?php if ($helptexts['e_hs_leadingindicators']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_leadingindicators'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_leadingindicators" id="e_hs_leadingindicators" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_leadingindicators']); ?></textarea>
+			<textarea class="form-control" name="e_hs_leadingindicators" id="e_hs_leadingindicators" ><?php echo(!$e_id ? "" : $epic_info['e_hs_leadingindicators']); ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-group row">
-		<label for="e_hs_nfr" class="col-3 col-xs-12 col-form-label">Nicht-funktionale Anforderungen:<span class="text-danger ml-1">*</span></label>
+		<label for="e_hs_nfr" class="col-3 col-xs-12 col-form-label">Nicht-funktionale Anforderungen: <?php if ($helptexts['e_hs_nfr']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_hs_nfr'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_nfr" id="e_hs_nfr" rows="1"><?php echo(!$e_id ? "" : $epic_info['e_hs_nfr']); ?></textarea>
+			<textarea class="form-control" name="e_hs_nfr" id="e_hs_nfr" ><?php echo(!$e_id ? "" : $epic_info['e_hs_nfr']); ?></textarea>
 		</div>
 	</div>
 
 	<h5>Weitergehende Infos</h5>
 
 	<div class="form-group row">
-		<label for="e_owner" class="col-3 col-xs-12 col-form-label">Epic Owner:<span class="text-danger ml-1">*</span></label>
+		<label for="e_owner" class="col-3 col-xs-12 col-form-label">Epic Owner: <?php if ($helptexts['e_owner']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_owner'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-2 col-xs-12">
 			<select class="form-control" name="e_owner" id="e_owner">
@@ -146,7 +170,9 @@ $epic_info     = $db->getEpicById($e_id);
 	</div>
 
 	<div class="form-group row">
-		<label for="team_id" class="col-3 col-xs-12 col-form-label">Team:</label>
+		<label for="team_id" class="col-3 col-xs-12 col-form-label">Team: <?php if ($helptexts['name']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['name'] . "'></i>";
+			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-2 col-xs-12">
 			<select class="form-control" name="team_id" id="team_id">
@@ -162,10 +188,12 @@ $epic_info     = $db->getEpicById($e_id);
 	</div>
 
 	<div class="form-group row">
-		<label for="e_notes" class="col-3 col-xs-12 col-form-label">Bemerkung:</label>
+		<label for="e_notes" class="col-3 col-xs-12 col-form-label">Bemerkung: <?php if ($helptexts['e_notes']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_notes'] . "'></i>";
+			} ?></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea name="e_notes" id="e_notes" class="form-control" rows="1"><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
+			<textarea name="e_notes" id="e_notes" class="form-control" ><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
 		</div>
 	</div>
 
