@@ -2,6 +2,7 @@
 $actual_pi_date = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
 
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+$selected_epic            = ($_GET && $_GET['epic']) ? $_GET['epic'] : '';
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -73,13 +74,13 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
             </tr>
 			<?php
 			foreach ($epics as $epic) {
-				$selected_epic = $epic['e_id'];
+			 
 				?>
-                <tr class="feature-information" data-epic_id="<?php echo $epic['e_id']; ?>">
+                <tr class="feature-information <?php echo $eclass;?>" data-epic_id="<?php echo $epic['e_id']; ?>">
                     <!-- Funnel features start -->
                     <td>
                         <div class="product-increment" id="pisortable_0">
-                            <h4><?php echo $epic['e_title']; ?></h4>
+                            <h4 class="epic_title"><?php echo $epic['e_title']; ?></h4>
 							<?php
 							$pi_id    = 0;
 							$features = $db->getFeaturesByEpicAndPI($epic['e_id'], $pi_id, $selected_team);

@@ -7,7 +7,8 @@ $selected_team            = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ?
 $actual_product_increment = $db->getActualProductIncrement();
 $product_increments       = $db->getOtherProductIncrements($actual_product_increment['pi_id']);
 $epics                    = $db->getEpicsByTeam($selected_team);
-$helptexts        = $db->getHelpText();
+$helptexts                = $db->getHelpText();
+$selected_epic            = ($_GET && $_GET['epic']) ? $_GET['epic'] : '';
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
 	$error = "You don't have enough permission to view this page.";
@@ -32,23 +33,38 @@ include_once F_ROOT . 'parts/layout/head.php';
         <div class="row align-items-center mb-3">
             <!-- Topic select box start -->
             <div class="col-md-8">
-                <form method="get" name="filter_team" class="form-horizontal">
-                    <div class="form-group row p-3 mb-0">
-                        <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Epics) <?php if ($helptexts['title_roadmap_topics']) {
-				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
-			               } ?> </h2>
 
-                        <div class="col-md-3">
+                <div class="form-group row p-3 mb-0">
+                    <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Epics) <?php if ($helptexts['title_roadmap_topics']) {
+							echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
+						} ?> </h2>
+                    <form method="get" name="filter_team" class="form-horizontal col-md-3">
+                        
                             <select class="form-control" id="team" name="team">
 								<?php foreach ($teams as $team) {
 									$selected = $team['id'] == $selected_team ? "selected='selected'" : ""; ?>
                                     <option value="<?php echo $team['id']; ?>" <?php echo $selected; ?>><?php echo $team['name']; ?></option>
-								<?php } ?>
+									<?php
+								} ?>
                             </select>
-                        </div>
-
+                        
+                    </form>
+                    <div class="col-md-3">
+                        <select class="form-control" id="epic" name="epic">
+                            <option value="">--bitte w<span>&#228;</span>hlen--</option>
+							<?php
+							$getepics = $db->getEpicsByTeam($selected_team);
+							foreach ($getepics as $gepics) {
+								$selected = $gepics['e_id'] == $selected_epic ? "selected='selected'" : ""; ?>
+                                ?>
+                                <option value="<?php echo $gepics['e_id']; ?>" <?php echo $selected; ?>><?php echo $gepics['e_title']; ?></option>
+								<?php
+							}
+							?>
+                        </select>
                     </div>
-                </form>
+
+                </div>
                 <form method="post" action="<?php echo W_ROOT; ?>/form-action.php" name="delete_feature" id="delete_feature" class="form-horizontal">
                     <input type="hidden" id="f_id" name="f_id" value="">
                     <input type="hidden" name="action" class="form-control" id="action" value="feature-delete">

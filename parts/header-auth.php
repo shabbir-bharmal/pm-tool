@@ -64,9 +64,8 @@ if($name){ ?>
 	</div>
 </nav>
 	<?php
+}else{
+	include_once F_ROOT.'parts/error-auth.php';
+	exit;
 }
-
-
-
-
 ?>

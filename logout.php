@@ -1,5 +1,4 @@
 <?php
-define('W_ROOT', 'https://pm.mastaz.ch');
-session_start();
+include_once 'config.php';
 session_destroy();
 header("location: ".W_ROOT);
