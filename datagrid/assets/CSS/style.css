@@ -1,0 +1,77 @@
+body {
+    color: #232323;
+    font-size: 0.95em;
+    font-family: Arial;
+}
+
+.tbl-qa {
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+.tbl-qa th.table-header {
+    padding: 5px;
+    text-align: left;
+    padding: 10px;
+}
+.live-data-table td {
+    font-size: 11px;
+    line-height: 1.5em;
+    color: #444444;
+    letter-spacing: 0.2px;
+}
+.tbl-qa .table-row td {
+    padding: 8px 15px 10px 8px;
+    background-color: #FDFDFD;
+    vertical-align: top;
+}
+.live-data-table th, .live-data-table td {
+    border: 1px solid #ddd;
+    font-size: 12px;
+    text-align: left;
+}
+.dataTables_wrapper a.paginate_button.current {
+    background: #f9f9f9 !important;
+}
+#UserTable_wrapper label input {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+}
+#UserTable_wrapper label select {
+    padding: 5px 6px;
+    border: 1px solid #ddd;
+    margin: 0 6px;
+}
+.live-data-table input {
+    font-size: 11px;
+    padding: 6px 5px;
+    border: 1px solid #ddd;
+    max-width: 70px;
+    background: #f5f5f5;
+    outline:none;
+}
+.live-data-table input:focus, .live-data-table select:focus{
+    outline: none;
+}
+table.live-data-table.dataTable thead th, table.live-data-table.dataTable thead td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #111111;
+}
+.live-data-table select {
+    font-size: 11px;
+    padding: 3px;
+    border: 1px solid #ddd;
+    max-width: 90px;
+    background: #f5f5f5;
+}
+table#UserTable {
+    margin: 20px auto 20px;
+    display: inline-block;
+    overflow: auto;
+}
+.data-main-heading {
+    margin-top: 30px;
+}
+div#UserTable_wrapper {
+    margin: 0 0 30px;
+}
