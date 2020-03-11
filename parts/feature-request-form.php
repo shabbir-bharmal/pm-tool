@@ -5,12 +5,22 @@ $topics           = $db->getTopics();
 $feature_statuses = $db->getFeatureStatuses();
 $f_id             = isset($_REQUEST['f_id']) ? $_REQUEST['f_id'] : 0;
 $feature_info     = $db->getFeatureByFeatureId($f_id);
-$staff_id = $_SESSION['login_user_data']['staff_id'];
-if($feature_info['f_SME']){
+$login_id         = $_SESSION['login_user_data']['staff_id'];
+$staff_id         = $login_id;
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+
+if ($feature_info['f_SME']) {
 	$staff_id = $feature_info['f_SME'];
 }
+if ($login_id !== $staff_id) {
+	$disabled = 'disabled="true"';
+	if ($can_edit_roadmap == 1) {
+		$disabled = '';
+	}
+} else {
+	$disabled = '';
+}
 ?>
-
 <form action="<?php echo W_ROOT . '/form-action.php'; ?>" method="post" id="feature_request_form" name="feature_request_form">
     <input type="hidden" name="f_id" value="<?php echo $f_id; ?>">
     <input type="hidden" name="action" id="action" value="feature-request">
@@ -20,23 +30,23 @@ if($feature_info['f_SME']){
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Titel: <span class="text-danger ml-1">*</span></label>
 
         <div class="col-6 col-xs-12">
-            <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']) ?>">
+            <input type="text" name="f_title" class="form-control" id="f_title" <?php echo $disabled;?> value="<?php echo(!$f_id ? "" : $feature_info['f_title']) ?>">
         </div>
     </div>
     <div class="form-group row">
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Status:</label>
         <div class="col-2 col-xs-12">
-		<?php if (!$f_id) { 
-            $feature_info['f_status_id']=1;
-	 }   ?>
-        <select class="form-control" name="f_status_id" id="f_status_id" disabled="true">
-            <option value="">--bitte w<span>&#228;</span>hlen--</option>
-			<?php
-			foreach ($feature_statuses as $feature_status) {
-				$selected = ($feature_info['f_status_id'] == $feature_status['id'] ? 'selected="selected"' : ''); ?>
-                <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
-			<?php } ?>
-        </select>
+			<?php if (!$f_id) {
+				$feature_info['f_status_id'] = 1;
+			} ?>
+            <select class="form-control" name="f_status_id" id="f_status_id" disabled="true">
+                <option value="">--bitte w<span>&#228;</span>hlen--</option>
+				<?php
+				foreach ($feature_statuses as $feature_status) {
+					$selected = ($feature_info['f_status_id'] == $feature_status['id'] ? 'selected="selected"' : ''); ?>
+                    <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
+				<?php } ?>
+            </select>
         </div>
     </div>
     <div class="form-group row">
@@ -47,7 +57,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-2 col-xs-12">
-            <select class="form-control" name="f_epic" id="f_epic">
+            <select class="form-control" name="f_epic" id="f_epic" <?php echo $disabled;?>>
                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php foreach ($epics as $epic) {
 					$selected = !$f_id ? '' : ($feature_info['f_epic'] == $epic['e_id'] ? 'selected="selected"' : '');
@@ -65,7 +75,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-2 col-xs-12">
-            <select class="form-control" name="f_topic" id="f_topic">
+            <select class="form-control" name="f_topic" id="f_topic" <?php echo $disabled;?>>
                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php foreach ($topics as $topic) {
 					$selected = !$f_id ? '' : ($feature_info['f_topic_id'] == $topic['id'] ? 'selected="selected"' : '');
@@ -74,7 +84,7 @@ if($feature_info['f_SME']){
 				<?php } ?>
             </select>
         </div>
-    </div>    
+    </div>
     <div class="form-group row">
         <label for="f_desc" class="col-2 col-xs-12 col-form-label">Kurzbeschreibung:
 			<?php if ($helptexts['f_desc']) {
@@ -83,7 +93,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea class="form-control" name="f_desc" id="f_desc"><?php echo(!$f_id ? "" : $feature_info['f_desc']); ?></textarea>
+            <textarea class="form-control" name="f_desc" id="f_desc" <?php echo $disabled;?>><?php echo(!$f_id ? "" : $feature_info['f_desc']); ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -94,7 +104,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_context" id="f_context" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_context']; ?></textarea>
+            <textarea name="f_context" id="f_context" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_context']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -105,7 +115,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_problemdessc" id="f_problemdessc" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_problemdessc']; ?></textarea>
+            <textarea name="f_problemdessc" id="f_problemdessc" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_problemdessc']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -116,7 +126,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_currentstate" id="f_currentstate" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_currentstate']; ?></textarea>
+            <textarea name="f_currentstate" id="f_currentstate" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_currentstate']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -127,7 +137,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_targetstate" id="f_targetstate" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_targetstate']; ?></textarea>
+            <textarea name="f_targetstate" id="f_targetstate" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_targetstate']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -138,7 +148,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_benefit" id="f_benefit" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_benefit']; ?></textarea>
+            <textarea name="f_benefit" id="f_benefit" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_benefit']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -149,7 +159,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_inscope" id="f_inscope" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_inscope']; ?></textarea>
+            <textarea name="f_inscope" id="f_inscope" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_inscope']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -160,7 +170,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_outofscope" id="f_outofscope" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_outofscope']; ?></textarea>
+            <textarea name="f_outofscope" id="f_outofscope" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_outofscope']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -171,7 +181,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-2 col-xs-12">
-            <input type="text" name="f_due_date" id="f_due_date" class="form-control" value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>">
+            <input type="text" name="f_due_date" id="f_due_date" class="form-control" <?php echo $disabled;?> value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>">
         </div>
     </div>
     <div class="form-group row">
@@ -182,7 +192,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-2 col-xs-12">
-            <select class="form-control" name="f_SME" id="f_SME">
+            <select class="form-control" name="f_SME" id="f_SME" <?php echo $disabled;?>>
                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php
 				foreach ($feature_staff as $staff) {
@@ -206,7 +216,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_dependencies" id="f_dependencies" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_dependencies']; ?></textarea>
+            <textarea name="f_dependencies" id="f_dependencies" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_dependencies']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -217,7 +227,7 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_risks" id="f_risks" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_risks']; ?></textarea>
+            <textarea name="f_risks" id="f_risks" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_risks']; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
@@ -228,20 +238,20 @@ if($feature_info['f_SME']){
         </label>
 
         <div class="col-6 col-xs-12">
-            <textarea name="f_note" id="f_note" class="form-control"><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
+            <textarea name="f_note" id="f_note" class="form-control" <?php echo $disabled;?>><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
         </div>
     </div>
 
     <div class="form-row">
-        <button name="speichern" id="SPEICHERN" class="btn btn-primary">SPEICHERN</button>
+        <button name="speichern" id="SPEICHERN" class="btn btn-primary" <?php echo $disabled;?>>SPEICHERN</button>
 		<?php if (($f_id && $feature_info['f_status_id'] == 5) || !$f_id) { ?>
             &nbsp;
-            <button name="einreichen" id="EINREICHEN" class="btn btn-primary">EINREICHEN</button>
+            <button name="einreichen" id="EINREICHEN" class="btn btn-primary" <?php echo $disabled;?>>EINREICHEN</button>
 		<?php } ?>
-    &nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
-        
-        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto">Feature-Antrag</button>
-        
+        &nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
+
+        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto" <?php echo $disabled;?>>Feature-Antrag</button>
+
     </div>
 </form>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">

@@ -5,6 +5,21 @@ $epic_statuses = $db->getEpicStatuses();
 $teams         = $db->getTeams();
 $e_id          = isset($_REQUEST['e_id']) ? $_REQUEST['e_id'] : 0;
 $epic_info     = $db->getEpicById($e_id);
+$login_id         = $_SESSION['login_user_data']['staff_id'];
+$staff_id         = $login_id;
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+
+if ($epic_info['e_owner']) {
+	$staff_id = $epic_info['e_owner'];
+}
+if ($login_id !== $staff_id) {
+	$disabled = 'disabled="true"';
+	if ($can_edit_roadmap == 1) {
+		$disabled = '';
+	}
+} else {
+	$disabled = '';
+}
 ?>
 
 <form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form">
@@ -17,7 +32,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<input type="text" name="e_title" class="form-control" id="e_title" value="<?php echo(!$e_id ? "" : $epic_info['e_title']) ?>">
+			<input type="text" name="e_title" class="form-control" id="e_title" <?php echo $disabled; ?> value="<?php echo(!$e_id ? "" : $epic_info['e_title']) ?>">
 		</div>
 	</div>
 
@@ -48,7 +63,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_for" id="e_hs_for" ><?php echo(!$e_id ? "" : $epic_info['e_hs_for']); ?></textarea>
+			<textarea class="form-control" name="e_hs_for" id="e_hs_for"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_for']); ?></textarea>
 		</div>
 	</div>
 
@@ -58,7 +73,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_for_desc" id="e_hs_for_desc" ><?php echo(!$e_id ? "" : $epic_info['e_hs_for_desc']); ?></textarea>
+			<textarea class="form-control" name="e_hs_for_desc" id="e_hs_for_desc"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_for_desc']); ?></textarea>
 		</div>
 	</div>
 
@@ -68,7 +83,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_solution" id="e_hs_solution" ><?php echo(!$e_id ? "" : $epic_info['e_hs_solution']); ?></textarea>
+			<textarea class="form-control" name="e_hs_solution" id="e_hs_solution"  <?php echo $disabled; ?>  ><?php echo(!$e_id ? "" : $epic_info['e_hs_solution']); ?></textarea>
 		</div>
 	</div>
 
@@ -78,7 +93,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_how" id="e_hs_how" ><?php echo(!$e_id ? "" : $epic_info['e_hs_how']); ?></textarea>
+			<textarea class="form-control" name="e_hs_how" id="e_hs_how"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_how']); ?></textarea>
 		</div>
 	</div>
 
@@ -88,7 +103,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_value" id="e_hs_value" ><?php echo(!$e_id ? "" : $epic_info['e_hs_value']); ?></textarea>
+			<textarea class="form-control" name="e_hs_value" id="e_hs_value"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_value']); ?></textarea>
 		</div>
 	</div>
 
@@ -98,7 +113,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_unlike" id="e_hs_unlike" ><?php echo(!$e_id ? "" : $epic_info['e_hs_unlike']); ?></textarea>
+			<textarea class="form-control" name="e_hs_unlike" id="e_hs_unlike"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_unlike']); ?></textarea>
 		</div>
 	</div>
 
@@ -108,7 +123,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_oursoluion" id="e_hs_oursoluion" ><?php echo(!$e_id ? "" : $epic_info['e_hs_oursoluion']); ?></textarea>
+			<textarea class="form-control" name="e_hs_oursoluion" id="e_hs_oursoluion"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_oursoluion']); ?></textarea>
 		</div>
 	</div>
 
@@ -120,7 +135,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_businessoutcome" id="e_hs_businessoutcome" r><?php echo(!$e_id ? "" : $epic_info['e_hs_businessoutcome']); ?></textarea>
+			<textarea class="form-control" name="e_hs_businessoutcome" id="e_hs_businessoutcome"  <?php echo $disabled; ?>><?php echo(!$e_id ? "" : $epic_info['e_hs_businessoutcome']); ?></textarea>
 		</div>
 	</div>
 
@@ -130,7 +145,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_leadingindicators" id="e_hs_leadingindicators" ><?php echo(!$e_id ? "" : $epic_info['e_hs_leadingindicators']); ?></textarea>
+			<textarea class="form-control" name="e_hs_leadingindicators" id="e_hs_leadingindicators"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_leadingindicators']); ?></textarea>
 		</div>
 	</div>
 
@@ -140,7 +155,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea class="form-control" name="e_hs_nfr" id="e_hs_nfr" ><?php echo(!$e_id ? "" : $epic_info['e_hs_nfr']); ?></textarea>
+			<textarea class="form-control" name="e_hs_nfr" id="e_hs_nfr"  <?php echo $disabled; ?> ><?php echo(!$e_id ? "" : $epic_info['e_hs_nfr']); ?></textarea>
 		</div>
 	</div>
 
@@ -152,7 +167,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-2 col-xs-12">
-			<select class="form-control" name="e_owner" id="e_owner">
+			<select class="form-control" name="e_owner" id="e_owner" <?php echo $disabled; ?> >
 				<option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php
 				foreach ($staff as $staff_member) {
@@ -175,7 +190,7 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?> <span class="text-danger ml-1">*</span></label>
 
 		<div class="col-2 col-xs-12">
-			<select class="form-control" name="team_id" id="team_id">
+			<select class="form-control" name="team_id" id="team_id" <?php echo $disabled; ?>>
 				<option value="">--bitte w<span>&#228;</span>hlen--</option>
 				<?php
 				foreach ($teams as $team) {
@@ -193,18 +208,18 @@ $epic_info     = $db->getEpicById($e_id);
 			} ?></label>
 
 		<div class="col-6 col-xs-12">
-			<textarea name="e_notes" id="e_notes" class="form-control" ><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
+			<textarea name="e_notes" id="e_notes" class="form-control"  <?php echo $disabled; ?> ><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
 		</div>
 	</div>
 
 	<div class="form-row">
-		<button name="speichern" id="SPEICHERN" class="btn btn-primary">SPEICHERN</button>
+		<button name="speichern" id="SPEICHERN" class="btn btn-primary" <?php echo $disabled; ?> >SPEICHERN</button>
 		<?php if (($e_id && $epic_info['e_status_id'] == 1) || !$e_id) { ?>
 			&nbsp;
-			<button name="einreichen" id="EINREICHEN" class="btn btn-primary">EINREICHEN</button>
+			<button name="einreichen" id="EINREICHEN" class="btn btn-primary"  <?php echo $disabled; ?> >EINREICHEN</button>
 		<?php } ?>
 		&nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
-        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto">Feature-Antrag</button>
+        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto"  <?php echo $disabled; ?> >Feature-Antrag</button>
 	</div>
 </form>
 
