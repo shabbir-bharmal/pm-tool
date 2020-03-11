@@ -60,7 +60,7 @@ switch ($action) {
 			}
 		}
 		if ($_POST['f_id']) {
-			header("Location: ".W_ROOT."/my-feature-request.php");
+			header("Location: ".W_ROOT."/feature-request.php?f_id=".$_POST['f_id']);
 		} else {
 			header("Location: ".W_ROOT."/feature-request.php");
 		}
@@ -120,7 +120,7 @@ switch ($action) {
 			}
 		}
 		if ($_POST['e_id']) {
-			header("Location: ".W_ROOT."/my-epic.php");
+			header("Location: ".W_ROOT."/epic-request.php?e_id=".$_POST['e_id']);
 		} else {
 			header("Location: ".W_ROOT."/epic-request.php");
 		}
