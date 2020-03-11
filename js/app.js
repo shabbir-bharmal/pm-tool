@@ -1,6 +1,10 @@
 $(function () {
     var shown = false;
 
+    if ($('.table').hasClass('not_move')) {
+        $(".table td .product-increment").removeAttr('id','none');
+    }
+
     function formFilter() {
         $('#topic').on('change', function () {
             $('form[name="filter_topic"]').submit();

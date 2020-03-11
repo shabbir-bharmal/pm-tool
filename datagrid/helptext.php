@@ -39,149 +39,157 @@ error_reporting(0);
 	include_once(F_ROOT.'parts/header-auth.php');
 		?>
 	</header>
-  <!-- Scripts from pm.mastaz.ch Root  STOP-->
-  
-  
-  <div class="data-main-heading">
-    		<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Admin > Hilfetexte 
-        <span class="h6" style="display: inline-flex;vertical-align: middle;">
-        			       <?php if ($helptexts['title_hilfetexte']) {
-				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_hilfetexte'] . "'></i>";
-			               } ?>  
-        </span></h2>
-        
+  <?php if(!$can_manage_config){
+	  $error = "You don't have enough permission to view this page.";
+      ?>
+  <div class="container-fluid mt-3">
+      <div class="row">
+          <div class="col-12 text-center">
+              <h2><?php echo $error;?></h2>
+          </div>
+      </div>
   </div>
-    <table class="table table-hover display nowrap live-data-table export" style="width:100%" id="UserTable"> 
-        <thead>
-            <tr>
-                
-                <th class="table-header">Field Name</th>
-                <th class="table-header">Tooltip</th>
-                
-             
-           <!--      <th class="table-header">Epic</th> -->
-            </tr>
-        </thead>
+  <?php } else { ?>
 
-        <tbody>
-<?php
-require_once (F_ROOT."datagrid/Model/epic.php");
-$faq = new epic();
-$helptextResult = $faq->getHelptext();
-//print_r($status);
+  <!-- Scripts from pm.mastaz.ch Root  STOP-->
 
 
+  <div class="data-main-heading">
+      <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Admin > Hilfetexte
+          <span class="h6" style="display: inline-flex;vertical-align: middle;">
+        			       <?php if ($helptexts['title_hilfetexte']) {
+							   echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_hilfetexte'] . "'></i>";
+						   } ?>
+        </span></h2>
 
- 
+  </div>
+  <table class="table table-hover display nowrap live-data-table export" style="width:100%" id="UserTable">
+      <thead>
+      <tr>
 
-foreach ($helptextResult as $k => $v) {
-    ?>
-        <tr class="table-row">
-               
-                <td class="title" contenteditable="true"
-                    onBlur="helptextsaveToDatabase(this,'field_name','<?php echo $helptextResult[$k]["id"]; ?>')"
-                    onClick="helpTextShowEdit(this);"><?php echo $helptextResult[$k]["field_name"]; ?></td>
-                <td contenteditable="true"
-                    onBlur="helptextsaveToDatabase(this,'tooltip','<?php echo $helptextResult[$k]["id"]; ?>')"
-                    onClick="helpTextShowEdit(this);"><?php echo $helptextResult[$k]["tooltip"]; ?></td>
-            
+          <th class="table-header">Field Name</th>
+          <th class="table-header">Tooltip</th>
+
+
+          <!--      <th class="table-header">Epic</th> -->
+      </tr>
+      </thead>
+
+      <tbody>
+	  <?php
+	  require_once(F_ROOT . "datagrid/Model/epic.php");
+	  $faq            = new epic();
+	  $helptextResult = $faq->getHelptext();
+	  foreach ($helptextResult as $k => $v) {
+		  ?>
+          <tr class="table-row">
+
+              <td class="title" contenteditable="true"
+                  onBlur="helptextsaveToDatabase(this,'field_name','<?php echo $helptextResult[$k]["id"]; ?>')"
+                  onClick="helpTextShowEdit(this);"><?php echo $helptextResult[$k]["field_name"]; ?></td>
+              <td contenteditable="true"
+                  onBlur="helptextsaveToDatabase(this,'tooltip','<?php echo $helptextResult[$k]["id"]; ?>')"
+                  onClick="helpTextShowEdit(this);"><?php echo $helptextResult[$k]["tooltip"]; ?></td>
+
           </tr>
-    <?php
-}
-?>
- </tbody>
- </table>
+		  <?php
+	  }
+	  ?>
+      </tbody>
+  </table>
 
 
 </body>
 </html>
 
-  <script type="text/javascript">
-  
-$(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('#UserTable thead tr').clone(true).appendTo( '#UserTable thead' );
-    $('#UserTable thead tr:eq(1) th').each( function (i) {
-        var title = $(this).text();
-        $(this).html( '<input class="filter'+title+'" type="text" placeholder="Search '+title+'" />' );
- 
-        $( 'input', this ).on( 'keyup change', function () {
-            if ( table.column(i).search() !== this.value ) {
-                table
-                    .column(i)
-                    .search( this.value )
-                    .draw();
-            }
-        } );
+    <script type="text/javascript">
 
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#UserTable thead tr').clone(true).appendTo('#UserTable thead');
+            $('#UserTable thead tr:eq(1) th').each(function (i) {
+                var title = $(this).text();
+                $(this).html('<input class="filter' + title + '" type="text" placeholder="Search ' + title + '" />');
 
- $("input.filterTeam ").on("keyup", function() {
-       var val = $(this).val().toLowerCase();
-        $("tbody tr").filter(function() {
-          $(this).toggle($(this).find("option:selected").text().toLowerCase().indexOf(val) > -1)
-        });
-      });
-
-    } );
-
-    
-  //  $("select.topic").each(function(){
-  //            // var selectxt = $(this).find("#not-selected").remove(); 
-  //            // //$(this).toggle()
-  //            // console.log(selectxt);
-  // });
- 
-var table = $('#UserTable').DataTable( {
-            orderCellsTop: true,
-            fixedHeader: true,
-            ordering: true,
-            bLengthChange: true,
-            iDisplayLength: 10,
-            bFilter: true,
-            pagingType: "full_numbers",
-            bInfo: false,
-            dom: "lBfrtip",
- 
-          buttons: [
-          {
-              extend: 'excel',
-              title: '',
-
-          exportOptions: {
-
-                      format   : {
-                          body : (data, row, col, node) => {
-                              let node_text = '';
-                              const spacer = node.childNodes.length < 1 ? ' ' : '';
-                              node.childNodes.forEach(child_node => {
-                                  const temp_text = child_node.nodeName == "SELECT" ? child_node.selectedOptions[0].textContent : child_node.textContent;
-                                  node_text += temp_text ? `${temp_text}${spacer}` : '';
-								  node_text = $.trim(node_text.replace(/ +/g,' '));
-                              });
-                              return node_text ;
-
-                          }
-                      }
-                  },
-          }],
-              } );
-} );
-</script>  
-
-<script type="text/javascript">
-    $(".team").change(function(){
-        var teamValue = $(this).val();
-        var e_id = $(this).attr('id');
-         $.ajax({
-                    url:"common-function.php",
-                    method:"post",
-                       data:{'method': 'getEpicSelectData', 'teamValue':teamValue,'e_id':e_id},
-                    success: function(response){
-                       //alert(response);
-                    },
+                $('input', this).on('keyup change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
                 });
-         
+
+
+                $("input.filterTeam ").on("keyup", function () {
+                    var val = $(this).val().toLowerCase();
+                    $("tbody tr").filter(function () {
+                        $(this).toggle($(this).find("option:selected").text().toLowerCase().indexOf(val) > -1)
+                    });
+                });
+
+            });
+
+
+            //  $("select.topic").each(function(){
+            //            // var selectxt = $(this).find("#not-selected").remove();
+            //            // //$(this).toggle()
+            //            // console.log(selectxt);
+            // });
+
+            var table = $('#UserTable').DataTable({
+                orderCellsTop : true,
+                fixedHeader   : true,
+                ordering      : true,
+                bLengthChange : true,
+                iDisplayLength: 10,
+                bFilter       : true,
+                pagingType    : "full_numbers",
+                bInfo         : false,
+                dom           : "lBfrtip",
+
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title : '',
+
+                        exportOptions: {
+
+                            format: {
+                                body: (data, row, col, node) => {
+                                    let node_text = '';
+                                    const spacer = node.childNodes.length < 1 ? ' ' : '';
+                                    node.childNodes.forEach(child_node => {
+                                        const temp_text = child_node.nodeName == "SELECT" ? child_node.selectedOptions[0].textContent : child_node.textContent;
+                                        node_text += temp_text ? `${temp_text}${spacer}` : '';
+                                        node_text = $.trim(node_text.replace(/ +/g, ' '));
+                                    });
+                                    return node_text;
+
+                                }
+                            }
+                        },
+                    }],
+            });
         });
-</script>
+    </script>
 
+    <script type="text/javascript">
+        $(".team").change(function () {
+            var teamValue = $(this).val();
+            var e_id = $(this).attr('id');
+            $.ajax({
+                url    : "common-function.php",
+                method : "post",
+                data   : {'method': 'getEpicSelectData', 'teamValue': teamValue, 'e_id': e_id},
+                success: function (response) {
+                    //alert(response);
+                },
+            });
 
+        });
+    </script>
+
+<?php
+}
+?>

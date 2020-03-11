@@ -38,7 +38,17 @@ error_reporting(0);
     include_once '../parts/header-auth.php'; ?> 
 	</header>
   <!-- Scripts from pm.mastaz.ch Root  STOP-->
-
+  <?php if(!$can_manage_config){
+	  $error = "You don't have enough permission to view this page.";
+	  ?>
+      <div class="container-fluid mt-3">
+          <div class="row">
+              <div class="col-12 text-center">
+                  <h2><?php echo $error;?></h2>
+              </div>
+          </div>
+      </div>
+  <?php } else { ?>
 
   <div class="data-main-heading">
     <h1 align="center">Epics Live Inline Update data</h1>
@@ -209,5 +219,5 @@ var table = $('#UserTable').DataTable( {
          
         });
 </script>
-
+<?php } ?>
 

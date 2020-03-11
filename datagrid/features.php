@@ -36,7 +36,18 @@ error_reporting(0);
 		<?php
     session_start();
     define('W_ROOT', 'https://pm.mastaz.ch');
-    include_once '../parts/header-auth.php'; ?> 
+    include_once '../parts/header-auth.php'; ?>
+		<?php if(!$can_manage_config){
+			$error = "You don't have enough permission to view this page.";
+			?>
+            <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2><?php echo $error;?></h2>
+                    </div>
+                </div>
+            </div>
+		<?php } else { ?>
 	</header>
   <!-- Scripts from pm.mastaz.ch Root  STOP-->
   
@@ -375,7 +386,7 @@ $(this).parents('.table-row').find('td.total').text(t_total.toFixed(3));
          
         });
 </script>
-
+<?php } ?>
 
 
 

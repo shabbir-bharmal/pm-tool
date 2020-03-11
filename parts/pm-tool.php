@@ -4,7 +4,13 @@ $actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $act
 $topic         = $db->getTopicById($selected_topic);
 
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
-
+if($can_edit_roadmap == 1){
+    $table = '';
+	$disabled = "";
+}else{
+	$table = 'not_move';
+	$disabled = "disabled='true'";
+}
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -21,7 +27,7 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<div class="form-group col-md-4 mr-auto p-0">
-						<select name="print_option" class="print_option form-control">
+						<select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
 							<option value="" selected="selected">Drucken</option>
 							<option value="title">Titel-Karte</option>
 							<option value="detail">Detail-Karte</option>
@@ -30,7 +36,7 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 						</select>
 					</div>                                                                                 
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" form="feature_form" value="Submit" class="btn btn-primary">Save</button>
+					<button type="submit" form="feature_form" value="Submit" class="btn btn-primary" <?php echo $disabled;?>>Save</button>
 				</div>
 			</form>
 		</div>
@@ -39,7 +45,7 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 
 <div class="col-12">
 	<div class="responsive roadmap-planning">
-		<table class="table table-bordered">
+		<table class="table table-bordered <?php echo $table;?>">
 			<thead>
 			<tr>
 				<th scope="col">Funnel</th>
