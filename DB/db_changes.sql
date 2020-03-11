@@ -48,3 +48,7 @@ ALTER TABLE `staff` ADD COLUMN `can_manage_config` ENUM('0','1') DEFAULT '0' NOT
 ALTER TABLE `epics` CHANGE `e_desc` `e_desc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `team_id` `team_id` INT(11) NULL;
 ALTER TABLE `epic_details` CHANGE `e_hs_for` `e_hs_for` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_for_desc` `e_hs_for_desc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_solution` `e_hs_solution` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_how` `e_hs_how` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_value` `e_hs_value` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_unlike` `e_hs_unlike` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_oursoluion` `e_hs_oursoluion` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_businessoutcome` `e_hs_businessoutcome` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_leadingindicators` `e_hs_leadingindicators` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `e_hs_nfr` `e_hs_nfr` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
 ALTER TABLE `epics` CHANGE `e_status_id` `e_status_id` INT(11) NULL DEFAULT '1';
+
+-- 11 March 2020
+ALTER TABLE `feature_details` ADD edited_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+ALTER TABLE `feature_details` CHANGE `created_date` `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;

@@ -440,7 +440,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_targetstate'         => $feature_info['f_targetstate'],
 				':f_inscope'             => $feature_info['f_inscope'],
 				':f_outofscope'          => $feature_info['f_outofscope'],
-				':f_risks'               => $feature_info['f_risks'],
+				':f_risks'               => $feature_info['f_risks']
 			];
 
 			$sql
