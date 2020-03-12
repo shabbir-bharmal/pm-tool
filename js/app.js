@@ -9,6 +9,10 @@ $(function () {
         $('#topic').on('change', function () {
             $('form[name="filter_topic"]').submit();
         });
+        $('#team').on('change', function () {
+            $('#topic').prop('selectedIndex',-1);
+            $('form[name="filter_topic"]').submit();
+        });
     }
 
     function updateStaffCapacity() {
@@ -72,6 +76,7 @@ $(function () {
 
             var feature_id = $(this).data('feature_id');
             var topic_id = $(this).data('topic_id');
+            var team_id = $(this).data('team_id');
             var pi_id = $(this).data('pi_id');
             if (feature_id == 0) {
                 $('.modal-title').html('Add Feature');
@@ -80,7 +85,7 @@ $(function () {
             }
             // AJAX request
             $.ajax({
-                url    : wroot + '/ajax.php?action=manage-feature&feature_id=' + feature_id + '&pi_id=' + pi_id + '&topic_id=' + topic_id,
+                url    : wroot + '/ajax.php?action=manage-feature&feature_id=' + feature_id + '&pi_id=' + pi_id + '&topic_id=' + topic_id + '&team_id=' + team_id,
                 type   : 'GET',
                 success: function (response) {
                     // Add response in Modal body
@@ -180,12 +185,11 @@ $(function () {
 
     function updateFeatureRanking(element) {
         var own_pi = element.closest('.product-increment');
+        var topic_id = element.closest('.product-increment').data('topic_id');
         var pi_id = own_pi.attr('id').split('_')[2];
         var f_ids = element.sortable("toArray");
-
-
         $.ajax({
-            url    : wroot + '/ajax.php?action=update-feature-ranking&feature_id=' + f_ids + '&pi_id=' + pi_id,
+            url    : wroot + '/ajax.php?action=update-feature-ranking&feature_id=' + f_ids + '&pi_id=' + pi_id+ '&topic_id=' + topic_id,
             type   : 'GET',
             success: function (response) {
 
@@ -196,14 +200,21 @@ $(function () {
     }
 
     function calculateTotalSP(piElement) {
+
         var col_index = piElement.closest('td').index();
         var total_sp_row = $('.total-sp-row').find('td').eq(col_index);
         var total_sp = 0;
 
-        piElement.find('.card').each(function (i, v) {
+        var pi_id = piElement.attr('id');
+        $('.'+pi_id).find('.card').each(function (i, v) {
             var sp = $(this).data('sp');
             total_sp = total_sp + parseFloat(sp);
         });
+
+        /*piElement.find('.card').each(function (i, v) {
+            var sp = $(this).data('sp');
+            total_sp = total_sp + parseFloat(sp);
+        });*/
 
         // Update the total capacity of PI
         total_sp_row.find('span.pi_total_sp').html(total_sp);
@@ -222,8 +233,8 @@ $(function () {
                 total_sp_row.find('span.pi_total_sp').addClass('text-success');
             }
         }
-
     }
+
 
     function setFeatureHeight() {
         $(".product-increment").height($(".feature-information").height());

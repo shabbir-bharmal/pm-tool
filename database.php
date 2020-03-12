@@ -711,15 +711,16 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	 * @param $f_ids
 	 * @return bool
 	 */
-	public function updateFeatureRanking($pi_id, $f_ids)
+	public function updateFeatureRanking($pi_id, $f_ids,$topic_id)
 	{
 		try {
 			$f_ids = explode(',', $f_ids);
 
 			foreach ($f_ids as $key => $value) {
-				$stm = $this->pdo->prepare("UPDATE `features` SET f_PI = :f_PI,f_ranking = :f_ranking WHERE `f_id` = :f_id ");
+				$stm = $this->pdo->prepare("UPDATE `features` SET f_PI = :f_PI,f_ranking = :f_ranking,f_topic_id = :f_topic_id WHERE `f_id` = :f_id ");
 				$stm->bindParam(':f_ranking', $key);
 				$stm->bindParam(':f_PI', $pi_id);
+				$stm->bindParam(':f_topic_id', $topic_id);
 				$stm->bindParam(':f_id', $value);
 				$stm->execute();
 			}
@@ -1108,5 +1109,57 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	public function getTopicsByTeam($id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `topics` WHERE `team_id` = :team_id");
+			$stm->bindParam(':team_id', $id);
+			$stm->execute();
+			$teams = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $teams;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getStaffByTeam($team_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `staff` WHERE `staff_team_id` = :staff_team_id ");
+			$stm->bindParam(':staff_team_id', $team_id);
+			$stm->execute();
+			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $staff;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getStaffByTeamAndTopic($team_id,$topic_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `staff` WHERE `staff_team_id` = :staff_team_id AND `staff_topic_id` = :staff_topic_id  ");
+			$stm->bindParam(':staff_team_id', $team_id);
+			$stm->bindParam(':staff_topic_id', $topic_id);
+			$stm->execute();
+			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $staff;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
 	
+	public function getTotalCapacityByTeamPI($team_id = 0, $pi_id = 0)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT sum(capacity) AS total_capacity FROM `capacities` where pi_id = :pi_id and staff_id in (SELECT staff_id FROM `staff` where staff_team_id = :team_id)");
+			$stm->bindParam(':team_id', $team_id);
+			$stm->bindParam(':pi_id', $pi_id);
+			$stm->execute();
+			$result = $stm->fetch(PDO::FETCH_ASSOC);
+			if ($result['total_capacity']) {
+				return $result['total_capacity'];
+			}
+		} catch (PDOException $e) {
+		}
+		return 0;
+	}
 }

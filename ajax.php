@@ -18,8 +18,9 @@ switch ($action) {
 	case 'update-feature-ranking':
 		$f_ids = $_REQUEST['feature_id'];
 		$pi_id = $_REQUEST['pi_id'];
+		$topic_id = $_REQUEST['topic_id'];
 		
-		$success = $db->updateFeatureRanking($pi_id, $f_ids);
+		$success = $db->updateFeatureRanking($pi_id, $f_ids,$topic_id);
 		echo json_encode(['success' => $success]);
 		break;
 	

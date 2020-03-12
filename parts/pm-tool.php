@@ -1,7 +1,6 @@
 <?php
 $actual_pi_date           = date('d.m.Y', strtotime($actual_product_increment['pi_start']))." - ".date('d.m.Y', strtotime($actual_product_increment['pi_end']));
-$actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $actual_product_increment['pi_id']);
-$topic         = $db->getTopicById($selected_topic);
+
 
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 if($can_edit_roadmap == 1){
@@ -65,12 +64,16 @@ if($can_edit_roadmap == 1){
 			<tbody>
 			<tr>
 				<td>
-					<span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="0" title="Add Feature"><i class="fa fa-plus"></i></span>
+					<span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selectedtopic; ?>" data-pi_id="0" title="Add Feature"><i class="fa fa-plus"></i></span>
 				</td>
 				<td><?php echo $actual_pi_date; ?></td>
 				<?php
+				$sp_totals = array();
+				$actual_sp_total = 0;
 				$i = 0;
 				foreach ($product_increments as $product_increment) {
+				 
+					$sp_totals[$product_increment['pi_id']] = 0;
 					$class = '';
 					if ($i > 2) {
 						$class = 'd-none';
@@ -78,18 +81,32 @@ if($can_edit_roadmap == 1){
 					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start']))." - ".date('d.m.Y', strtotime($product_increment['pi_end']));
 					echo "<td class='$class'>$pi_date</td>";
 					$i++;
-				} ?>
+				}
+				
+				?>
 			</tr>
-
+			<?php
+			if($selectedtopic != 0){
+				$topics = [];
+			    $topics[0] = $db->getTopicById($selectedtopic);
+			}
+			foreach ($topics as $topic)
+			{
+			$selected_topic = $topic['id'];
+			$selected_topic_name = $topic['name'];
+			?>
 			<tr class="feature-information">
 				<!-- Funnel features start -->
-				<td>
-					<div class=" product-increment" id="pi_sortable_0">
+                <td>
+                    <?php
+                    if($selectedtopic == 0){ ?>
+                        <h2><?php echo $selected_topic_name; ?></h2>
+                    <?php } ?>
+                    <div class=" product-increment pi_sortable_0" id="pi_sortable_0" data-topic_id="<?php echo $selected_topic; ?>">
 						<?php
 						$pi_id    = 0;
 						$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
-
-
+						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
 								if ($feature['f_JS'] == 0) {
@@ -108,7 +125,7 @@ if($can_edit_roadmap == 1){
                             <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                             <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
                         <?php }else {?>
-                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                            <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
                         <?php }?>
                         </div>
                       </div>
@@ -142,15 +159,15 @@ if($can_edit_roadmap == 1){
 					</div>
 				</td>
 				<!-- Funnel features end -->
-
+    
 				<!-- Actual PI features start -->
 				<td>
-					<div class=" product-increment" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>">
+					<div class=" product-increment pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>">
 
 						<?php
 						$pi_id           = $actual_product_increment['pi_id'];
 						$features        = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
-						$actual_sp_total = 0;
+						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
 								if ($feature['f_JS'] == 0) {
@@ -171,7 +188,7 @@ if($can_edit_roadmap == 1){
                               <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                               <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
                           <?php }else {?>
-                              <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                              <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
                           <?php }?>
                           </div>
 											</div>
@@ -206,9 +223,7 @@ if($can_edit_roadmap == 1){
 				<!-- Other PI features start -->
 				<?php
 				$i = 0;
-
-
-				$sp_totals = array();
+				
 				foreach ($product_increments as $product_increment) {
 					if ($i > 2) {
 						$class = 'd-none';
@@ -216,9 +231,9 @@ if($can_edit_roadmap == 1){
 						$class = '';
 					}
 					$pi_id = $product_increment['pi_id'];
-					echo "<td class='$class'><div class=' product-increment' id='pi_sortable_".$pi_id."'>";
+					echo "<td class='$class'><div class=' product-increment pi_sortable_".$pi_id."' id='pi_sortable_".$pi_id."' data-topic_id=".$selected_topic.">";
 
-					$sp_totals[$pi_id] = 0;
+					
 					$features          = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
 					$sp_total          = 0;
 					if (isset($features) && !empty($features)) {
@@ -229,8 +244,7 @@ if($can_edit_roadmap == 1){
 								$wsjf = ($feature['f_BV'] + $feature['f_TC'] + $feature['f_RROE']) / $feature['f_JS'];
 							}
 							$sp_total += $feature['f_storypoints'];
-							$sp_totals[$pi_id] = $sp_total;
-
+							
 							?>
 							<div class="card" id="<?php echo $feature['f_id']; ?>" data-sp="<?php echo $feature['f_storypoints']; ?>">
 								<div class="card-header" style=" background: <?php echo $feature['highlight_color'] ?>; ">
@@ -242,7 +256,7 @@ if($can_edit_roadmap == 1){
                           <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                           <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
                       <?php }else {?>
-                          <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>                                                        
+                          <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
                       <?php }?>
                       </div>
 										</div>
@@ -269,18 +283,25 @@ if($can_edit_roadmap == 1){
 
 							<?php
 						}
+						$sp_totals[$pi_id] += $sp_total;
 					}
 					echo "</div></td>";
 					$i++;
 				} ?>
 				<!-- Other PI features end -->
 			</tr>
-
+            <?php }
+			if($selectedtopic != 0 ) {
+				$actual_pi_total_capacity = $db->getTotalCapacityByTopicPI($selectedtopic, $actual_product_increment['pi_id']);
+			}else{
+				$actual_pi_total_capacity = $db->getTotalCapacityByTeamPI($selected_team,$actual_product_increment['pi_id']);
+            }
+			?>
 			<!-- Total capacity row start -->
 			<tr class="total-capacity-row">
 				<td>Total Kapazit&auml;t [<a href="javascript:void(0);">Detailanzeige</a>]
                     <?php
-                    if($topic['capacity_source']){ ?>
+                    if($selectedtopic != 0 && $topic['capacity_source']){ ?>
 						<a target="_blank" href="<?php echo $topic['capacity_source'];?>"><i class="fa fa-link" aria-hidden="true"></i></a>
                     <?php
                     }
@@ -292,7 +313,12 @@ if($can_edit_roadmap == 1){
 				<?php
 				$i = 0;
 				foreach ($product_increments as $product_increment) {
-					$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
+					if($selectedtopic != 0 ) {
+						$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
+					}else{
+						$total_capacity = $db->getTotalCapacityByTeamPI($selected_team,$product_increment['pi_id']);
+					}
+					
 					?>
 					<td class="<?php if ($i > 2) {
 						echo 'd-none';

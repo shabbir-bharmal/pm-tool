@@ -4,6 +4,7 @@ header('Content-Type: text/html; charset=ISO-8859-1');
 $f_id = $_REQUEST['feature_id'];
 $pi_id         = $_REQUEST['pi_id'];
 $topic_id      = $_REQUEST['topic_id'];
+$team_id       = $_REQUEST['team_id'];
 $opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20', '40');
 $feature_info  = $db->getFeatureByFeatureId($f_id);
 $feature_types = $db->getFeatureType();
@@ -35,7 +36,7 @@ $epics = $db->getEpics();
 $working_epics = $db->getWorkingEpics();
 $completed_epics = $db->getCompletedEpics();
 $helptexts = $db->getHelpText();
-$topics                   = $db->getTopics();
+$topics                   = $db->getTopicsByTeam($team_id);
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 
 ?>          
@@ -49,15 +50,13 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
     <label for="f_title" class="col-form-label">Titel: <?php if ($helptexts['f_title']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_title'] . "'></i>";
 			} ?> <span class="text-danger ml-1">*</span>
-
-      <?php
-      $creation_date= !$f_id ? date("Y-m-d") : date("Y-m-d", strtotime($feature_info['created_date']));
-      $edited_timestamp= !$f_id ? date("Y-m-d") : date("Y-m-d H:i:s", strtotime($feature_info['edited_timestamp']));
-      $creation_edit_info= "Erstellt am: ". $creation_date." <br> Editiert am: ".$edited_timestamp;
-				echo "<i class='fa fa-info-circle' data-html='true' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $creation_edit_info . "'></i>";
-			?>
-      
-      </label>
+     </label>
+	<?php
+	$creation_date= !$f_id ? date("Y-m-d") : date("Y-m-d", strtotime($feature_info['created_date']));
+	$edited_timestamp= !$f_id ? date("Y-m-d") : date("Y-m-d H:i:s", strtotime($feature_info['edited_timestamp']));
+	$creation_edit_info= "Erstellt am: ". $creation_date." <br> Editiert am: ".$edited_timestamp;
+	echo "<i class='col-form-label fa fa-info-circle float-right' data-html='true' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $creation_edit_info . "'></i>";
+	?>
     <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>"  <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
 </div>
 <!-- Tab Functionality Start-->
