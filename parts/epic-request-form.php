@@ -8,7 +8,7 @@ $epic_info     = $db->getEpicById($e_id);
 $login_id         = $_SESSION['login_user_data']['staff_id'];
 $staff_id         = $login_id;
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
-
+$epic_files  = $db->getEpicFilesByFeatureId($e_id);
 if ($epic_info['e_owner']) {
 	$staff_id = $epic_info['e_owner'];
 }
@@ -22,7 +22,7 @@ if ($login_id !== $staff_id) {
 }
 ?>
 
-<form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form">
+<form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form" enctype='multipart/form-data'>
 	<input type="hidden" name="e_id" value="<?php echo $e_id; ?>">
 	<input type="hidden" name="action" id="action" value="epic-request">
     <input type="hidden" name="print_option" id="print_option" value="epic_antrag">

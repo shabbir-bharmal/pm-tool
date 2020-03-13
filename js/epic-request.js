@@ -162,8 +162,34 @@ $(function () {
       form.submit();
     });
   }
+  function deleteFile() {
+    $('.delete_file').on('click', function () {
+      var file_id = $(this).data('file_id');
+      var file_name = $(this).data('file_name');
+      bootbox.confirm("Bist Du sicher, dass Du die Datei löschen willst?", function (result) {
+        if (result == '1') {
+          $.ajax({
+            url    : wroot + '/ajax.php?action=delete-file-epic&file_id=' + file_id + '&file_name=' + file_name,
+            type   : 'GET',
+            success: function (response) {
+              $("tr[data-row_id=" + file_id + "]").remove();
+            }
+          });
+        }
+      });
+    });
+  }
 
   $('[data-toggle="popover"]').popover();
+  $('#e_start_date').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+  $('#e_completion_date').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+
+
   validateForm();
   formValidation();
+  deleteFile();
 });

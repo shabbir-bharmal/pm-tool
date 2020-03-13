@@ -31,6 +31,13 @@ switch ($action) {
 		echo json_encode(['success' => $success]);
 		break;
 	
+	case 'delete-file-epic':
+		$file_id   = $_REQUEST['file_id'];
+		$file_name = $_REQUEST['file_name'];
+		$success   = $db->deleteFileEpic($file_id, $file_name);
+		echo json_encode(['success' => $success]);
+		break;
+	
 	default:
 		break;
 }

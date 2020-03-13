@@ -9,26 +9,26 @@ class Database
 	 * @var
 	 */
 	public $pdo;
-
+	
 	/**
 	 *
 	 */
 	public function __construct()
 	{
-
+	
 	}
-
+	
 	/**
 	 *
 	 */
 	public function connect()
 	{
-		$dsn       = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
+		$dsn       = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
 		$user      = DB_USER;
 		$passwd    = DB_PWD;
 		$this->pdo = new PDO($dsn, $user, $passwd);
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -39,11 +39,12 @@ class Database
 			$stm->execute();
 			$topics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $topics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @return bool
@@ -56,11 +57,12 @@ class Database
 			$stm->execute();
 			$topic = $stm->fetch(PDO::FETCH_ASSOC);
 			return $topic;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -71,11 +73,12 @@ class Database
 			$stm->execute();
 			$pi = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $pi;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -86,11 +89,12 @@ class Database
 			$stm->execute();
 			$pi = $stm->fetch(PDO::FETCH_ASSOC);
 			return $pi;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $exclude_pi_id
 	 * @return bool
@@ -104,11 +108,12 @@ class Database
 			$stm->execute();
 			$pis = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $pis;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $topic_id
 	 * @return bool
@@ -121,11 +126,12 @@ class Database
 			$stm->execute();
 			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -136,11 +142,12 @@ class Database
 			$stm->execute();
 			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @return bool
@@ -153,11 +160,12 @@ class Database
 			$stm->execute();
 			$staff = $stm->fetch(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @param $pi_id
@@ -172,11 +180,12 @@ class Database
 			$stm->execute();
 			$capacity = $stm->fetch(PDO::FETCH_ASSOC);
 			return $capacity;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $staff_id
 	 * @param $pi_id
@@ -187,7 +196,7 @@ class Database
 	{
 		try {
 			$sql
-				   = "INSERT INTO `capacities` (
+				 = "INSERT INTO `capacities` (
 					pi_id,
 					staff_id,
 					capacity
@@ -206,11 +215,12 @@ class Database
 			if ($stm->execute()) {
 				return true;
 			}
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @param int $pi_id
@@ -226,11 +236,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $features;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $f_id
 	 * @return bool
@@ -243,11 +254,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature = $stm->fetch(PDO::FETCH_ASSOC);
 			return $feature;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $sme
 	 * @return bool
@@ -275,11 +287,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature = $stm->fetchALL(PDO::FETCH_ASSOC);
 			return $feature;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $feature_info
 	 * @return bool
@@ -296,7 +309,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					}
 				}
 			}
-
+			
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
@@ -308,7 +321,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_JS'          => $feature_info['f_JS'],
 				':f_type'        => $feature_info['f_type'],
 				':f_status_id'   => $feature_info['f_status_id'],
-
+			
 			];
 			if ($feature_info['f_id'] == 0) {
 				$ranking = 0;
@@ -321,34 +334,35 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					$ranking = $ranking_result['ranking'] + 1;
 				}
 				$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";
-
+				
 				$stm = $this->pdo->prepare($sql);
 				unset($data[':f_id']);
 				$data[':f_topic_id'] = $feature_info['topic_id'];
 				$data[':f_PI']       = $feature_info['pi_id'];
 				$data[':f_ranking']  = $ranking;
-
+				
 				$stm->execute($data);
-
+				
 				$f_id                 = $this->pdo->lastInsertId();
 				$feature_info['f_id'] = $f_id;
 			} else {
 				$data[':f_topic_id'] = $feature_info['topic_id'];
-
+				
 				$stm = $this->pdo->prepare("UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_storypoints=:f_storypoints, f_status_id=:f_status_id,f_BV=:f_BV,f_TC=:f_TC,f_RROE=:f_RROE,f_JS=:f_JS,f_type=:f_type,f_topic_id=:f_topic_id WHERE f_id=:f_id");
 				$stm->execute($data);
 				$f_id = $feature_info['f_id'];
 			}
 			// Save detailss
-
+			
 			$this->saveFeatureDetails($f_id, $feature_info);
 			$this->saveFeatureFiles($f_id, $feature_info);
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $feature_info
 	 * @return bool
@@ -358,15 +372,15 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		try {
 			
 			$feature_info['f_status_id'] = isset($feature_info['einreichen']) ? 6 : 5;
-
-
+			
+			
 			foreach ($feature_info as $key => $value) {
-
+				
 				if ($value == '') {
 					$feature_info[$key] = null;
 				}
 			}
-
+			
 			$data = [
 				':f_id'          => $feature_info['f_id'],
 				':f_title'       => $feature_info['f_title'],
@@ -383,43 +397,44 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_JS'          => $feature_info['f_JS'],
 				':f_is_FR'       => 1
 			];
-
+			
 			if (!$feature_info['f_id']) {
 				$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS,f_is_FR) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS,:f_is_FR)";
 				unset($data[':f_id']);
 			} else {
 				$data = [
-					':f_id'        => $feature_info['f_id'],
-					':f_title'     => $feature_info['f_title'],
-					':f_desc'      => $feature_info['f_desc'],
+					':f_id'          => $feature_info['f_id'],
+					':f_title'       => $feature_info['f_title'],
+					':f_desc'        => $feature_info['f_desc'],
 					':f_storypoints' => $feature_info['f_storypoints'],
-					':f_status_id' => $feature_info['f_status_id'],
-					':f_topic_id'  => $feature_info['f_topic'],
+					':f_status_id'   => $feature_info['f_status_id'],
+					':f_topic_id'    => $feature_info['f_topic'],
 					':f_type'        => $feature_info['f_type'],
 					':f_BV'          => $feature_info['f_BV'],
 					':f_TC'          => $feature_info['f_TC'],
 					':f_RROE'        => $feature_info['f_RROE'],
 					':f_JS'          => $feature_info['f_JS'],
-					':f_is_FR'     => 1
+					':f_is_FR'       => 1
 				];
 				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_is_FR=:f_is_FR, f_storypoints = :f_storypoints, f_BV = :f_BV, f_TC = :f_TC, f_RROE = :f_RROE, f_JS = :f_JS, f_type = :f_type WHERE f_id=:f_id";
 			}
 			
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
-
+			
 			$f_id                 = (!$feature_info['f_id'] ? $this->pdo->lastInsertId() : $feature_info['f_id']);
 			$feature_info['f_id'] = $f_id;
-			$_POST['f_id'] = $f_id;
+			$_POST['f_id']        = $f_id;
 			// Save details
 			$this->saveFeatureDetails($f_id, $feature_info);
 			return $this->saveFeatureFiles($f_id, $feature_info);
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $f_id
 	 * @param array $feature_info
@@ -428,7 +443,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureDetails($f_id, $feature_info)
 	{
 		try {
-
+			
 			$data = [
 				':f_id'                  => $f_id,
 				':f_note'                => $feature_info['f_note'],
@@ -448,9 +463,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_outofscope'          => $feature_info['f_outofscope'],
 				':f_risks'               => $feature_info['f_risks']
 			];
-
+			
 			$sql
-				   = "INSERT INTO `feature_details` (
+				 = "INSERT INTO `feature_details` (
 					f_id,
 					f_note,
 					f_benefit,
@@ -507,16 +522,17 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					f_risks = :f_risks
 					";
 			$stm = $this->pdo->prepare($sql);
-
+			
 			$stm->execute($data);
 			return true;
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
 	/**
 	 * @param $epic_info
 	 * @return bool
@@ -526,8 +542,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		try {
 			$epic_info['e_status_id'] = isset($epic_info['einreichen']) ? 2 : 1;
 			
-			foreach ($epic_info as $key=>$value){
-				if($value == ''){
+			foreach ($epic_info as $key => $value) {
+				if ($value == '') {
 					$epic_info[$key] = NULL;
 				}
 			}
@@ -537,7 +553,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':e_status_id' => $epic_info['e_status_id'],
 				':e_owner'     => $epic_info['e_owner']
 			];
-
+			
 			if (!$epic_info['e_id']) {
 				$sql             = "INSERT INTO epics (e_title,e_desc,team_id,e_status_id,e_owner) VALUES (:e_title,:e_desc,:team_id,:e_status_id,:e_owner)";
 				$data[':e_desc'] = '';
@@ -546,21 +562,23 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$data[':e_id'] = $epic_info['e_id'];
 			}
 			$stm = $this->pdo->prepare($sql);
-
+			
 			$stm->execute($data);
 			#echo str_replace(array_keys($data), array_values($data), $sql);exit;
 			$e_id              = (!$epic_info['e_id'] ? $this->pdo->lastInsertId() : $epic_info['e_id']);
 			$epic_info['e_id'] = $e_id;
-			$_POST['e_id'] = $e_id;
-
+			$_POST['e_id']     = $e_id;
+			
 			// Save details
-			return $this->saveEpicDetails($e_id, $epic_info);
-
-		} catch (PDOException $e) {
+			 $this->saveEpicDetails($e_id, $epic_info);
+			return $this->saveEpicFiles($e_id, $epic_info);
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $e_id
 	 * @param array $epic_info
@@ -569,27 +587,47 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveEpicDetails($e_id, $epic_info)
 	{
 		try {
-
+			
 			$data = [
-				':e_id'                   => $e_id,
-				':e_hs_for'               => $epic_info['e_hs_for'],
-				':e_hs_for_desc'          => $epic_info['e_hs_for_desc'],
-				':e_hs_solution'          => $epic_info['e_hs_solution'],
-				':e_hs_how'               => $epic_info['e_hs_how'],
-				':e_hs_value'             => $epic_info['e_hs_value'],
-				':e_hs_unlike'            => $epic_info['e_hs_unlike'],
-				':e_hs_oursoluion'        => $epic_info['e_hs_oursoluion'],
-				':e_hs_businessoutcome'   => $epic_info['e_hs_businessoutcome'],
-				':e_hs_leadingindicators' => $epic_info['e_hs_leadingindicators'],
-				':e_hs_nfr'               => $epic_info['e_hs_nfr'],
-				':e_notes'                => $epic_info['e_notes']
+				':e_id'                                   => $e_id,
+				':e_hs_for'                               => $epic_info['e_hs_for'],
+				':e_hs_for_desc'                          => $epic_info['e_hs_for_desc'],
+				':e_hs_solution'                          => $epic_info['e_hs_solution'],
+				':e_hs_how'                               => $epic_info['e_hs_how'],
+				':e_hs_value'                             => $epic_info['e_hs_value'],
+				':e_hs_unlike'                            => $epic_info['e_hs_unlike'],
+				':e_hs_oursoluion'                        => $epic_info['e_hs_oursoluion'],
+				':e_hs_businessoutcome'                   => $epic_info['e_hs_businessoutcome'],
+				':e_hs_leadingindicators'                 => $epic_info['e_hs_leadingindicators'],
+				':e_hs_nfr'                               => $epic_info['e_hs_nfr'],
+				':e_notes'                                => $epic_info['e_notes'],
+				':e_in_scope'                             => $epic_info['e_in_scope'],
+				':e_out_of_scope'                         => $epic_info['e_out_of_scope'],
+				':e_mvp_features'                         => $epic_info['e_mvp_features'],
+				':e_additional_potential_features'        => $epic_info['e_additional_potential_features'],
+				':e_sponsors'                             => $epic_info['e_sponsors'],
+				':e_users_markets_affected'               => $epic_info['e_users_markets_affected'],
+				':e_impact_products_programs_services'    => $epic_info['e_impact_products_programs_services'],
+				':e_impact_sales_distribution_deployment' => $epic_info['e_impact_sales_distribution_deployment'],
+				':e_analysis_summary'                     => $epic_info['e_analysis_summary'],
+				':e_is_go'                                => $epic_info['e_is_go'],
+				':e_estimated_story_points'               => $epic_info['e_estimated_story_points'],
+				':e_estimated_monetary_cost'              => $epic_info['e_estimated_monetary_cost'],
+				':e_type_of_return'                       => $epic_info['e_type_of_return'],
+				':e_anticipated_business_impact'          => $epic_info['e_anticipated_business_impact'],
+				':e_development_type'                     => $epic_info['e_development_type'],
+				':e_start_date'                           => $epic_info['e_start_date'],
+				':e_completion_date'                      => $epic_info['e_completion_date'],
+				':e_incremental_implementation_strategy'  => $epic_info['e_incremental_implementation_strategy'],
+				':e_sequencing_dependencies'              => $epic_info['e_sequencing_dependencies'],
+				':e_milestones'                           => $epic_info['e_milestones']
 			];
-
+			
 			$sql
-				   = "INSERT INTO `epic_details` (
+				 = "INSERT INTO `epic_details` (
 								e_id,
-								`e_hs_for`,
-								`e_hs_for_desc`,
+								e_hs_for,
+								e_hs_for_desc,
 								e_hs_solution,
 								e_hs_how,
 								e_hs_value,
@@ -598,7 +636,27 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 								e_hs_businessoutcome,
 								e_hs_leadingindicators,
 								e_hs_nfr,
-								e_notes
+								e_notes,
+								e_in_scope,
+								e_out_of_scope,
+								e_mvp_features,
+								e_additional_potential_features,
+								e_sponsors,
+								e_users_markets_affected,
+								e_impact_products_programs_services,
+								e_impact_sales_distribution_deployment,
+								e_analysis_summary,
+								e_is_go,
+								e_estimated_story_points,
+								e_estimated_monetary_cost,
+								e_type_of_return,
+								e_anticipated_business_impact,
+								e_development_type,
+								e_start_date,
+								e_completion_date,
+								e_incremental_implementation_strategy,
+								e_sequencing_dependencies,
+								e_milestones
 							) VALUES (
 								:e_id,
 								:e_hs_for,
@@ -611,11 +669,31 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 								:e_hs_businessoutcome,
 								:e_hs_leadingindicators,
 								:e_hs_nfr,
-								:e_notes
+								:e_notes,
+								:e_in_scope,
+								:e_out_of_scope,
+								:e_mvp_features,
+								:e_additional_potential_features,
+								:e_sponsors,
+								:e_users_markets_affected,
+								:e_impact_products_programs_services,
+								:e_impact_sales_distribution_deployment,
+								:e_analysis_summary,
+								:e_is_go,
+								:e_estimated_story_points,
+								:e_estimated_monetary_cost,
+								:e_type_of_return,
+								:e_anticipated_business_impact,
+								:e_development_type,
+								:e_start_date,
+								:e_completion_date,
+								:e_incremental_implementation_strategy,
+								:e_sequencing_dependencies,
+								:e_milestones
 							)
 							ON DUPLICATE KEY UPDATE
-								`e_hs_for` = :e_hs_for,
-								`e_hs_for_desc` = :e_hs_for_desc,
+								e_hs_for = :e_hs_for,
+								e_hs_for_desc = :e_hs_for_desc,
 								e_hs_solution = :e_hs_solution,
 								e_hs_how = :e_hs_how,
 								e_hs_value = :e_hs_value,
@@ -624,19 +702,42 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 								e_hs_businessoutcome = :e_hs_businessoutcome,
 								e_hs_leadingindicators = :e_hs_leadingindicators,
 								e_hs_nfr = :e_hs_nfr,
-								e_notes = :e_notes
+								e_notes = :e_notes,
+								e_in_scope = :e_in_scope,
+								e_out_of_scope = :e_out_of_scope,
+								e_mvp_features = :e_mvp_features,
+								e_additional_potential_features = :e_additional_potential_features,
+								e_sponsors = :e_sponsors,
+								e_users_markets_affected = :e_users_markets_affected,
+								e_impact_products_programs_services = :e_impact_products_programs_services,
+								e_impact_sales_distribution_deployment = :e_impact_sales_distribution_deployment,
+								e_analysis_summary = :e_analysis_summary,
+								e_is_go = :e_is_go,
+								e_estimated_story_points = :e_estimated_story_points,
+								e_estimated_monetary_cost = :e_estimated_monetary_cost,
+								e_type_of_return = :e_type_of_return,
+								e_anticipated_business_impact = :e_anticipated_business_impact,
+								e_development_type = :e_development_type,
+								e_start_date = :e_start_date,
+								e_completion_date = :e_completion_date,
+								e_incremental_implementation_strategy = :e_incremental_implementation_strategy,
+								e_sequencing_dependencies = :e_sequencing_dependencies,
+								e_milestones = :e_milestones
 								";
 			$stm = $this->pdo->prepare($sql);
-
+			
 			$stm->execute($data);
-			#echo str_replace(array_keys($data), array_values($data), $sql);exit;
+			
+			//echo str_replace(array_keys($data), array_values($data), $sql); exit;
+			
 			return true;
-
-		} catch (PDOException $e) {
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $f_id
 	 * @param $feature_info
@@ -645,28 +746,27 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveFeatureFiles($f_id, $feature_info)
 	{
 		try {
-			define('W_ROOT', 'http://localhost/pm_tool');
-
+			
 			$countfiles = count($_FILES['f_file']['name']);
 			if ($countfiles > 0) {
-
+				
 				// Looping all files
 				for ($i = 0; $i < $countfiles; $i++) {
 					$filename = $_FILES['f_file']['name'][$i];
-
+					
 					if ($filename) {
 						$f_file_name = explode('.', $filename);
-						$newfilename = $f_file_name[0].'_'.date('dmYHis').'.'.$f_file_name[1];
-
-						move_uploaded_file($_FILES['f_file']['tmp_name'][$i], 'upload/'.$newfilename);
-						$fileurl = W_ROOT.'/upload/'.$newfilename;
-
+						$newfilename = $f_file_name[0] . '_' . date('dmYHis') . '.' . $f_file_name[1];
+						
+						move_uploaded_file($_FILES['f_file']['tmp_name'][$i], 'upload/' . $newfilename);
+						$fileurl = W_ROOT . '/upload/' . $newfilename;
+						
 						$file_data = [
 							':f_id'       => $f_id,
 							':f_filename' => $newfilename,
 							':f_fileurl'  => $fileurl,
 						];
-
+						
 						$sql = "INSERT INTO `feature_files` (
 							f_id,
 							f_filename,
@@ -679,16 +779,65 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 						$stm = $this->pdo->prepare($sql);
 						$stm->execute($file_data);
 					}
-
+					
 				}
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
+	public function saveEpicFiles($e_id, $epic_info)
+	{
+		
+		try {
+			$countfiles = count($_FILES['e_file']['name']);
+			if ($countfiles > 0) {
+				
+				// Looping all files
+				for ($i = 0; $i < $countfiles; $i++) {
+					$filename = $_FILES['e_file']['name'][$i];
+					
+					if ($filename) {
+						$e_file_name = explode('.', $filename);
+						$newfilename = $e_file_name[0] . '_' . date('dmYHis') . '.' . $e_file_name[1];
+						
+						move_uploaded_file($_FILES['e_file']['tmp_name'][$i], 'upload/' . $newfilename);
+						$fileurl = W_ROOT . '/upload/' . $newfilename;
+						
+						$file_data = [
+							':e_id'       => $e_id,
+							':e_filename' => $newfilename,
+							':e_fileurl'  => $fileurl,
+						];
+						
+						
+						$sql = "INSERT INTO `epic_files` (
+							e_id,
+							e_filename,
+							e_fileurl
+						) VALUES (
+							:e_id,
+							:e_filename,
+							:e_fileurl
+						)";
+						$stm = $this->pdo->prepare($sql);
+						$stm->execute($file_data);
+					}
+					
+				}
+			}
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+		
+	}
+	
 	/**
 	 * @param $f_id
 	 * @return bool
@@ -699,29 +848,30 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm = $this->pdo->prepare("DELETE FROM `features` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-
+			
 			$stm = $this->pdo->prepare("DELETE FROM `feature_details` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-
+			
 			$stm = $this->pdo->prepare("DELETE FROM `feature_files` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $pi_id
 	 * @param $f_ids
 	 * @return bool
 	 */
-	public function updateFeatureRanking($pi_id, $f_ids,$topic_id)
+	public function updateFeatureRanking($pi_id, $f_ids, $topic_id)
 	{
 		try {
 			$f_ids = explode(',', $f_ids);
-
+			
 			foreach ($f_ids as $key => $value) {
 				$stm = $this->pdo->prepare("UPDATE `features` SET f_PI = :f_PI,f_ranking = :f_ranking,f_topic_id = :f_topic_id WHERE `f_id` = :f_id ");
 				$stm->bindParam(':f_ranking', $key);
@@ -731,11 +881,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$stm->execute();
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -746,11 +897,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature_types = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_types;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -761,11 +913,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$feature_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $feature_statuses;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $topic_id
 	 * @param int $pi_id
@@ -783,12 +936,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			if ($result['total_capacity']) {
 				return $result['total_capacity'];
 			}
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return 0;
 	}
-
-
+	
+	
 	/**
 	 * @param $f_id
 	 * @return bool
@@ -801,12 +955,26 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$featurefiles = $stm->fetchALL(PDO::FETCH_ASSOC);
 			return $featurefiles;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
-
+	public function getEpicFilesByFeatureId($e_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `epic_files` WHERE `e_id` = :e_id");
+			$stm->bindParam(':e_id', $e_id);
+			$stm->execute();
+			$featurefiles = $stm->fetchALL(PDO::FETCH_ASSOC);
+			return $featurefiles;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * @param $id
 	 * @param $file_name
@@ -818,14 +986,27 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm = $this->pdo->prepare("DELETE FROM `feature_files` WHERE `id` = :id");
 			$stm->bindParam(':id', $id);
 			$stm->execute();
-			unlink('upload/'.$file_name);
-
-		} catch (PDOException $e) {
+			unlink('upload/' . $file_name);
+			
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
-
+	public function deleteFileEpic($id, $file_name)
+	{
+		try {
+			$stm = $this->pdo->prepare("DELETE FROM `epic_files` WHERE `id` = :id");
+			$stm->bindParam(':id', $id);
+			$stm->execute();
+			unlink('upload/' . $file_name);
+			
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
 	/**
 	 * @param $username
 	 * @param $password
@@ -833,7 +1014,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	 */
 	public function getUserData($username, $password)
 	{
-
+		
 		try {
 			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
@@ -841,12 +1022,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
 			return $userdata;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
-
+		
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -857,11 +1039,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $owner_id
 	 * @return bool
@@ -875,11 +1058,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute($query_params);
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $e_id
 	 * @return bool
@@ -900,17 +1084,18 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 							    ON epd.`e_id` = ep.`e_id`
 							WHERE ep.e_id = :e_id
 			";
-
+			
 			$stm          = $this->pdo->prepare($sql);
 			$query_params = [':e_id' => $e_id];
 			$stm->execute($query_params);
 			$epics = $stm->fetch(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -921,12 +1106,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epic_statuses = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epic_statuses;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
-
+	
+	
 	/**
 	 * @return array|bool
 	 */
@@ -941,12 +1127,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$help_text[$helptext['field_name']] = $helptext['tooltip'];
 			}
 			return $help_text;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
-
+	
+	
 	/**
 	 * @param $id
 	 * @return bool
@@ -959,11 +1146,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$highlight_color = $stm->fetch(PDO::FETCH_ASSOC);
 			return $highlight_color;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -974,11 +1162,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$teams = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $teams;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $team_id
 	 * @return bool
@@ -991,11 +1180,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $epic_id
 	 * @param int $pi_id
@@ -1005,7 +1195,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function getFeaturesByEpicAndPI($epic_id = 0, $pi_id = 0, $team_id = 0)
 	{
 		try {
-
+			
 			$sql = "
 				SELECT f.*, ep.e_title,fd.*,featuretypes.highlight_color
 				FROM features as f
@@ -1020,11 +1210,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $features;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -1035,11 +1226,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -1050,13 +1242,15 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Enter capacity of missing staff and pi
+	 *
 	 * @return bool
 	 */
 	public function checkCapacity()
@@ -1077,11 +1271,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				}
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $id
 	 * @return bool
@@ -1094,11 +1289,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$epics = $stm->fetch(PDO::FETCH_ASSOC);
 			return $epics;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param $id
 	 * @return bool
@@ -1111,10 +1307,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$teams = $stm->fetch(PDO::FETCH_ASSOC);
 			return $teams;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
+	
 	public function getTopicsByTeam($id)
 	{
 		try {
@@ -1123,10 +1321,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$teams = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $teams;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
+	
 	public function getStaffByTeam($team_id)
 	{
 		try {
@@ -1135,11 +1335,13 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-	public function getStaffByTeamAndTopic($team_id,$topic_id)
+	
+	public function getStaffByTeamAndTopic($team_id, $topic_id)
 	{
 		try {
 			$stm = $this->pdo->prepare("SELECT * FROM `staff` WHERE `staff_team_id` = :staff_team_id AND `staff_topic_id` = :staff_topic_id  ");
@@ -1148,7 +1350,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$staff = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $staff;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
@@ -1164,7 +1367,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			if ($result['total_capacity']) {
 				return $result['total_capacity'];
 			}
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return 0;
 	}
