@@ -139,27 +139,37 @@ $(function () {
       var form = $('form[name="epic_request_form"]');
       form.find('input[name="action"]').val('epic-request');
     });
-    $('#feature_antrag').on('click', function () {
-      $("#e_title").rules("add", {
-        required : true,
-        maxlength: 30
-      });
-      $("#e_status_id").rules("add", "required");
-      $("#e_hs_for").rules("add", "required");
-      $("#e_hs_for_desc").rules("add", "required");
-      $("#e_hs_solution").rules("add", "required");
-      $("#e_hs_how").rules("add", "required");
-      $("#e_hs_value").rules("add", "required");
-      $("#e_hs_unlike").rules("add", "required");
-      $("#e_hs_oursoluion").rules("add", "required");
-      $("#e_hs_businessoutcome").rules("add", "required");
-      $("#e_hs_leadingindicators").rules("add", "required");
-      $("#e_hs_nfr").rules("add", "required");
-      $("#e_owner").rules("add", "required");
-      $("#team_id").rules("add", "required");
-      var form = $('form[name="epic_request_form"]');
-      form.find('input[name="action"]').val('print-feature');
-      form.submit();
+
+
+
+    $('#epic_request_form .print_option').on('change', function () {
+
+      //alert('yes');
+
+      if ($(this).val() != '') {
+
+        $("#e_title").rules("add", {
+          required : true,
+          maxlength: 30
+        });
+        $("#e_status_id").rules("add", "required");
+        $("#e_hs_for").rules("add", "required");
+        $("#e_hs_for_desc").rules("add", "required");
+        $("#e_hs_solution").rules("add", "required");
+        $("#e_hs_how").rules("add", "required");
+        $("#e_hs_value").rules("add", "required");
+        $("#e_hs_unlike").rules("add", "required");
+        $("#e_hs_oursoluion").rules("add", "required");
+        $("#e_hs_businessoutcome").rules("add", "required");
+        $("#e_hs_leadingindicators").rules("add", "required");
+        $("#e_hs_nfr").rules("add", "required");
+        $("#e_owner").rules("add", "required");
+        $("#team_id").rules("add", "required");
+        var form = $('form[name="epic_request_form"]');
+        form.find('input[name="action"]').val('print-feature');
+        form.submit();
+        $('.print_option').prop('selectedIndex', 0);
+      }
     });
   }
   function deleteFile() {

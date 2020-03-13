@@ -51,7 +51,7 @@ switch ($action) {
 			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
 			if ($_POST['f_id']) {
-				$_SESSION['feature-request-success'] = 'Feature request wurder erfolgreich aktualisiert.';
+				$_SESSION['feature-request-success'] = 'Feature #'.$_POST['f_id'].' request wurder erfolgreich aktualisiert.';
 				if($count == 1){
 					$mailer->sendFeatureRequestEmail($_POST);
 				}
@@ -113,7 +113,7 @@ switch ($action) {
 				if($count == 1){
 					$mailer->sendEpicRequestEmail($_POST);
 				}
-				$_SESSION['epic-request-success'] = 'Epic Request wurder erfolgreich aktualisiert.';
+				$_SESSION['epic-request-success'] = 'Epic #'.$_POST['e_id'].' Request wurder erfolgreich aktualisiert.';
 				
 			} else {
 				$_SESSION['epic-request-success'] = 'Epic Request wurde erfolgreich gespeichert';

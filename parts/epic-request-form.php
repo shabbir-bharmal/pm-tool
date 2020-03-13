@@ -25,7 +25,6 @@ if ($login_id !== $staff_id) {
 <form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form" enctype='multipart/form-data'>
 	<input type="hidden" name="e_id" value="<?php echo $e_id; ?>">
 	<input type="hidden" name="action" id="action" value="epic-request">
-    <input type="hidden" name="print_option" id="print_option" value="epic_antrag">
 	<div class="form-group row">
 		<label for="e_title" class="col-3 col-xs-12 col-form-label">Titel: <?php if ($helptexts['e_title']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_title'] . "'></i>";
@@ -97,8 +96,13 @@ if ($login_id !== $staff_id) {
 			<button name="einreichen" id="EINREICHEN" class="btn btn-primary"  <?php echo $disabled; ?> >EINREICHEN</button>
 		<?php } ?>
 		&nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
-        <button name="feature_antrag" id="feature_antrag" class="btn btn-primary mx-auto"  <?php echo $disabled; ?> >Feature-Antrag</button>
-	</div>
+        <div class="form-group col-md-4 mx-auto p-0">
+            <select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
+                <option value="" selected="selected">Drucken</option>
+                <option value="epic_antrag">Feature-Antrag</option>
+            </select>
+        </div>
+    </div>
 </form>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">

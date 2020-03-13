@@ -113,7 +113,7 @@ $(function () {
             });
         });
 
-        $('.print_option').on('change', function () {
+        $('#feature_form .print_option').on('change', function () {
             if ($(this).val() != '') {
                 var form = $('form[name="feature_form"]');
                 var actual_action = form.find('input[name="action"]').val();
