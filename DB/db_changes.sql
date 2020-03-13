@@ -52,6 +52,9 @@ ALTER TABLE `epics` CHANGE `e_status_id` `e_status_id` INT(11) NULL DEFAULT '1';
 -- 11 March 2020
 ALTER TABLE `feature_details` ADD edited_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 ALTER TABLE `feature_details` CHANGE `created_date` `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+
+-- 12 March 2020
 ALTER TABLE `topics` ADD `team_id` INT(11) NOT NULL AFTER `capacity_source`;
 UPDATE `topics` SET `team_id` = '1' WHERE `topics`.`id` = 1;
 UPDATE `topics` SET `team_id` = '1' WHERE `topics`.`id` = 2;
@@ -60,3 +63,13 @@ UPDATE `topics` SET `team_id` = '2' WHERE `topics`.`id` = 4;
 UPDATE `topics` SET `team_id` = '3' WHERE `topics`.`id` = 5;
 UPDATE `topics` SET `team_id` = '3' WHERE `topics`.`id` = 7;
 UPDATE `topics` SET `team_id` = '3' WHERE `topics`.`id` = 9;
+
+
+CREATE TABLE `epic_files` (
+  `id` int(11) NOT NULL,
+  `e_id` int(11) NOT NULL,
+  `e_filename` varchar(255) NOT NULL,
+  `e_fileurl` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `epic_files`
+  ADD PRIMARY KEY (`id`);

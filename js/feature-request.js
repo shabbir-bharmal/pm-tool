@@ -115,10 +115,55 @@ $(function () {
             form.submit();
         });
     }
+
     $('#f_due_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
     $('[data-toggle="popover"]').popover();
+
+    function calculateWSJF() {
+
+        $("#f_BV,#f_TC,#f_RROE,#f_JS").on('change', function () {
+            var f_BV = $("#f_BV").val();
+            var f_TC = $("#f_TC").val();
+            var f_RROE = $("#f_RROE").val();
+            var f_JS = $("#f_JS").val();
+            if (f_JS == 0) {
+                $(".f_WSJF").html('= 0');
+            } else {
+                var wsjf = (parseInt(f_BV) + parseInt(f_TC) + parseInt(f_RROE)) / parseInt(f_JS);
+                $(".f_WSJF").html('= ' + wsjf);
+            }
+        });
+    }
+    function deleteFile() {
+        $('.delete_file').on('click', function () {
+            var file_id = $(this).data('file_id');
+            var file_name = $(this).data('file_name');
+            bootbox.confirm("Bist Du sicher, dass Du die Datei löschen willst?", function (result) {
+                if (result == '1') {
+                    $.ajax({
+                        url    : wroot + '/ajax.php?action=delete-file&file_id=' + file_id + '&file_name=' + file_name,
+                        type   : 'GET',
+                        success: function (response) {
+                            $("tr[data-row_id=" + file_id + "]").remove();
+                        }
+                    });
+                }
+            });
+        });
+    }
+    function updateMehrLink() {
+        $("input#f_mehr_details").on('blur', function () {
+            if ($(this).val() != '') {
+                $('.f_mehr_link').attr('href', $(this).val());
+            }
+        });
+    }
+
     formValidation();
     validateForm();
+    calculateWSJF();
+    deleteFile();
+    updateMehrLink();
 });

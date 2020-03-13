@@ -45,8 +45,6 @@
 			} ?> <span class="text-danger ml-1">*</span> </label>
         <input type="text" name="f_due_date" id="f_due_date" value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>" class="form-control" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
     </div>
-    
- 
 
     <div class="form-group col-10">
         <label for="f_mehr_details" class="col-form-label">Mehr Details: <?php if ($helptexts['f_mehr_details']) {

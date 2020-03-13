@@ -65,7 +65,7 @@ class Mailer
 
 			$mail->Body = $body;
 
-			$mail->send();
+		//	$mail->send();
 			return true;
 		} catch (Exception $e) {
 
