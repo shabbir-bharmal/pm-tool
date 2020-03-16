@@ -12,7 +12,7 @@ $type = 1;
 if($feature_info['f_type']){
 	$type = $feature_info['f_type'];
 }
-$f_responsible = $_SESSION['login_user_data']['staff_id'];
+//$f_responsible = $_SESSION['login_user_data']['staff_id'];
 if($feature_info['f_responsible']){
 	$f_responsible = $feature_info['f_responsible'];
 }
@@ -20,7 +20,7 @@ if($feature_info['f_responsible']){
 $login_id         = $_SESSION['login_user_data']['staff_id'];
 $staff_id         = $login_id;
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
-$opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20', '40');
+$opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20');
 if ($feature_info['f_SME']) {
 	$staff_id = $feature_info['f_SME'];
 }
@@ -64,16 +64,34 @@ if ($login_id !== $staff_id) {
 
     <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="antragsformular-tab" data-toggle="tab" href="#antragsformular" role="tab" aria-controls="antragsformular" aria-selected="true">Antragsformular</a>
+            <a class="nav-link active" id="antragsformular-tab" data-toggle="tab" href="#antragsformular" role="tab" aria-controls="antragsformular" aria-selected="true">Antragsformular
+              <?php
+                 if($epic['e_title'] <> "" || $feature_info['f_topic_id'] <> "" || $feature_info['f_desc'] <> "" || $feature_info['f_context'] <> "" || $feature_info['f_problemdessc'] <> "" || $feature_info['f_currentstate'] <> "" || $feature_info['f_targetstate'] <> "" || $feature_info['f_benefit'] <> "" || $feature_info['f_inscope'] <> "" || $feature_info['f_outofscope'] <> "" || $feature_info['f_due_date'] <> "" || $feature_info['f_dependencies'] <> "" || $feature_info['f_risks'] <> "" || $feature_info['f_note'] ){
+               echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+              } 
+              ?>  
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Kommetare</a>
+            <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Kommentare</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="dateien-tab" data-toggle="tab" href="#dateien" role="tab" aria-controls="dateien" aria-selected="false">Dateien</a>
+            <a class="nav-link" id="dateien-tab" data-toggle="tab" href="#dateien" role="tab" aria-controls="dateien" aria-selected="false">Dateien
+              <?php
+              if(count($feature_files)>0){
+                 echo '<i class="fa fa-smile-o" title="Es sind '.count($feature_files).' Datei(en) vorhanden"></i>';
+              } 
+              ?>              
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="weitere-tab" data-toggle="tab" href="#weitere" role="tab" aria-controls="weitere" aria-selected="false">Weitere Infos</a>
+            <a class="nav-link" id="weitere-tab" data-toggle="tab" href="#weitere" role="tab" aria-controls="weitere" aria-selected="false">Weitere Infos
+              <?php
+                 if($type <> "" || $feature_info['f_storypoints'] > 0 || $feature_info['f_BV'] > 0 || $feature_info['f_TC'] > 0 || $feature_info['f_RROE'] > 0 || $feature_info['f_JS'] > 0 || $feature_info['f_acceptance_criteria'] <> "" || $feature_info['f_mehr_details'] <> "" || $f_responsible <>"" ){
+               echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+              } 
+              ?>             
+            </a>
         </li>
     </ul>
     <div class="tab-content" id="featureTabContent">
@@ -94,36 +112,40 @@ if ($login_id !== $staff_id) {
     <!--tab End -->
     <br>
 
+    <div class="form-group row">
+        <div class="col-5">
+            <button name="speichern" id="SPEICHERN" class="btn btn-primary" <?php echo $disabled; ?>>SPEICHERN</button>
+    		<?php if (($f_id && $feature_info['f_status_id'] == 5) || !$f_id) { ?>
+                &nbsp;
+                <button name="einreichen" id="EINREICHEN" class="btn btn-primary" <?php echo $disabled; ?>>EINREICHEN</button>
+    		<?php } ?>
+            &nbsp;&nbsp;&nbsp;<div><span class="text-danger ml-1">*</span> = Pflichtfelder</div>
+            </div>            
+            <div class="col-3">
+                <select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
+                    <option value="" selected="selected">Drucken</option>
+                    <option value="title">Titel-Karte</option>
+                    <option value="detail">Detail-Karte</option>
+                    <option value="title_nemonic">Titel-Karte (Nemonic)</option>
+                    <option value="feature_antrag">Feature-Antrag</option>
+                </select>
+            </div>
 
-    <div class="form-row">
-        <button name="speichern" id="SPEICHERN" class="btn btn-primary" <?php echo $disabled; ?>>SPEICHERN</button>
-		<?php if (($f_id && $feature_info['f_status_id'] == 5) || !$f_id) { ?>
-            &nbsp;
-            <button name="einreichen" id="EINREICHEN" class="btn btn-primary" <?php echo $disabled; ?>>EINREICHEN</button>
-		<?php } ?>
-        &nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
-        <div class="form-group col-md-4 mx-auto p-0">
-            <select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
-                <option value="" selected="selected">Drucken</option>
-                <option value="title">Titel-Karte</option>
-                <option value="detail">Detail-Karte</option>
-                <option value="title_nemonic">Titel-Karte (Nemonic)</option>
-                <option value="feature_antrag">Feature-Antrag</option>
-            </select>
-        </div>
-    </div>
 </form>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&#10005;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Feature Request einzureichen.</p>
-            </div>
-        </div>
+
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&#10005;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Feature Request einzureichen.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>           
+
     </div>
-</div>

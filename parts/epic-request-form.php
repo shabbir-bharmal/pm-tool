@@ -57,17 +57,39 @@ if ($login_id !== $staff_id) {
     
     <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="antragsformular-tab" data-toggle="tab" href="#antragsformular" role="tab" aria-controls="antragsformular" aria-selected="true">Antragsformular</a>
+            <a class="nav-link active" id="antragsformular-tab" data-toggle="tab" href="#antragsformular" role="tab" aria-controls="antragsformular" aria-selected="true">Antragsformular
+              <?php
+              if($epic_info['e_hs_for_desc'] <> "" || $epic_info['e_hs_solution'] <> "" || $epic_info['e_hs_how'] <> "" || $epic_info['e_hs_value'] <> "" || $epic_info['e_hs_unlike'] <> "" || $epic_info['e_hs_oursoluion'] <> "" || $epic_info['e_hs_businessoutcome'] <> "" || $epic_info['e_hs_leadingindicators'] <> "" || $epic_info['e_hs_nfr'] <> "" || epic_info['team_id'] <> "" || $epic_info['e_owner'] <> "" || $epic_info['e_notes']){
+               echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+              } 
+              ?> 
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Kommetare</a>
+            <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Kommentare</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="dateien-tab" data-toggle="tab" href="#dateien" role="tab" aria-controls="dateien" aria-selected="false">Dateien</a>
+            <a class="nav-link" id="dateien-tab" data-toggle="tab" href="#dateien" role="tab" aria-controls="dateien" aria-selected="false">Dateien
+              <?php
+              if(count($epic_files)>0){
+                 echo '<i class="fa fa-smile-o" title="Es sind '.count($epic_files).' Datei(en) vorhanden"></i>';
+              } 
+              ?>  
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="weitere-tab" data-toggle="tab" href="#weitere" role="tab" aria-controls="weitere" aria-selected="false">Weitere Infos</a>
+            <a class="nav-link" id="weitere-tab" data-toggle="tab" href="#weitere" role="tab" aria-controls="weitere" aria-selected="false">Weitere Infos
+              <?php
+              
+              if($epic_info['e_in_scope'] <> "" || $epic_info['e_out_of_scope'] <> "" || $epic_info['e_mvp_features'] <> "" || $epic_info['e_additional_potential_features'] <> "" || $epic_info['e_sponsors'] <> "" || $epic_info['e_users_markets_affected'] <> "" || $epic_info['e_impact_products_programs_services'] <> "" || $epic_info['e_impact_sales_distribution_deployment'] <> "" || $epic_info['e_analysis_summary'] <> "" || $epic_info['e_is_go'] <> "" || $epic_info['e_estimated_story_points'] <> "" || $epic_info['e_estimated_monetary_cost'] <> "" || $epic_info['e_type_of_return'] <> "" || $epic_info['e_anticipated_business_impact'] <> "" || $epic_info['e_development_type'] <> "" || $epic_info['e_start_date'] <> "" || $epic_info['e_completion_date'] <> "" || $epic_info['e_incremental_implementation_strategy'] <> "" || $epic_info['e_sequencing_dependencies'] <> "" || $epic_info['e_milestones']){
+               echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+              } 
+              ?> 
+            </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="features-tab" data-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features</a>
+        </li>        
     </ul>
     <div class="tab-content" id="featureTabContent">
         <div class="tab-pane fade show active" id="antragsformular" role="tabpanel" aria-labelledby="antragsformular-tab">
@@ -82,6 +104,9 @@ if ($login_id !== $staff_id) {
         <div class="tab-pane fade" id="weitere" role="tabpanel" aria-labelledby="weitere-tab">
 			<?php include_once(F_ROOT . 'parts/manage-epic-request/weitere_tab.php'); ?>
         </div>
+        <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
+			<?php include_once(F_ROOT . 'parts/manage-epic-request/features_tab.php'); ?>
+        </div>        
     </div>
 
     <!--tab End -->
@@ -90,32 +115,36 @@ if ($login_id !== $staff_id) {
     
 
 	<div class="form-row">
+        <div class="col-5">  
 		<button name="speichern" id="SPEICHERN" class="btn btn-primary" <?php echo $disabled; ?> >SPEICHERN</button>
 		<?php if (($e_id && $epic_info['e_status_id'] == 1) || !$e_id) { ?>
 			&nbsp;
 			<button name="einreichen" id="EINREICHEN" class="btn btn-primary"  <?php echo $disabled; ?> >EINREICHEN</button>
 		<?php } ?>
-		&nbsp;&nbsp;&nbsp;<span class="text-danger ml-1">*</span> = Pflichtfelder
-        <div class="form-group col-md-4 mx-auto p-0">
+            &nbsp;&nbsp;&nbsp;<div><span class="text-danger ml-1">*</span> = Pflichtfelder</div>
+            </div>            
+            <div class="col-3">
             <select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
                 <option value="" selected="selected">Drucken</option>
-                <option value="epic_antrag">Feature-Antrag</option>
+                <option value="epic_antrag">Epic-Antrag</option>
             </select>
         </div>
     </div>
 </form>
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&#10005;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Epic Request einzureichen.</p>
-			</div>
-		</div>
-	</div>
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="errorshow">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&#10005;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p>Bitte alle Pflichtfelder ausf<span>&#252;</span>llen, um den Epic Request einzureichen.</p>
+              </div>
+          </div>
+      </div>
+  </div>  
+
 </div>

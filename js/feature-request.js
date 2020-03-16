@@ -150,7 +150,7 @@ $(function () {
         $('.delete_file').on('click', function () {
             var file_id = $(this).data('file_id');
             var file_name = $(this).data('file_name');
-            bootbox.confirm("Bist Du sicher, dass Du die Datei löschen willst?", function (result) {
+            bootbox.confirm("Bist Du sicher, dass Du die Datei l&ouml;schen willst?", function (result) {
                 if (result == '1') {
                     $.ajax({
                         url    : wroot + '/ajax.php?action=delete-file&file_id=' + file_id + '&file_name=' + file_name,

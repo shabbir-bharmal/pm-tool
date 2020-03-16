@@ -19,7 +19,7 @@ $teams                    = $db->getTeams();
 $topics                   = $db->getTopicsByTeam($selected_team);
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
-	$error = "You don't have enough permission to view this page.";
+	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [11]. <br><a href='".W_ROOT."'>Login-Maske</a>";
 }
 
 // Include header
@@ -40,9 +40,14 @@ include_once F_ROOT . 'parts/layout/head.php';
             <div class="col-md-8">
                 <form method="get" name="filter_topic" class="form-horizontal">
                     <div class="form-group row p-3 mb-0">
-                        <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Topics) <?php if ($helptexts['title_roadmap_topics']) {
-								echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
-							} ?> </h2>
+                        <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Topics) 
+                    <span class="h6" style="display: inline-flex;vertical-align: middle;">
+        			       <?php if ($helptexts['title_roadmap_topics']) {
+				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
+			               } ?>                    
+                    </span>              
+              
+              </h2>
                         <div class="col-md-3">
                             <select class="form-control" id="team" name="team">
 								<?php foreach ($teams as $team) {
@@ -55,7 +60,13 @@ include_once F_ROOT . 'parts/layout/head.php';
                         <div class="col-md-3">
                             <select class="form-control" id="topic" name="topic">
                                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
-								<?php foreach ($topics as $topic) {
+                              
+                     
+                                
+								<?php 
+                $gettopisc = $db->getTopicsByTeam($selected_team);   
+                foreach ($gettopisc as $topic) {
+							                
 									$selected = $topic['id'] == $selectedtopic ? "selected='selected'" : ""; ?>
                                     <option value="<?php echo $topic['id']; ?>" <?php echo $selected; ?>><?php echo $topic['name']; ?></option>
 								<?php } ?>

@@ -1,4 +1,4 @@
-</br>
+<br />
 <h5>Zielbeschreibung</h5>
 
 <div class="form-group row">
@@ -129,8 +129,8 @@
 </div>
 
 <div class="form-group row">
-    <label for="team_id" class="col-3 col-xs-12 col-form-label">Team: <?php if ($helptexts['name']) {
-			echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['name'] . "'></i>";
+    <label for="team_id" class="col-3 col-xs-12 col-form-label">Team: <?php if ($helptexts['team_name']) {
+			echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['team_name'] . "'></i>";
 		} ?> <span class="text-danger ml-1">*</span></label>
 
     <div class="col-2 col-xs-12">

@@ -1,8 +1,10 @@
 <?php
 $actual_pi_date           = date('d.m.Y', strtotime($actual_product_increment['pi_start']))." - ".date('d.m.Y', strtotime($actual_product_increment['pi_end']));
 
+$selected_team            = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ? $teams[0]['id'] : 0);
 
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+$can_manage_config = $_SESSION['login_user_data']['can_manage_config'];
 if($can_edit_roadmap == 1){
     $table = '';
 	$disabled = "";
@@ -10,6 +12,13 @@ if($can_edit_roadmap == 1){
 	$table = 'not_move';
 	$disabled = "disabled='true'";
 }
+
+$show_cardfooter_duedate=1;
+$show_cardfooter_wsjf=1;
+$show_cardfooter_sp=1;
+$show_cardfooter_attachments=1;
+$show_cardfooter_sme=1;
+$show_cardfooter_comments=1;
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
@@ -26,7 +35,7 @@ if($can_edit_roadmap == 1){
 				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<div class="form-group col-md-4 mr-auto p-0">
-						<select name="print_option" class="print_option form-control" <?php echo $disabled;?>>
+						<select name="print_option" class="print_option form-control">
 							<option value="" selected="selected">Drucken</option>
 							<option value="title">Titel-Karte</option>
 							<option value="detail">Detail-Karte</option>
@@ -47,14 +56,23 @@ if($can_edit_roadmap == 1){
 		<table class="table table-bordered <?php echo $table;?>">
 			<thead>
 			<tr>
-				<th scope="col">Funnel</th>
-				<th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?></th>
+				<th scope="col">Funnel<div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div><div style='font-size:10px;font-weight: normal;'>&nbsp;</div></th>
+				<th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?><div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div><div style='font-size:10px;font-weight: normal;'><?php echo $actual_pi_date; ?></div>
+        </th>
 				<?php
 				$i = 0;
 				foreach ($product_increments as $product_increment) { ?>
+        <?php
+            	$sp_totals[$product_increment['pi_id']] = 0;
+    					$class = '';
+    					if ($i > 2) {
+    						$class = 'd-none';
+    					}
+    					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start']))." - ".date('d.m.Y', strtotime($product_increment['pi_end']));
+        ?>
 					<th scope="col" class="<?php if ($i > 2) {
 						echo 'd-none';
-					} ?>"><?php echo $product_increment['pi_title']; ?></th>
+					} ?>"><?php echo $product_increment['pi_title']; ?><div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div><div style='font-size:10px;font-weight: normal;'><?php echo $pi_date;?></div></th>
 					<?php
 					$i++;
 				}
@@ -62,29 +80,6 @@ if($can_edit_roadmap == 1){
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>
-					<span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selectedtopic; ?>" data-pi_id="0" title="Add Feature"><i class="fa fa-plus"></i></span>
-				</td>
-				<td><?php echo $actual_pi_date; ?></td>
-				<?php
-				$sp_totals = array();
-				$actual_sp_total = 0;
-				$i = 0;
-				foreach ($product_increments as $product_increment) {
-				 
-					$sp_totals[$product_increment['pi_id']] = 0;
-					$class = '';
-					if ($i > 2) {
-						$class = 'd-none';
-					}
-					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start']))." - ".date('d.m.Y', strtotime($product_increment['pi_end']));
-					echo "<td class='$class'>$pi_date</td>";
-					$i++;
-				}
-				
-				?>
-			</tr>
 			<?php
 			if($selectedtopic != 0){
 				$topics = [];
@@ -102,6 +97,7 @@ if($can_edit_roadmap == 1){
                     if($selectedtopic == 0){ ?>
                         <h2><?php echo $selected_topic_name; ?></h2>
                     <?php } ?>
+                    
                     <div class=" product-increment pi_sortable_0" id="pi_sortable_0" data-topic_id="<?php echo $selected_topic; ?>">
 						<?php
 						$pi_id    = 0;
@@ -109,6 +105,8 @@ if($can_edit_roadmap == 1){
 						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
+              $feature_info  = $db->getFeatureByFeatureId($feature['f_id']);
+              
 								if ($feature['f_JS'] == 0) {
 									$wsjf = 0;
 								} else {
@@ -133,20 +131,65 @@ if($can_edit_roadmap == 1){
 									</div>
 									<?php if ($feature['f_desc']) { ?>
 										<div class="card-body height0">
-											<?php echo substr($feature['f_desc'], 0, 100).'...'; ?>
+                      <?php 
+                      if (strlen ($feature['f_desc'])>250){
+                        echo substr($feature['f_desc'], 0, 250).'[...]';
+                      }else{
+                        echo $feature['f_desc'];
+                      } 
+                       ?>
 										</div>
 									<?php } ?>
 
 									<div class="card-footer">
 										<div class="text-right">
 											<?php if ($feature['f_status_id'] == '3') { ?>
-												<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
+												<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>    
 											<?php } ?>
 											<?php if ($feature['f_mehr_details']) { ?>
 												<a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 											<?php } ?>
-											WSJF: <?php echo number_format($wsjf, 3); ?> |
-											SP: <?php echo $feature['f_storypoints']; ?>
+
+                            <?php
+                            $cardfooter="";
+
+                            if ($show_cardfooter_comments==1){
+                                //if ($feature_info['f_SME']>0){
+                                  $cardfooter.= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
+                                //} 
+                            }    
+                            if ($show_cardfooter_sme==1){
+                                if ($feature_info['f_SME']>0){
+                                  $sme[0] = $db->getStaffById($feature_info['f_SME']);    
+                                  $cardfooter.= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> '.$sme[0]['username'].' | ';
+                                } 
+                            }                             
+                            if ($show_cardfooter_attachments==1){
+                            $feature_files  = $db->getFeatureFilesByFeatureId($feature['f_id']);
+
+                                if (count($feature_files)>0){      
+                                  $cardfooter.= '<i class="fa fa-paperclip" title="Dateien vorhanden"></i> '.count($feature_files).'  | ';
+                                } 
+                            }                              
+                            if ($show_cardfooter_duedate==1){
+                                if ($feature_info['f_due_date']){      
+                                  $cardfooter.= '<i class="fa fa-bell" title="gew&uuml;nschtes Fertigstellungsdatum"></i> '.$feature_info['f_due_date'].' | ';
+                                } 
+                            }                       
+                            if ($show_cardfooter_wsjf==1){
+                               if ($wsjf>0){
+                                  $cardfooter.= '<i class="fa fa-calculator" title="WSJF"></i> '.number_format($wsjf, 3)." | ";
+                               }
+                               
+                            }
+                            if ($show_cardfooter_sp==1){
+                                if ($feature['f_storypoints']>0){      
+                                  $cardfooter.= '<i class="fa fa-tachometer" title="Storypoints"></i> '.$feature['f_storypoints']." | ";
+                                } 
+                            } 
+                            echo '<font style="font-size:10px;">'.substr($cardfooter, 0, -3)."</font>";               
+                             ?>   
+                 
 										</div>
 									</div>
 								</div>
@@ -156,7 +199,11 @@ if($can_edit_roadmap == 1){
 							}
 						}
 						?>
+
 					</div>
+          <?php if($can_edit_roadmap == 1){?>
+          <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id;?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+          <?php } ?>          
 				</td>
 				<!-- Funnel features end -->
     
@@ -196,19 +243,64 @@ if($can_edit_roadmap == 1){
 									</div>
 									<?php if ($feature['f_desc']) { ?>
 										<div class="card-body height0">
-											<?php echo substr($feature['f_desc'], 0, 100).'...'; ?>
+                      <?php 
+                      if (strlen ($feature['f_desc'])>250){
+                        echo substr($feature['f_desc'], 0, 250).'[...]';
+                      }else{
+                        echo $feature['f_desc'];
+                      } 
+                       ?>
 										</div>
 									<?php } ?>
 									<div class="card-footer">
 										<div class="text-right">
 											<?php if ($feature['f_status_id'] == '3') { ?>
-												<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
+												<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>    
 											<?php } ?>
 											<?php if ($feature['f_mehr_details']) { ?>
 												<a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 											<?php } ?>
-											WSJF: <?php echo number_format($wsjf, 3); ?> |
-											SP: <?php echo $feature['f_storypoints']; ?>
+
+                            <?php
+                            $cardfooter="";
+
+                            if ($show_cardfooter_comments==1){
+                                //if ($feature_info['f_SME']>0){
+                                  $cardfooter.= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
+                                //} 
+                            }    
+                            if ($show_cardfooter_sme==1){
+                                if ($feature_info['f_SME']>0){
+                                  $sme[0] = $db->getStaffById($feature_info['f_SME']);    
+                                  $cardfooter.= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> '.$sme[0]['username'].' | ';
+                                } 
+                            }                             
+                            if ($show_cardfooter_attachments==1){
+                            $feature_files  = $db->getFeatureFilesByFeatureId($feature['f_id']);
+
+                                if (count($feature_files)>0){      
+                                  $cardfooter.= '<i class="fa fa-paperclip" title="Dateien vorhanden"></i> '.count($feature_files).'  | ';
+                                } 
+                            }                              
+                            if ($show_cardfooter_duedate==1){
+                                if ($feature_info['f_due_date']){      
+                                  $cardfooter.= '<i class="fa fa-bell" title="gew&uuml;nschtes Fertigstellungsdatum"></i> '.$feature_info['f_due_date'].' | ';
+                                } 
+                            }                       
+                            if ($show_cardfooter_wsjf==1){
+                               if ($wsjf>0){
+                                  $cardfooter.= '<i class="fa fa-calculator" title="WSJF"></i> '.number_format($wsjf, 3)." | ";
+                               }
+                               
+                            }
+                            if ($show_cardfooter_sp==1){
+                                if ($feature['f_storypoints']>0){      
+                                  $cardfooter.= '<i class="fa fa-tachometer" title="Storypoints"></i> '.$feature['f_storypoints']." | ";
+                                } 
+                            } 
+                            echo '<font style="font-size:10px;">'.substr($cardfooter, 0, -3)."</font>";               
+                             ?>   
+                 
 										</div>
 									</div>
 								</div>
@@ -217,6 +309,9 @@ if($can_edit_roadmap == 1){
 						}
 						?>
 					</div>
+          <?php if($can_edit_roadmap == 1){?>
+          <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id;?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+          <?php }?>          
 				</td>
 				<!-- Actual PI features end -->
 
@@ -264,20 +359,65 @@ if($can_edit_roadmap == 1){
 								</div>
 								<?php if ($feature['f_desc']) { ?>
 									<div class="card-body height0">
-										<?php echo substr($feature['f_desc'], 0, 100).'...'; ?>
+                      <?php 
+                      if (strlen ($feature['f_desc'])>250){
+                        echo substr($feature['f_desc'], 0, 250).'[...]';
+                      }else{
+                        echo $feature['f_desc'];
+                      } 
+                       ?>
 									</div>
 								<?php } ?>
 								<div class="card-footer">
-									<div class="text-right">
-										<?php if ($feature['f_status_id'] == '3') { ?>
-											<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
-										<?php } ?>
-										<?php if ($feature['f_mehr_details']) { ?>
-											<a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
-										<?php } ?>
-										WSJF: <?php echo number_format($wsjf, 3); ?> |
-										SP: <?php echo $feature['f_storypoints']; ?>
-									</div>
+										<div class="text-right">
+											<?php if ($feature['f_status_id'] == '3') { ?>
+												<span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>    
+											<?php } ?>
+											<?php if ($feature['f_mehr_details']) { ?>
+												<a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
+											<?php } ?>
+
+                            <?php
+                            $cardfooter="";
+
+                            if ($show_cardfooter_comments==1){
+                                //if ($feature_info['f_SME']>0){
+                                  $cardfooter.= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
+                                //} 
+                            }    
+                            if ($show_cardfooter_sme==1){
+                                if ($feature_info['f_SME']>0){
+                                  $sme[0] = $db->getStaffById($feature_info['f_SME']);    
+                                  $cardfooter.= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> '.$sme[0]['username'].' | ';
+                                } 
+                            }                             
+                            if ($show_cardfooter_attachments==1){
+                            $feature_files  = $db->getFeatureFilesByFeatureId($feature['f_id']);
+
+                                if (count($feature_files)>0){      
+                                  $cardfooter.= '<i class="fa fa-paperclip" title="Dateien vorhanden"></i> '.count($feature_files).'  | ';
+                                } 
+                            }                              
+                            if ($show_cardfooter_duedate==1){
+                                if ($feature_info['f_due_date']){      
+                                  $cardfooter.= '<i class="fa fa-bell" title="gew&uuml;nschtes Fertigstellungsdatum"></i> '.$feature_info['f_due_date'].' | ';
+                                } 
+                            }                       
+                            if ($show_cardfooter_wsjf==1){
+                               if ($wsjf>0){
+                                  $cardfooter.= '<i class="fa fa-calculator" title="WSJF"></i> '.number_format($wsjf, 3)." | ";
+                               }
+                               
+                            }
+                            if ($show_cardfooter_sp==1){
+                                if ($feature['f_storypoints']>0){      
+                                  $cardfooter.= '<i class="fa fa-tachometer" title="Storypoints"></i> '.$feature['f_storypoints']." | ";
+                                } 
+                            } 
+                            echo '<font style="font-size:10px;">'.substr($cardfooter, 0, -3)."</font>";               
+                             ?>   
+                 
+										</div>
 								</div>
 							</div>
 
@@ -285,7 +425,14 @@ if($can_edit_roadmap == 1){
 						}
 						$sp_totals[$pi_id] += $sp_total;
 					}
-					echo "</div></td>";
+          ?>
+
+					</div>
+          <?php if($can_edit_roadmap == 1){?>
+          <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id;?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+          <?php } ?>
+       </td>
+          <?php
 					$i++;
 				} ?>
 				<!-- Other PI features end -->
@@ -299,35 +446,42 @@ if($can_edit_roadmap == 1){
 			?>
 			<!-- Total capacity row start -->
 			<tr class="total-capacity-row">
-				<td>Total Kapazit&auml;t [<a href="javascript:void(0);">Detailanzeige</a>]
+				<td>Total Kapazit&auml;t <?php if ($helptexts['label_kapazitaet']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['label_kapazitaet'] . "'></i>";
+			} ?>
+         
+        <?php if($can_manage_config== 1){ ?>
+        [<a href="javascript:void(0);">Detailanzeige</a>]
                     <?php
                     if($selectedtopic != 0 && $topic['capacity_source']){ ?>
 						<a target="_blank" href="<?php echo $topic['capacity_source'];?>"><i class="fa fa-link" aria-hidden="true"></i></a>
                     <?php
                     }
-                    
+           }         
                     ?>
                 
                 </td>
 				<td><span class="pi_total_capacity"><?php echo $actual_pi_total_capacity; ?></span></td>
 				<?php
-				$i = 0;
-				foreach ($product_increments as $product_increment) {
-					if($selectedtopic != 0 ) {
-						$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
-					}else{
-						$total_capacity = $db->getTotalCapacityByTeamPI($selected_team,$product_increment['pi_id']);
-					}
-					
-					?>
-					<td class="<?php if ($i > 2) {
-						echo 'd-none';
-					} ?>">
-						<span class="pi_total_capacity"><?php echo $total_capacity; ?></span>
-					</td>
-					<?php
-					$i++;
-				}
+        if($can_manage_config==1){
+    				$i = 0;
+    				foreach ($product_increments as $product_increment) {
+    					if($selectedtopic != 0 ) {
+    						$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
+    					}else{
+    						$total_capacity = $db->getTotalCapacityByTeamPI($selected_team,$product_increment['pi_id']);
+    					}
+    					
+    					?>
+    					<td class="<?php if ($i > 2) {
+    						echo 'd-none';
+    					} ?>">
+    						<span class="pi_total_capacity"><?php echo $total_capacity; ?></span>
+    					</td>
+    					<?php
+    					$i++;
+    				}
+        }
 				?>
 			</tr>
 			<!-- Total capacity row end -->
@@ -370,7 +524,9 @@ if($can_edit_roadmap == 1){
 
 			<!-- Total sp row start -->
 			<tr class="total-sp-row">
-				<td>Total eingeplant</td>
+				<td>Total eingeplant <?php if ($helptexts['label_planned']) {
+				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['label_planned'] . "'></i>";
+			} ?></td>
 				<?php
 				if ($actual_pi_total_capacity <= $actual_sp_total) {
 					$color = 'text-danger';

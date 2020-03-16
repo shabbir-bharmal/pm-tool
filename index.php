@@ -44,14 +44,26 @@ $helptexts        = $db->getHelpText();
           <li>Applikation ist in Entwicklung, Beta Stadium</li>
           <li>Bei den Kapazit&auml;ts-Angabe (wie viele Kapazit&auml;t wir pro PI verplanen k&ouml;nnen) ist zu beachten, dass dies erste, gesch&auml;tzte Zahlen sind.</li>
         </ul>
-        <?php if($name=="sdfaf"){ ?>
+        <?php if($_SESSION['login_user_data']['username']=="scho"){ ?>
         <h3>Kurze Info f&uuml;r Dich, <?php echo $name;?></h3>
         <ul> 
-        <li>Du kannst unter am besten unter <a href="https://pm.mastaz.ch/epic-roadmap.php">Roadmaps nach (Epics) </a> nachschauen, welche Features in den n&auml;chsten PIs vorgesehen sind. Alternativ kannst Du aber auch unter <a href="https://pm.mastaz.ch/roadmap.php">Roadmaps nach (Topics)</a> Dir dies anschauen.</li>
+        <li>Du kannst am besten unter <a href="https://pm.mastaz.ch/epic-roadmap.php">Roadmaps nach (Epics) </a> nachschauen, welche Features in den n&auml;chsten PIs vorgesehen sind. Alternativ kannst Du aber auch unter <a href="https://pm.mastaz.ch/roadmap.php">Roadmaps nach (Topics)</a> Dir dies anschauen.</li>
         <li>In der Auswahlliste neben dem Titel (z.B. Roadmap (nach Epics)) kannst Du das Team w&auml;hlen und die Anzeige dann einschr&auml;nken.</li>
         </ul>
         <br><font color=red>Nachfolgende Infos sind nicht so 'wichtig' und sind nicht zwingend zu lesen:</font><br />&nbsp;
         <?php } ?>
+		  
+        <?php if($_SESSION['login_user_data']['username']=="rudl"){ ?>
+        <font color=red>
+		  <h3>Kurze Info f&uuml;r Dich, <?php echo $name;?></h3>
+        <ul> 
+        <li>Du kannst unter <a href="https://pm.mastaz.ch/roadmap.php">Roadmaps (nach Topics)</a> (auf Team Ebene, nicht auf Topics) neue Features erfassen und editieren. Auch kannst Du sie dort einem PI zuordnen. Wichtige Felder zum Ausf&uuml;llen sind: Titel, Epic und Topic.</li>
+        <li>Unter <a href="https://pm.mastaz.ch/roadmap.php">Roadmaps (nach Topics) </a> kannst Du die Roadmaps nach Epics einsehen (Du kannst zwar die Features editieren, aber nicht verschieben (einem PI zuweisen)).</li>
+		<li>Unter <a href="https://pm.mastaz.ch/roadmap.php">Roadmaps (nach Topics) </a> kannst Du die Roadmaps nach Epics einsehen (Du kannst zwar die Features editieren, aber nicht verschieben (einem PI zuweisen)).</li>
+		<li>Unter <a href="https://pm.mastaz.ch/my-epic.php">Epics > Meine Epics </a> kannst Du Deine Epics einsehen (und editeiren)).</li>
+        </ul>
+        <br>Nachfolgende Infos sind nicht so 'wichtig' und sind nicht zwingend zu lesen:</font><br />&nbsp;
+        <?php } ?>		  
         <h3>Kurze Infos zu den Menu-Punkten</h3>       
         <h4>Epics</h4>
         <ul>

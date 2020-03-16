@@ -1,6 +1,6 @@
-</br>
+<br />
 <div class="form-row">
-    <div class="form-group col-6">
+    <div class="form-group col-2">
         <label for="f_type" class="col-form-label">Type: <?php if ($helptexts['f_type']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_type'] . "'></i>";
 			} ?></label>
@@ -13,7 +13,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-6">
+    <div class="form-group col-2">
         <label for="f_storypoints" class="col-form-label">Storypoint: <?php if ($helptexts['f_storypoints']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_storypoints'] . "'></i>";
 			} ?></label>
@@ -22,7 +22,7 @@
 
 </div>
 <div class="form-row">
-    <div class="form-group col-2">
+    <div class="form-group col-1">
         <label for="f_BV" class="col-form-label">BV: <?php if ($helptexts['f_BV']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_BV'] . "'></i>";
 			} ?></label>
@@ -34,7 +34,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-1">
         <label for="f_TC" class="col-form-label">TC: <?php if ($helptexts['f_TC']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_TC'] . "'></i>";
 			} ?></label>
@@ -46,7 +46,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-1">
         <label for="f_RROE" class="col-form-label">RROE: <?php if ($helptexts['f_RROE']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_RROE'] . "'></i>";
 			} ?></label>
@@ -58,7 +58,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-1">
         <label for="f_JS" class="col-form-label">JS: <?php if ($helptexts['f_JS']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_JS'] . "'></i>";
 			} ?></label>
@@ -70,7 +70,7 @@
 			<?php } ?>
         </select>
     </div>
-    <div class="form-group col-4">
+    <div class="form-group col-1">
         <label for="f_WSJF" class="col-form-label">WSJF: <?php if ($helptexts['f_WSJF']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_WSJF'] . "'></i>";
 			} ?></label>
@@ -86,7 +86,7 @@
     </div>
 </div>
 <div class="form-group row">
-    <div class="form-group col-12">
+    <div class="form-group col-8">
         <label for="f_acceptance_criteria" class="col-form-label">Akzeptanz Kriterien: <?php if ($helptexts['f_acceptance_criteria']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_acceptance_criteria'] . "'></i>";
 			} ?></label>
@@ -94,7 +94,7 @@
     </div>
 </div>
 <div class="form-group row">
-<div class="form-group col-10">
+<div class="form-group col-7">
     <label for="f_mehr_details" class="col-form-label">Mehr Details: <?php if ($helptexts['f_mehr_details']) {
 			echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_mehr_details'] . "'></i>";
 		} ?></label>
@@ -105,7 +105,7 @@
 </div>
 </div>
 <div class="form-group row">
-<div class="form-group col-6">
+<div class="form-group col-2">
     <label for="f_responsible" class="col-form-label">Verantwortlicher Person (ICT): <?php if ($helptexts['f_responsible']) {
 			echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_responsible'] . "'></i>";
 		} ?></label>

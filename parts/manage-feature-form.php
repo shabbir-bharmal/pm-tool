@@ -5,14 +5,14 @@ $f_id = $_REQUEST['feature_id'];
 $pi_id         = $_REQUEST['pi_id'];
 $topic_id      = $_REQUEST['topic_id'];
 $team_id       = $_REQUEST['team_id'];
-$opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20', '40');
+$opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20');
 $feature_info  = $db->getFeatureByFeatureId($f_id);
 $feature_types = $db->getFeatureType();
 $feature_statuses = $db->getFeatureStatuses();
 $status = 1;
 $type = 1;
 $f_SME = $_SESSION['login_user_data']['staff_id'];
-$f_responsible = $_SESSION['login_user_data']['staff_id'];
+//$f_responsible = $_SESSION['login_user_data']['staff_id'];
 
 if($feature_info['f_type']){
 	$type = $feature_info['f_type'];
@@ -36,7 +36,8 @@ $epics = $db->getEpics();
 $working_epics = $db->getWorkingEpics();
 $completed_epics = $db->getCompletedEpics();
 $helptexts = $db->getHelpText();
-$topics                   = $db->getTopicsByTeam($team_id);
+$topics = $db->getTopics();
+$topics_by_team = $db->getTopicsByTeam($team_id);
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 
 ?>          
@@ -62,22 +63,56 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 <!-- Tab Functionality Start-->
 <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="allgemein-tab" data-toggle="tab" href="#allgemein" role="tab" aria-controls="allgemein" aria-selected="true">Allgemein</a>
+        <a class="nav-link active" id="allgemein-tab" data-toggle="tab" href="#allgemein" role="tab" aria-controls="allgemein" aria-selected="true">Allgemein
+        <?php
+        echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+        ?>
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="false">Rangierung</a>
+        <a class="nav-link" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="false">Rangierung
+        <?php
+        if($feature_info['f_storypoints']>0 ||  $feature_info['f_BV']>0  || $feature_info['f_TC']>0  || $feature_info['f_RROE']>0  ||  $feature_info['f_JS']>0 ){
+           echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+        } 
+        ?>        
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Dateien</a>
+        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Dateien
+        <?php
+        if(count($feature_files)>0){
+           echo '<i class="fa fa-smile-o" title="Es sind '.count($feature_files).' Datei(en) vorhanden"></i>';
+        } 
+        ?>          
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="details-1-tab" data-toggle="tab" href="#details-1" role="tab" aria-controls="details-1" aria-selected="false">Details 1</a>
+        <a class="nav-link" id="details-1-tab" data-toggle="tab" href="#details-1" role="tab" aria-controls="details-1" aria-selected="false">Details 1
+        <?php
+        if($feature_info['f_benefit']<>"" ||  $feature_info['f_dependencies']<>""  || $feature_info['f_acceptance_criteria']<>"" ){
+           echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+        } 
+        ?>   
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="details-2-tab" data-toggle="tab" href="#details-2" role="tab" aria-controls="details-2" aria-selected="false">Details 2</a>
+        <a class="nav-link" id="details-2-tab" data-toggle="tab" href="#details-2" role="tab" aria-controls="details-2" aria-selected="false">Details 2
+        <?php
+        if($f_SME>0 ||  $f_responsible>0  || $feature_info['f_due_date']<>""  || $feature_info['f_mehr_details']<>""){
+           echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+        } 
+        ?>           
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="details-3-tab" data-toggle="tab" href="#details-3" role="tab" aria-controls="details-3" aria-selected="false">Details 3</a>
+        <a class="nav-link" id="details-3-tab" data-toggle="tab" href="#details-3" role="tab" aria-controls="details-3" aria-selected="false">Details 3
+        <?php
+        if($feature_info['f_context']<>"" ||  $feature_info['f_problemdessc']<>"" || $feature_info['f_currentstate']<>"" || $feature_info['f_targetstate']<>"" ||  $feature_info['f_inscope']<>"" ||  $feature_info['f_outofscope']<>"" ||  $feature_info['f_risks']<>"") {
+           echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
+        } 
+        ?>           
+        </a>
     </li>
 </ul>
 <div class="tab-content" id="featureTabContent">

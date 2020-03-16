@@ -4,7 +4,7 @@
 			<?php if ($helptexts['f_SME']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_SME'] . "'></i>";
 			} ?> <span class="text-danger ml-1">*</span>
-        </label>
+        </label>         
         <!--<input type="text" name="f_SME" id="f_SME" value="<?php /*echo !$f_id ? '' : $feature_info['f_SME']; */ ?>" class="form-control">-->
         <select class="form-control" name="f_SME" id="f_SME" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
             <option value="">--bitte w<span>&#228;</span>hlen--</option>        
@@ -45,6 +45,8 @@
 			} ?> <span class="text-danger ml-1">*</span> </label>
         <input type="text" name="f_due_date" id="f_due_date" value="<?php echo !$f_id ? '' : $feature_info['f_due_date']; ?>" class="form-control" <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
     </div>
+    
+ 
 
     <div class="form-group col-10">
         <label for="f_mehr_details" class="col-form-label">Mehr Details: <?php if ($helptexts['f_mehr_details']) {
@@ -56,3 +58,4 @@
         <a class="f_mehr_link" target="_blank" href="<?php echo !$f_id ? '' : $feature_info['f_mehr_details']; ?>"><?php echo !$f_id ? '' : '<i class="fa fa-link" aria-hidden="true"></i>'; ?></a>
     </div>
 </div>
+                                                                             

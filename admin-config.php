@@ -5,7 +5,7 @@ include_once 'config.php';
 $page_title = 'Config';
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_manage_config'] == 0)) {
-	$error = "You don't have enough permission to view this page.";
+	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [1]. <br><a href='".W_ROOT."'>Login-Maske</a>";
 }
 
 include_once F_ROOT.'parts/layout/head.php';

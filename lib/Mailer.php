@@ -53,7 +53,6 @@ class Mailer
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
 			$mail->addAddress('philipp@wuermli.com');     // Add a recipient
-
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Feature beantragt';
@@ -86,8 +85,8 @@ class Mailer
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
 			//$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
-      $mail->addAddress('philipp@wuermli.com');     // Add a recipient
-
+      		$mail->addAddress('philipp@wuermli.com');     // Add a recipient
+			
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Epic erfassen';

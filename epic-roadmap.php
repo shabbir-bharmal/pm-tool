@@ -11,7 +11,8 @@ $helptexts                = $db->getHelpText();
 $selected_epic            = ($_GET && $_GET['epic']) ? $_GET['epic'] : '';
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
-	$error = "You don't have enough permission to view this page.";
+	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [9]. <br><a href='".W_ROOT."'>Login-Maske</a>";
+  
 }
 
 // Include header

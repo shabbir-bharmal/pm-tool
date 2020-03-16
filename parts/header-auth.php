@@ -34,6 +34,7 @@ if($name){ ?>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/feature-request.php';?>">Neuer Feature erfassen</a>
 					<a class="dropdown-item" href="<?php echo W_ROOT.'/my-feature-request.php';?>">Meine Features</a>
+          <a class="dropdown-item" href="<?php echo W_ROOT.'/datagrid/my-features.php';?>">Meine Features 2.0 (Alpha Version)</a>
 				</div>
 			</li>
 			<?php if($can_manage_config){
@@ -54,18 +55,32 @@ if($name){ ?>
 					</div>                                                                                                 
 				</li>
 				<?php } ?>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Links
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">    
+						<a class="dropdown-item" href="https://jira.zhaw.ch" target="_bank">Jira</a>   
+            <a class="dropdown-item" href="https://confluence.zhaw.ch" target="_bank">Confluence</a>
+            <a class="dropdown-item" href="https://intra.zhaw.ch/finanzen-services/information-communication-technology/" target="_bank">Intranet (ICT)</a>
+            <a class="dropdown-item" href="https://www.integromat.com/" target="_bank">Integromat</a>
+            <a class="dropdown-item" href="https://www.scaledagileframework.com/" target="_bank">SAFe</a>                                                  
+					</div>                                                                                                 
+				</li>
 		</ul>
 	</div>
     <div class="topnav-right" >
 		
             Hallo <?php echo $name;?>
 			<a href="<?php echo W_ROOT.'/logout.php';?>" class="btn btn-primary ml-2"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+      <a href="" class="btn btn-primary ml-2"><i class="fa fa-cog" aria-hidden="true"></i></a>
 		
 	</div>
 </nav>
 	<?php
 }else{
-	include_once F_ROOT.'parts/error-auth.php';
+	include_once './parts/error-auth.php';
+	include_once '../parts/error-auth.php';
 	exit;
 }
 ?>

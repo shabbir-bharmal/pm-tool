@@ -24,7 +24,8 @@
 .product-increment {
     padding: 0 5px 0 0;
     height: auto;
-    min-height: 370px;
+//    min-height: 370px;
+    margin-bottom: 10px;
 }
 
 .card {
@@ -74,4 +75,10 @@
 }
 #epic_request_form #e_status_id{
     pointer-events: none;
+}
+
+.btn-primary{
+    color: #007bff;
+    background-color: #dedede;
+    border-color: #9e9e9e;
 }

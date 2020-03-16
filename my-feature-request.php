@@ -86,6 +86,6 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 		</div>
 	</div>
 
-<?php
+<?php         
 // Include footer
 include_once F_ROOT.'parts/layout/footer.php';
