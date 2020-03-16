@@ -22,7 +22,7 @@ $my_epics = $db->getEpicsByOwner($_SESSION['login_user_data']['staff_id']);
 		<div class="row mb-3">
 			<div class="col-12">
 				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Meine Epics <?php if ($helptexts['title_my_epics']) {
-				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_my_epics'] . "'></i>";
+				              echo "<span class=\"h6\" style=\"display: inline-flex;vertical-align: middle;\"><i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_my_epics'] . "'></i></span>";
 			               } ?>  </h2>
 			</div>
 		</div>

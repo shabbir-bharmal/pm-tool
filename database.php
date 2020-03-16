@@ -279,8 +279,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 							    ON fd.f_id = f.f_id
 							  LEFT JOIN feature_statuses AS fst
 							    ON fst.`id` = f.`f_status_id`
-							WHERE f.`f_is_FR` = '1'
-							  AND fd.f_SME = :f_SME
+							WHERE fd.f_SME = :f_SME
 			";
 			$stm = $this->pdo->prepare($sql);
 			$stm->bindParam(':f_SME', $sme);
@@ -394,12 +393,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_BV'          => $feature_info['f_BV'],
 				':f_TC'          => $feature_info['f_TC'],
 				':f_RROE'        => $feature_info['f_RROE'],
-				':f_JS'          => $feature_info['f_JS'],
-				':f_is_FR'       => 1
+				':f_JS'          => $feature_info['f_JS']
 			];
 			
 			if (!$feature_info['f_id']) {
-				$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS,f_is_FR) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS,:f_is_FR)";
+				$sql = "INSERT INTO features (f_title,f_desc,f_storypoints,f_topic_id,f_PI,f_ranking,f_status_id,f_type,f_BV,f_TC,f_RROE,f_JS) VALUES (:f_title,:f_desc,:f_storypoints,:f_topic_id,:f_PI,:f_ranking,:f_status_id,:f_type,:f_BV,:f_TC,:f_RROE,:f_JS)";
 				unset($data[':f_id']);
 			} else {
 				$data = [
@@ -413,10 +411,9 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					':f_BV'          => $feature_info['f_BV'],
 					':f_TC'          => $feature_info['f_TC'],
 					':f_RROE'        => $feature_info['f_RROE'],
-					':f_JS'          => $feature_info['f_JS'],
-					':f_is_FR'       => 1
+					':f_JS'          => $feature_info['f_JS']
 				];
-				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_is_FR=:f_is_FR, f_storypoints = :f_storypoints, f_BV = :f_BV, f_TC = :f_TC, f_RROE = :f_RROE, f_JS = :f_JS, f_type = :f_type WHERE f_id=:f_id";
+				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_storypoints = :f_storypoints, f_BV = :f_BV, f_TC = :f_TC, f_RROE = :f_RROE, f_JS = :f_JS, f_type = :f_type WHERE f_id=:f_id";
 			}
 			
 			$stm = $this->pdo->prepare($sql);

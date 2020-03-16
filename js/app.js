@@ -2,7 +2,7 @@ $(function () {
     var shown = false;
 
     if ($('.table').hasClass('not_move')) {
-        $(".table td .product-increment").removeAttr('id','none');
+        $(".table td .product-increment").removeAttr('id', 'none');
     }
 
     function formFilter() {
@@ -10,7 +10,7 @@ $(function () {
             $('form[name="filter_topic"]').submit();
         });
         $('#team').on('change', function () {
-            $('#topic').prop('selectedIndex',-1);
+            $('#topic').prop('selectedIndex', -1);
             $('form[name="filter_topic"]').submit();
         });
     }
@@ -135,7 +135,7 @@ $(function () {
 
                 },
                 f_storypoints: {
-                    number  : true
+                    number: true
                 }
             },
             // Setting error messages for the fields
@@ -145,7 +145,7 @@ $(function () {
                     maxlength: "Feature title must be less than 55 characters."
                 },
                 f_storypoints: {
-                    number  : "Please enter numeric value."
+                    number: "Please enter numeric value."
 
                 }
 
@@ -189,7 +189,7 @@ $(function () {
         var pi_id = own_pi.attr('id').split('_')[2];
         var f_ids = element.sortable("toArray");
         $.ajax({
-            url    : wroot + '/ajax.php?action=update-feature-ranking&feature_id=' + f_ids + '&pi_id=' + pi_id+ '&topic_id=' + topic_id,
+            url    : wroot + '/ajax.php?action=update-feature-ranking&feature_id=' + f_ids + '&pi_id=' + pi_id + '&topic_id=' + topic_id,
             type   : 'GET',
             success: function (response) {
 
@@ -206,7 +206,7 @@ $(function () {
         var total_sp = 0;
 
         var pi_id = piElement.attr('id');
-        $('.'+pi_id).find('.card').each(function (i, v) {
+        $('.' + pi_id).find('.card').each(function (i, v) {
             var sp = $(this).data('sp');
             total_sp = total_sp + parseFloat(sp);
         });
@@ -241,31 +241,29 @@ $(function () {
     }
 
     function showAll() {
-        $('#show_all').on('click', function () {
-            if ($(".product-increment").hasClass("scrollable")) {
-                $(".product-increment").removeClass("scrollable");
-                $("#show_all").html("H<span>&#246;</span>he minimieren");
 
-            } else {
-                $(".product-increment").addClass("scrollable");
-                $("#show_all").html("H<span>&#246;</span>he vergr<span>&#246;</span>ssern");
-            }
-
-        });
+        if ($(".product-increment").hasClass("scrollable")) {
+            $(".product-increment").removeClass("scrollable");
+            $('#event option[value="show_all"]').html("H<span>&#246;</span>he minimieren");
+        } else {
+            $(".product-increment").addClass("scrollable");
+            $('#event option[value="show_all"]').html("H<span>&#246;</span>he vergr<span>&#246;</span>ssern");
+        }
     }
 
     function expandDetails() {
-        $('#expand').on('click', function () {
-            if ($(".card-body ").hasClass("height0")) {
-                $(".card-body ").removeClass("height0");
-                $("#expand").text("Kurzbeschreibung ausblenden");
 
-            } else {
-                $(".card-body").addClass("height0");
-                $("#expand").text("Kurzbeschreibung anzeigen");
-            }
+        if ($(".card-body ").hasClass("height0")) {
+            $(".card-body ").removeClass("height0");
+            $('#event option[value="expand"]').html("Kurzbeschreibung ausblenden");
 
-        });
+        } else {
+            $(".card-body").addClass("height0");
+            $('#event option[value="expand"]').html("Kurzbeschreibung anzeigen");
+
+        }
+
+
     }
 
     function showHideCapacity() {
@@ -371,46 +369,60 @@ $(function () {
     }
 
     function incrementPI() {
-        $('#incpi').on('click', function () {
-            $('.table tr').each(function () {
-                $(this).find(".d-none:first").removeClass('d-none');
-                var far = $( '.roadmap-planning' ).width();
-                var pos = $('.roadmap-planning').scrollLeft() + far;
-                $('.roadmap-planning').animate( { scrollLeft: pos }, 50, 'easeOutQuad' );
-            });
-            if ($("td").hasClass("d-none")) {
-                $('#incpi').show();
-            } else {
-                $('#incpi').hide();
-            }
+
+        $('.table tr').each(function () {
+            $(this).find(".d-none:first").removeClass('d-none');
+            var far = $('.roadmap-planning').width();
+            var pos = $('.roadmap-planning').scrollLeft() + far;
+            $('.roadmap-planning').animate({scrollLeft: pos}, 50, 'easeOutQuad');
         });
+        if ($("td").hasClass("d-none")) {
+            $('#incpi').show();
+        } else {
+            $('#incpi').hide();
+        }
+
     }
 
     function decrementPI() {
-        $('#decpi').on('click', function () {
-            $('.table tr').each(function () {
-                $(this).find("td:visible").last().addClass('d-none');
-                $(this).find("th:visible").last().addClass('d-none');
-            });
 
-            if ($("td").hasClass("d-none")) {
-                $('#incpi').show();
-            } else {
-                $('#incpi').hide();
-            }
+        $('.table tr').each(function () {
+            $(this).find("td:visible").last().addClass('d-none');
+            $(this).find("th:visible").last().addClass('d-none');
         });
+
+        if ($("td").hasClass("d-none")) {
+            $('#incpi').show();
+        } else {
+            $('#incpi').hide();
+        }
+
     }
 
+
+    function changeEvent() {
+        $("#event").on('change', function () {
+            var eveName = $(this).val();
+            if (eveName == 'incpi') {
+                incrementPI();
+            } else if (eveName == 'decpi') {
+                decrementPI();
+            } else if (eveName == 'show_all') {
+                showAll();
+            } else if(eveName == 'expand'){
+                expandDetails();
+            }
+            $('#event').prop('selectedIndex', 0);
+        });
+    }
     formFilter();
     updateStaffCapacity();
     manageFeature();
     sortFeature();
-    showAll();
-    expandDetails();
     showHideCapacity();
     loginFormValidation();
-    incrementPI();
-    decrementPI();
+    changeEvent();
+    popover();
 });
 
 

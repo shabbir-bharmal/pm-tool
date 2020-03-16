@@ -5,21 +5,21 @@ include_once 'config.php';
 // Collect Data
 
 $selected_team            = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ? $teams[0]['id'] : 1);
-$selectedtopic           = ($_GET && $_GET['topic']) ? $_GET['topic'] : ($topics ? $topics[0]['id'] : 0);
+$selectedtopic            = ($_GET && $_GET['topic']) ? $_GET['topic'] : ($topics ? $topics[0]['id'] : 0);
 $actual_product_increment = $db->getActualProductIncrement();
 $product_increments       = $db->getOtherProductIncrements($actual_product_increment['pi_id']);
 //$staff_members            = $db->getStaffByTopic($selected_topic);
-$staff_members            = $db->getStaffByTeam($selected_team);
-if($selectedtopic != 0){
-	$staff_members            = $db->getStaffByTeamAndTopic($selected_team,$selectedtopic);
+$staff_members = $db->getStaffByTeam($selected_team);
+if ($selectedtopic != 0) {
+	$staff_members = $db->getStaffByTeamAndTopic($selected_team, $selectedtopic);
 }
 
-$helptexts                = $db->getHelpText();
-$teams                    = $db->getTeams();
-$topics                   = $db->getTopicsByTeam($selected_team);
+$helptexts = $db->getHelpText();
+$teams     = $db->getTeams();
+$topics    = $db->getTopicsByTeam($selected_team);
 
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
-	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [11]. <br><a href='".W_ROOT."'>Login-Maske</a>";
+	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [11]. <br><a href='" . W_ROOT . "'>Login-Maske</a>";
 }
 
 // Include header
@@ -40,14 +40,15 @@ include_once F_ROOT . 'parts/layout/head.php';
             <div class="col-md-8">
                 <form method="get" name="filter_topic" class="form-horizontal">
                     <div class="form-group row p-3 mb-0">
-                        <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Topics) 
-                    <span class="h6" style="display: inline-flex;vertical-align: middle;">
+                        <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Topics)
+                            <span class="h6" style="display: inline-flex;vertical-align: middle;">
         			       <?php if ($helptexts['title_roadmap_topics']) {
-				              echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
-			               } ?>                    
-                    </span>              
-              
-              </h2>
+							   echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
+						   } ?>
+                    </span>
+                        </h2>
+
+
                         <div class="col-md-3">
                             <select class="form-control" id="team" name="team">
 								<?php foreach ($teams as $team) {
@@ -60,13 +61,12 @@ include_once F_ROOT . 'parts/layout/head.php';
                         <div class="col-md-3">
                             <select class="form-control" id="topic" name="topic">
                                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
-                              
-                     
-                                
-								<?php 
-                $gettopisc = $db->getTopicsByTeam($selected_team);   
-                foreach ($gettopisc as $topic) {
-							                
+								
+								
+								<?php
+								$gettopisc = $db->getTopicsByTeam($selected_team);
+								foreach ($gettopisc as $topic) {
+									
 									$selected = $topic['id'] == $selectedtopic ? "selected='selected'" : ""; ?>
                                     <option value="<?php echo $topic['id']; ?>" <?php echo $selected; ?>><?php echo $topic['name']; ?></option>
 								<?php } ?>
@@ -81,9 +81,14 @@ include_once F_ROOT . 'parts/layout/head.php';
                     <input type="hidden" name="topic_id" value="<?php echo $selectedtopic; ?>">
                 </form>
             </div>
-            <div class="col-md-4 text-right">
-                <button type="button" id="decpi" class="btn btn-primary">-1 PI</button>
-                <button type="button" id="incpi" class="btn btn-primary">+1 PI</button>
+            <div class="col-md-3 text-right">
+                <select class="form-control" id="event" name="event">
+                    <option value="">--Anzeige <span>&#228;</span>ndern--</option>
+                    <option value="incpi">+ ein PI anzeigen</option>
+                    <option value="decpi">- ein PI entfernen</option>
+                    <option value="show_all">H&ouml;he minimieren</option>
+                    <option value="expand">Kurzbeschreibung anzeigen</option>
+                </select>
             </div>
         </div>
         <div class="row">

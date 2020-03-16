@@ -37,7 +37,7 @@ include_once F_ROOT . 'parts/layout/head.php';
 
                 <div class="form-group row p-3 mb-0">
                     <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Roadmap (nach Epics) <?php if ($helptexts['title_roadmap_topics']) {
-							echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i>";
+							echo "<span class=\"h6\" style=\"display: inline-flex;vertical-align: middle;\"><i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_roadmap_topics'] . "'></i></span>";
 						} ?> </h2>
                     <form method="get" name="filter_team" class="form-horizontal col-md-3">
                         
@@ -72,9 +72,14 @@ include_once F_ROOT . 'parts/layout/head.php';
                     <input type="hidden" name="return_url" class="form-control" id="return_url" value="<?php echo W_ROOT . '/epic-roadmap.php'; ?>">
                 </form>
             </div>
-            <div class="col-md-4 text-right">
-                <button type="button" id="decpi" class="btn btn-primary">-1 PI</button>
-                <button type="button" id="incpi" class="btn btn-primary">+1 PI</button>
+            <div class="col-md-3 text-right">
+                <select class="form-control" id="event" name="event">
+                    <option value="">--Anzeige <span>&#228;</span>ndern--</option>
+                    <option value="incpi">+ ein PI anzeigen</option>
+                    <option value="decpi">- ein PI entfernen</option>
+                    <option value="show_all">H&ouml;he minimieren</option>
+                    <option value="expand">Kurzbeschreibung anzeigen</option>
+                </select>
             </div>
         </div>
         <div class="row">

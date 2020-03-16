@@ -26,6 +26,7 @@
     height: auto;
 //    min-height: 370px;
     margin-bottom: 10px;
+    max-width: 300px;
 }
 
 .card {

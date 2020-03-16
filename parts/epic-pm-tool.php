@@ -409,7 +409,5 @@ $show_cardfooter_comments=1;
 			<?php } ?>
             </tbody>
         </table>
-        <button type="button" id="show_all" class="btn btn-primary">H&ouml;he minimieren</button>
-        <button type="button" id="expand" class="btn btn-primary">Kurzbeschreibung anzeigen</button>
     </div>
 </div>

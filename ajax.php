@@ -37,6 +37,15 @@ switch ($action) {
 		$success   = $db->deleteFileEpic($file_id, $file_name);
 		echo json_encode(['success' => $success]);
 		break;
+		
+	case 'save-comment':
+		$modal   = $_REQUEST['modal'];
+		$modal_id   = $_REQUEST['modal_id'];
+		$login_id   = $_REQUEST['login_id'];
+		$data   = $_REQUEST['data'];
+		$success   = $db->saveComment($modal,$modal_id,$data,$login_id);
+		echo $success;
+		break;
 	
 	default:
 		break;
