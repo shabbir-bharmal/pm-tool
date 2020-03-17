@@ -229,7 +229,7 @@ class Database
 	public function getFeaturesByTopicAndPI($topic_id = 0, $pi_id = 0)
 	{
 		try {
-			$stm = $this->pdo->prepare("SELECT features.*,featuretypes.highlight_color, feature_details.f_mehr_details FROM `features` LEFT JOIN featuretypes ON features.f_type = featuretypes.id
+			$stm = $this->pdo->prepare("SELECT features.*,featuretypes.highlight_color, feature_details.f_mehr_details, feature_details.f_SME FROM `features` LEFT JOIN featuretypes ON features.f_type = featuretypes.id
 LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features.f_topic_id = :f_topic_id AND features.f_PI = :f_PI  ORDER BY features.f_ranking ASC ");
 			$stm->bindParam(':f_topic_id', $topic_id);
 			$stm->bindParam(':f_PI', $pi_id);

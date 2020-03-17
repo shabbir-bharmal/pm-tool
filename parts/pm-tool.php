@@ -115,8 +115,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
-								$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 								
+								$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 								if ($feature['f_JS'] == 0) {
 									$wsjf = 0;
 								} else {
@@ -129,8 +129,10 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
                                                 <div class="float-right">
+													<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id ){ ?>
+														<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+													<?php } ?>
 													<?php if ($can_edit_roadmap == 1) { ?>
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
                                                         <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
 													<?php } else { ?>
                                                         <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
@@ -241,11 +243,13 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
                                                 <div class="float-right">
+													<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id ){ ?>
+														<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+													<?php } ?>
 													<?php if ($can_edit_roadmap == 1) { ?>
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+														<span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
 													<?php } else { ?>
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
+														<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
 													<?php } ?>
                                                 </div>
                                             </div>
@@ -359,11 +363,13 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                     <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                     <div class="col-4">
                                         <div class="float-right">
+											<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id ){ ?>
+												<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
+											<?php } ?>
 											<?php if ($can_edit_roadmap == 1) { ?>
-                                                <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-                                                <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
+												<span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
 											<?php } else { ?>
-                                                <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
+												<span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
 											<?php } ?>
                                         </div>
                                     </div>

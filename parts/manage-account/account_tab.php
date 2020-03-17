@@ -44,15 +44,15 @@
             <div class="form-group">
                 <label>Upload Avatar</label>
                 <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
-                    Browse <input type="file" id="avatarImg" accept="image/*" name="avatarImg">
-                </span>
-            </span>
-                    <input type="text" class="form-control" readonly>
+                    <span class="input-group-btn">
+                         <input type="file" id="avatarImg" accept="image/*" name="avatarImg">
+                    </span>
                 </div>
-                <img id='img-upload' src="<?php echo $staff_info['staff_avatar']?>"/>
+
             </div>
+        </div>
+        <div class="col-md-6">
+            <img id='img-upload' src="<?php echo $staff_info['staff_avatar'] ?>"/>
         </div>
     </div>
 </div>
