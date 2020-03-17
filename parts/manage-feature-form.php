@@ -12,6 +12,7 @@ $feature_statuses = $db->getFeatureStatuses();
 $status = 1;
 $type = 1;
 $f_SME = $_SESSION['login_user_data']['staff_id'];
+$is_watching = $db->getWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id);
 //$f_responsible = $_SESSION['login_user_data']['staff_id'];
 
 if($feature_info['f_type']){

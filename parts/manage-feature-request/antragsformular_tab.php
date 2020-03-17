@@ -191,3 +191,16 @@
         <textarea name="f_note" id="f_note" class="form-control" <?php echo $disabled; ?>><?php echo !$f_id ? '' : $feature_info['f_note']; ?></textarea>
     </div>
 </div>
+<div class="form-group row">
+    <label for="watcher" class="col-2 col-xs-12 col-form-label">Watch: </label>
+    <input type="hidden" name="watcher" id="watcher" value="<?php echo $is_watching ? 1 : 0;?>">
+    <?php
+    $class = 'text-secondary';
+    if($is_watching){
+        $class = "text-success";
+    }
+    ?>
+    <div class="col-6 col-xs-12">
+    <i class="fa fa-eye <?php echo $class;?> watch-icon"></i>
+    </div>
+</div>

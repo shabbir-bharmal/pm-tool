@@ -92,7 +92,6 @@ $(function () {
       }
     });
   }
-
   function formValidation() {
     $('#EINREICHEN').on('click', function () {
       $("#e_title").rules("add", {
@@ -189,6 +188,20 @@ $(function () {
       });
     });
   }
+  function manageWatcherAction(){
+    $('.watch-icon').on('click', function(){
+      var watcher = $('#watcher');
+      if(watcher.val() == 1){ // already watching so unwatch now
+        watcher.val(0);
+        $('.watch-icon').toggleClass('text-success');
+        $('.watch-icon').addClass('text-secondary');
+      } else { // unwatching so watch now
+        watcher.val(1);
+        $('.watch-icon').toggleClass('text-secondary');
+        $('.watch-icon').addClass('text-success');
+      }
+    });
+  }
 
   $('[data-toggle="popover"]').popover();
   $('#e_start_date').datetimepicker({
@@ -198,8 +211,8 @@ $(function () {
     format: 'YYYY-MM-DD'
   });
 
-
   validateForm();
   formValidation();
   deleteFile();
+  manageWatcherAction();
 });

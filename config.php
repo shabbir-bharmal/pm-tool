@@ -6,8 +6,8 @@ error_reporting(E_ERROR);
 session_start();
 
 // Web and File Roots
-define('W_ROOT', 'http://localhost/pm_tool');
-define('F_ROOT', '/var/www/html/pm_tool/');
+define('W_ROOT', 'http://pm_tool.local');
+define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
 
 // SMTP Settings
 define('SMTP_HOST', 'malta.metanet.ch');
@@ -18,8 +18,8 @@ define('SMTP_PORT', 465);
 // DB Settings
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PWD', 'password');
-define('DB_NAME', 'pmmastaz');
+define('DB_PWD', '');
+define('DB_NAME', 'zhaw_pmmastaz');
 
 // Require necessary files
 include_once F_ROOT.'database.php';

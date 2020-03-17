@@ -155,3 +155,17 @@
         <textarea name="e_notes" id="e_notes" class="form-control"  <?php echo $disabled; ?> ><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
     </div>
 </div>
+
+<div class="form-group row">
+    <label for="watcher" class="col-3 col-xs-12 col-form-label">Watch: </label>
+    <input type="hidden" name="watcher" id="watcher" value="<?php echo $is_watching ? 1 : 0;?>">
+    <?php
+    $class = 'text-secondary';
+    if($is_watching){
+        $class = "text-success";
+    }
+    ?>
+    <div class="col-6 col-xs-12">
+        <i class="fa fa-eye <?php echo $class;?> watch-icon"></i>
+    </div>
+</div>

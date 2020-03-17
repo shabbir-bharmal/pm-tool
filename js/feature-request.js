@@ -50,7 +50,6 @@ $(function () {
             }
         });
     }
-
     function formValidation() {
         $('#EINREICHEN').on('click', function () {
             var form = $('form[name="feature_request_form"]');
@@ -124,13 +123,6 @@ $(function () {
             }
         });
     }
-
-    $('#f_due_date').datetimepicker({
-        format: 'YYYY-MM-DD'
-    });
-    $('[data-toggle="popover"]').popover();
-
-
     function calculateWSJF() {
 
         $("#f_BV,#f_TC,#f_RROE,#f_JS").on('change', function () {
@@ -170,11 +162,29 @@ $(function () {
             }
         });
     }
+    function manageWatcherAction(){
+        $('.watch-icon').on('click', function(){
+            var watcher = $('#watcher');
+            if(watcher.val() == 1){ // already watching so unwatch now
+                watcher.val(0);
+                $('.watch-icon').toggleClass('text-success');
+                $('.watch-icon').addClass('text-secondary');
+            } else { // unwatching so watch now
+                watcher.val(1);
+                $('.watch-icon').toggleClass('text-secondary');
+                $('.watch-icon').addClass('text-success');
+            }
+        });
+    }
 
+    $('#f_due_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+    $('[data-toggle="popover"]').popover();
     formValidation();
     validateForm();
     calculateWSJF();
     deleteFile();
     updateMehrLink();
-
+    manageWatcherAction();
 });

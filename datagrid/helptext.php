@@ -35,7 +35,7 @@ error_reporting(0);
 		<?php
     session_start();
 	define('W_ROOT', 'http://localhost/pm_tool');
-    define('F_ROOT', '/var/www/html/pm_tool/');
+    define('F_ROOT', 'D:/Xampp/htdocs/pm_tool/');
 	include_once(F_ROOT.'parts/header-auth.php');
 		?>
 	</header>
