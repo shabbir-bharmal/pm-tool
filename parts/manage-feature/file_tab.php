@@ -39,7 +39,7 @@ if ($feature_files) { ?>
 <?php
 }
 ?>
-<?php if ($can_edit_roadmap == 1){ ?>
+<?php if (!$disabled){ ?>
 <div class="form-row">
     <div class="form-group col-12">
         <label for="f_file" class="col-form-label">Dateien:</label>

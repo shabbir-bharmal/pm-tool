@@ -39,6 +39,15 @@ $helptexts = $db->getHelpText();
 $topics = $db->getTopics();
 $topics_by_team = $db->getTopicsByTeam($team_id);
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+$login_id   = $_SESSION['login_user_data']['staff_id'];
+$topic_permission = $db->getTopicsPermissionByStaffId($login_id);
+
+if($can_edit_roadmap == 1 || $feature_info['f_SME'] == $login_id || in_array($feature_info['f_topic_id'], $topic_permission)){
+	$disabled = '';
+}else{
+	$disabled = 'disabled="true"';
+}
+
 
 ?>          
 <input type="hidden" name="return_url" class="form-control" id="return_url" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">
@@ -58,7 +67,7 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 	$creation_edit_info= "Erstellt am: ". $creation_date." <br> Editiert am: ".$edited_timestamp;
 	echo "<i class='col-form-label fa fa-info-circle float-right' data-html='true' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $creation_edit_info . "'></i>";
 	?>
-    <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>"  <?php if ($can_edit_roadmap == 0){echo "disabled";} ?>>
+    <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>"  <?php  echo $disabled; ?>>
 </div>
 <!-- Tab Functionality Start-->
 <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">

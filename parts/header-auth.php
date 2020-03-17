@@ -5,6 +5,8 @@ $can_manage_config = $_SESSION['login_user_data']['can_manage_config'];
 $staff_info = $_SESSION['login_user_data'];
 $login_id   = $_SESSION['login_user_data']['staff_id'];
 $show_cardfooter = $db->getStaffCardPermission($login_id);
+$topic_permission = $db->getTopicsPermissionByStaffId($login_id);
+
 if ($name) { ?>
     <nav class="navbar navbar-light bg-light">
         <div class="topnav-left">

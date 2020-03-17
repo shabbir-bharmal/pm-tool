@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <img id='img-upload' src="<?php echo $staff_info['staff_avatar'] ?>"/>
+            <img id='img-upload' src="<?php echo ($staff_info['staff_avatar'])?$staff_info['staff_avatar']:''; ?>"/>
         </div>
     </div>
 </div>

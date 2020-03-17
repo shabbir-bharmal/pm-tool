@@ -100,6 +100,7 @@ $(function () {
                     deleteFile();
                     updateMehrLink();
                     popover();
+                    checkPermission();
                 }
             });
         });
@@ -498,10 +499,19 @@ $(function () {
                 form.submit();
             }
         });
-
-
     }
 
+    function checkPermission(){
+        if($('#feature_form #f_title').is(':disabled')){
+            console.log('yes');
+            $( "#feature_submit" ).prop( "disabled", true );
+            $( ".print_option" ).prop( "disabled", true );
+        }else{
+            console.log('no');
+            $( "#feature_submit" ).prop( "disabled", false );
+            $( ".print_option" ).prop( "disabled", false );
+        }
+    }
     formFilter();
     updateStaffCapacity();
     manageFeature();

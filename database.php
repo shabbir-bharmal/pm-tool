@@ -1513,4 +1513,26 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 		
 	}
+	public function getTopicsPermissionByStaffId($staff_id)
+	{
+		
+		try {
+			$allow = 1;
+			$stm = $this->pdo->prepare("SELECT topic_id FROM `staff_manageable_topics` WHERE `staff_id` = :staff_id AND `allow` = :allow");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->bindParam(':allow', $allow);
+			$stm->execute();
+			$topic_ids = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$topic_permission = [];
+			foreach ($topic_ids as $topic_id){
+				$topic_permission[] = $topic_id['topic_id'];
+			}
+			
+			return $topic_permission;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+		
+	}
 }

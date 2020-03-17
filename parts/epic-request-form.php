@@ -9,6 +9,7 @@ $login_id         = $_SESSION['login_user_data']['staff_id'];
 $staff_id         = $login_id;
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 $epic_files  = $db->getEpicFilesByFeatureId($e_id);
+
 if ($epic_info['e_owner']) {
 	$staff_id = $epic_info['e_owner'];
 }

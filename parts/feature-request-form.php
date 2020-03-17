@@ -20,6 +20,13 @@ if($feature_info['f_responsible']){
 $login_id         = $_SESSION['login_user_data']['staff_id'];
 $staff_id         = $login_id;
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
+
+
+if(in_array($feature_info['f_topic_id'], $topic_permission)){
+	$can_edit_roadmap = 1;
+}
+
+
 $opt_values    = array('0', '1', '2', '3', '5', '8', '13', '20');
 if ($feature_info['f_SME']) {
 	$staff_id = $feature_info['f_SME'];
