@@ -5,12 +5,12 @@ $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 $selected_epic            = ($_GET && $_GET['epic']) ? $_GET['epic'] : '';
 
 
-$show_cardfooter_duedate=1;
-$show_cardfooter_wsjf=1;
-$show_cardfooter_sp=1;
-$show_cardfooter_attachments=1;
-$show_cardfooter_sme=1;
-$show_cardfooter_comments=1;
+$show_cardfooter_duedate     = $show_cardfooter['cardfooter_duedate'];
+$show_cardfooter_wsjf        = $show_cardfooter['cardfooter_wsjf'];
+$show_cardfooter_sp          = $show_cardfooter['cardfooter_sp'];
+$show_cardfooter_attachments = $show_cardfooter['cardfooter_attachments'];
+$show_cardfooter_sme         = $show_cardfooter['cardfooter_sme'];
+$show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 ?>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>

@@ -1,4 +1,5 @@
 <?php
+
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style\TablePosition;
 
@@ -17,11 +18,11 @@ switch ($action) {
 		
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
-			header("location:".W_ROOT."/index.php");
+			header("location:" . W_ROOT . "/index.php");
 		} else {
 			$error             = "Dein Benutzername resp. Passwort ist ung&uuml;ltig";
 			$_SESSION['error'] = $error;
-			header("Location: ".W_ROOT);
+			header("Location: " . W_ROOT);
 		}
 		break;
 	case 'feature-add':
@@ -29,17 +30,17 @@ switch ($action) {
 		
 		$db->saveFeature($_POST);
 		if ($_POST['return_url']) {
-			header("Location: ".$_POST['return_url']);
+			header("Location: " . $_POST['return_url']);
 		} else {
-			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+			header("Location: " . W_ROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
 		}
 		break;
 	case 'feature-delete':
 		$db->deleteFeature($_POST['f_id']);
 		if ($_POST['return_url']) {
-			header("Location: ".$_POST['return_url']);
+			header("Location: " . $_POST['return_url']);
 		} else {
-			header("Location: ".W_ROOT."/roadmap.php?topic=".$_POST['topic_id']);
+			header("Location: " . W_ROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
 		}
 		break;
 	case 'feature-request':
@@ -51,8 +52,8 @@ switch ($action) {
 			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
 			if ($_POST['f_id']) {
-				$_SESSION['feature-request-success'] = 'Feature #'.$_POST['f_id'].' request wurder erfolgreich aktualisiert.';
-				if($count == 1){
+				$_SESSION['feature-request-success'] = 'Feature #' . $_POST['f_id'] . ' request wurder erfolgreich aktualisiert.';
+				if ($count == 1) {
 					$mailer->sendFeatureRequestEmail($_POST);
 				}
 			} else {
@@ -60,9 +61,9 @@ switch ($action) {
 			}
 		}
 		if ($_POST['f_id']) {
-			header("Location: ".W_ROOT."/feature-request.php?f_id=".$_POST['f_id']);
+			header("Location: " . W_ROOT . "/feature-request.php?f_id=" . $_POST['f_id']);
 		} else {
-			header("Location: ".W_ROOT."/feature-request.php");
+			header("Location: " . W_ROOT . "/feature-request.php");
 		}
 		break;
 	case 'print-feature':
@@ -88,8 +89,8 @@ switch ($action) {
 				printFeatureAntragDocument($data, $epic['e_title']);
 				break;
 			case 'epic_antrag':
-				$data                     = $_POST;
-				printEpicAntragDocument($db,$data);
+				$data = $_POST;
+				printEpicAntragDocument($db, $data);
 				break;
 			
 			case 'detail':
@@ -102,7 +103,7 @@ switch ($action) {
 		break;
 	case 'epic-request':
 		
-		$count = count($_POST['einreichen']);
+		$count   = count($_POST['einreichen']);
 		$request = $db->saveEpicRequest($_POST);
 		
 		if (!$request) {
@@ -110,19 +111,19 @@ switch ($action) {
 		} else {
 			
 			if ($_POST['e_id']) {
-				if($count == 1){
+				if ($count == 1) {
 					$mailer->sendEpicRequestEmail($_POST);
 				}
-				$_SESSION['epic-request-success'] = 'Epic #'.$_POST['e_id'].' Request wurder erfolgreich aktualisiert.';
+				$_SESSION['epic-request-success'] = 'Epic #' . $_POST['e_id'] . ' Request wurder erfolgreich aktualisiert.';
 				
 			} else {
 				$_SESSION['epic-request-success'] = 'Epic Request wurde erfolgreich gespeichert';
 			}
 		}
 		if ($_POST['e_id']) {
-			header("Location: ".W_ROOT."/epic-request.php?e_id=".$_POST['e_id']);
+			header("Location: " . W_ROOT . "/epic-request.php?e_id=" . $_POST['e_id']);
 		} else {
-			header("Location: ".W_ROOT."/epic-request.php");
+			header("Location: " . W_ROOT . "/epic-request.php");
 		}
 		break;
 	case 'check-capacity':
@@ -132,14 +133,19 @@ switch ($action) {
 		} else {
 			$_SESSION['check-capacity-success'] = 'Kapazit<span>&#xE4;</span>tstabelle erfolgreich gespeichert';
 		}
-		header("Location: ".W_ROOT."/admin-config.php");
+		header("Location: " . W_ROOT . "/admin-config.php");
+		break;
+	case 'manage-account':
+		$manage_account = $db->manageAccount($_POST);
+		$_SESSION['login_user_data'] =$db->getUserInfo($_POST['staff_id']);
+		header("Location: " .$_SERVER['HTTP_REFERER']);
 		break;
 	default:
 		break;
 }
 function printDetailDocument($data)
 {
-	include_once F_ROOT.'Word_Header.php';
+	include_once F_ROOT . 'Word_Header.php';
 	
 	if ($data['f_JS'] == 0) {
 		$wsjf = 0;
@@ -149,7 +155,7 @@ function printDetailDocument($data)
 	$cod = ($data['f_BV'] + $data['f_TC'] + $data['f_RROE']);
 	
 	// New Word Document
-	$file_name = $data['f_title'].' Details.docx';
+	$file_name = $data['f_title'] . ' Details.docx';
 	
 	$phpWord = new \PhpOffice\PhpWord\PhpWord();
 	
@@ -243,10 +249,10 @@ function printDetailDocument($data)
 function printTitleDocument($data)
 {
 	
-	include_once F_ROOT.'Word_Header.php';
+	include_once F_ROOT . 'Word_Header.php';
 
 // New Word Document
-	$file_name = $data['f_title'].'.docx';
+	$file_name = $data['f_title'] . '.docx';
 	
 	$phpWord = new \PhpOffice\PhpWord\PhpWord();
 	
@@ -277,10 +283,10 @@ function printTitleDocument($data)
 function printTitleNemonicDocument($data)
 {
 	
-	include_once F_ROOT.'Word_Header.php';
+	include_once F_ROOT . 'Word_Header.php';
 
 // New Word Document
-	$file_name = $data['f_title'].'.docx';
+	$file_name = $data['f_title'] . '.docx';
 	
 	$phpWord = new \PhpOffice\PhpWord\PhpWord();
 	$phpWord->setDefaultFontSize(1);
@@ -326,16 +332,16 @@ function printFeatureAntragDocument($data, $epic)
 	$sme_name = '';
 	if ($data['sme_detail']) {
 		if ($data['sme_detail']['username']) {
-			$sme_name = $data['sme_detail']['staff_firstname'].' '.$data['sme_detail']['staff_lastname'].' ('.$data['sme_detail']['username'].')';
+			$sme_name = $data['sme_detail']['staff_firstname'] . ' ' . $data['sme_detail']['staff_lastname'] . ' (' . $data['sme_detail']['username'] . ')';
 		} else {
-			$sme_name = $data['sme_detail']['staff_firstname'].' '.$data['sme_detail']['staff_lastname'];
+			$sme_name = $data['sme_detail']['staff_firstname'] . ' ' . $data['sme_detail']['staff_lastname'];
 		}
 	}
 	
-	include_once F_ROOT.'Word_Header.php';
+	include_once F_ROOT . 'Word_Header.php';
 	
 	// New Word Document
-	$file_name = $data['f_title'].' Feature-Antrag.docx';
+	$file_name = $data['f_title'] . ' Feature-Antrag.docx';
 	
 	$phpWord = new \PhpOffice\PhpWord\PhpWord();
 	
@@ -402,21 +408,23 @@ function printFeatureAntragDocument($data, $epic)
 	
 	$phpWord->save($file_name, 'Word2007', true);
 }
-function printEpicAntragDocument($db,$data){
+
+function printEpicAntragDocument($db, $data)
+{
 	
 	
-	$status = $db->getEpicsStatusByID($data['e_status_id']);
+	$status  = $db->getEpicsStatusByID($data['e_status_id']);
 	$e_owner = $db->getStaffById($data['e_owner']);
-	$team = $db->getTeamByID($data['team_id']);
+	$team    = $db->getTeamByID($data['team_id']);
 	
-	if($team){
+	if ($team) {
 		$team = $team['name'];
 	}
 	
-	include_once F_ROOT.'Word_Header.php';
+	include_once F_ROOT . 'Word_Header.php';
 	
 	// New Word Document
-	$file_name = $data['e_title'].' Epic-Antrag.docx';
+	$file_name = $data['e_title'] . ' Epic-Antrag.docx';
 	
 	$phpWord = new \PhpOffice\PhpWord\PhpWord();
 	
@@ -469,7 +477,7 @@ function printEpicAntragDocument($db,$data){
 	$section->addText($data['e_hs_nfr'], 'contentstyle', 'paragraphstyle');
 	
 	$section->addTitle("Epic Owner", 2);
-	$section->addText($e_owner['staff_firstname'].' '.$e_owner['staff_lastname'], 'contentstyle', 'paragraphstyle');
+	$section->addText($e_owner['staff_firstname'] . ' ' . $e_owner['staff_lastname'], 'contentstyle', 'paragraphstyle');
 	
 	$section->addTitle("Team", 2);
 	$section->addText($team, 'contentstyle', 'paragraphstyle');

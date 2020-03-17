@@ -79,9 +79,9 @@ $(function () {
             var team_id = $(this).data('team_id');
             var pi_id = $(this).data('pi_id');
             if (feature_id == 0) {
-                $('.modal-title').html('Add Feature');
+                $('#feature .modal-title').html('Add Feature');
             } else {
-                $('.modal-title').html('Edit Feature');
+                $('#feature .modal-title').html('Edit Feature');
             }
             // AJAX request
             $.ajax({
@@ -89,7 +89,7 @@ $(function () {
                 type   : 'GET',
                 success: function (response) {
                     // Add response in Modal body
-                    $('.modal-body').html(response);
+                    $('#feature .modal-body').html(response);
                     // Display Modal
                     $('#feature').modal('show');
                     $('#f_due_date').datetimepicker({
@@ -409,12 +409,99 @@ $(function () {
                 decrementPI();
             } else if (eveName == 'show_all') {
                 showAll();
-            } else if(eveName == 'expand'){
+            } else if (eveName == 'expand') {
                 expandDetails();
             }
             $('#event').prop('selectedIndex', 0);
         });
     }
+
+    function avtarUpload() {
+        $(document).on('change', '.btn-file :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#avatarImg").change(function () {
+            var ext = this.value.match(/\.(.+)$/)[1];
+            switch (ext) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                    break;
+                default:
+                    $('#img-upload').attr('src','');
+                    alert('This is not an allowed file type.');
+                    this.value = '';
+            }
+            readURL(this);
+        });
+
+    }
+
+    function manageAccount() {
+        $("#my_account_form").validate({
+            rules         : {
+                staff_firstname: {
+                    required: true
+                },
+                confirm_password: {
+                    equalTo: "#password"
+                }
+            },
+            // Setting error messages for the fields
+            messages      : {
+                staff_firstname: {
+                    required: "Please enter firstname.",
+                },
+                confirm_password: " Enter Confirm Password Same as Password"
+            },
+            ignore        : "",
+            invalidHandler: function () {
+                setTimeout(function () {
+                    $('.nav-tabs a small.error').remove();
+                    var validatePane = $('.tab-content .tab-pane:has(input.error)').each(function () {
+                        var id = $(this).attr('id');
+                        $('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error">***</small>');
+                    });
+                });
+            },
+            // Setting submit handler for the form
+            submitHandler : function (form) {
+                form.submit();
+            }
+        });
+
+
+    }
+
     formFilter();
     updateStaffCapacity();
     manageFeature();
@@ -423,6 +510,8 @@ $(function () {
     loginFormValidation();
     changeEvent();
     popover();
+    avtarUpload();
+    manageAccount();
 });
 
 

@@ -567,7 +567,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$_POST['e_id']     = $e_id;
 			
 			// Save details
-			 $this->saveEpicDetails($e_id, $epic_info);
+			$this->saveEpicDetails($e_id, $epic_info);
 			return $this->saveEpicFiles($e_id, $epic_info);
 			
 		}
@@ -957,6 +957,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	public function getEpicFilesByFeatureId($e_id)
 	{
 		try {
@@ -990,6 +991,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	public function deleteFileEpic($id, $file_name)
 	{
 		try {
@@ -1013,7 +1015,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config FROM `staff` WHERE `username` = :username AND `password` = :password");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
 			$stm->bindParam(':password', $password);
 			$stm->execute();
@@ -1368,5 +1370,147 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		catch (PDOException $e) {
 		}
 		return 0;
+	}
+	
+	public function manageAccount($account_info)
+	{
+		try {
+			
+			$releation = "staff_firstname=:staff_firstname, staff_lastname=:staff_lastname";
+			$data      = [
+				':staff_id'        => $account_info['staff_id'],
+				':staff_firstname' => $account_info['staff_firstname'],
+				':staff_lastname'  => $account_info['staff_lastname']
+			];
+			
+			if ($_FILES) {
+				$filename = $_FILES['avatarImg']['name'];
+				if ($filename) {
+					$this->removeCurrntAvatar($account_info['staff_id']);
+					$filename    = explode('.', $filename);
+					$newfilename = $filename[0] . '_' . date('dmYHis') . '.' . $filename[1];
+					
+					move_uploaded_file($_FILES['avatarImg']['tmp_name'], 'upload/avatar/' . $newfilename);
+					$fileurl = W_ROOT . '/upload/avatar/' . $newfilename;
+					
+					$data[':staff_avatar'] = $fileurl;
+					$releation             .= ", staff_avatar = :staff_avatar";
+				}
+				
+			}
+			if ($account_info['password']) {
+				$releation .= ", password = :password";
+				
+				$data[':password'] = md5($account_info['password']);
+			}
+			
+			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			$this->saveStaffCardFooterPermission($account_info);
+			
+		}
+		catch (PDOException $e) {
+		
+		}
+		return 0;
+	}
+	
+	public function removeCurrntAvatar($staff_id)
+	{
+		
+		try {
+			$stm = $this->pdo->prepare("SELECT staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
+			$file     = str_replace(W_ROOT, F_ROOT, $userdata['staff_avatar']);
+			unlink($file);
+			
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+		
+	}
+	
+	public function getUserInfo($staff_id)
+	{
+		
+		try {
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
+			return $userdata;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+		
+	}
+	
+	public function saveStaffCardFooterPermission($account_info)
+	{
+		try {
+			$data      = [
+				':staff_id'        => $account_info['staff_id'],
+				':cardfooter_duedate' => (!$account_info['cardfooter_duedate'] ? 0 : 1),
+				':cardfooter_wsjf' => (!$account_info['cardfooter_wsjf'] ? 0 : 1),
+				':cardfooter_sp' => (!$account_info['cardfooter_sp'] ? 0 : 1),
+				':cardfooter_attachments' => (!$account_info['cardfooter_attachments'] ? 0 : 1),
+				':cardfooter_sme' => (!$account_info['cardfooter_sme'] ? 0 : 1),
+				':cardfooter_comments' => (!$account_info['cardfooter_comments'] ? 0 : 1),
+			];
+			
+			$sql
+				 = "INSERT INTO `staff_card_footer_permission` (
+					staff_id,
+					cardfooter_duedate,
+					cardfooter_wsjf,
+					cardfooter_sp,
+					cardfooter_attachments,
+					cardfooter_sme,
+					cardfooter_comments
+				) VALUES (
+					:staff_id,
+					:cardfooter_duedate,
+					:cardfooter_wsjf,
+					:cardfooter_sp,
+					:cardfooter_attachments,
+					:cardfooter_sme,
+					:cardfooter_comments
+				)
+				ON DUPLICATE KEY UPDATE
+					cardfooter_duedate = :cardfooter_duedate,
+					cardfooter_wsjf = :cardfooter_wsjf,
+					cardfooter_sp = :cardfooter_sp,
+					cardfooter_attachments = :cardfooter_attachments,
+					cardfooter_sme = :cardfooter_sme,
+					cardfooter_comments = :cardfooter_comments
+					";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			return true;
+		}
+		catch (PDOException $e) {
+		
+		}
+	}
+	public function getStaffCardPermission($staff_id)
+	{
+		
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `staff_card_footer_permission` WHERE `staff_id` = :staff_id");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			$show_cardfooter = $stm->fetch(PDO::FETCH_ASSOC);
+			return $show_cardfooter;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+		
 	}
 }
