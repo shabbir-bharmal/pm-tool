@@ -356,6 +356,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$this->saveFeatureDetails($f_id, $feature_info);
 			$this->saveFeatureFiles($f_id, $feature_info);
 			$this->saveWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id, $feature_info['watcher']);
+			return $f_id;
+			
 			
 			
 		}
@@ -428,6 +430,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$this->saveFeatureDetails($f_id, $feature_info);
 			$this->saveFeatureFiles($f_id, $feature_info);
 			return $this->saveWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id, $feature_info['watcher']);
+			
 		}
 		catch (PDOException $e) {
 		}
@@ -856,6 +859,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm = $this->pdo->prepare("DELETE FROM `feature_files` WHERE `f_id` = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
+			return $f_id;
 		}
 		catch (PDOException $e) {
 		}
@@ -1455,7 +1459,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,	email,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
@@ -1652,6 +1656,24 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			return true;
 		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getWatcherByModelAndModalId($model_type, $model_id){
+		try {
+			$stm = $this->pdo->prepare("SELECT staff_id FROM `watchers` WHERE model_type = :model_type AND model_id = :model_id");
+			$stm->bindParam(':model_type', $model_type);
+			$stm->bindParam(':model_id', $model_id);
+			$stm->execute();
+			$watchers = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$watcherlist = [];
+			foreach ($watchers as $watcher){
+				$watcherlist[] = $watcher['staff_id'];
+			}
+			
+			return $watcherlist;
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}

@@ -27,8 +27,27 @@ switch ($action) {
 		break;
 	case 'feature-add':
 	case 'feature-edit':
+	
+		$f_id = $db->saveFeature($_POST);
+		$topic_id = $_POST['topic_id'];
+		$f_title = $_POST['f_title'];
 		
-		$db->saveFeature($_POST);
+		if($f_id){
+			$getwatcherlistbyfeature = $db->getWatcherByModelAndModalId('feature',$f_id);
+			$getwatcherlistbytopic = $db->getWatcherByModelAndModalId('topic',$topic_id);
+			
+			$watcherlist = array_unique(array_merge($getwatcherlistbyfeature,$getwatcherlistbytopic));
+			if($watcherlist){
+				foreach($watcherlist as $watcher){
+					
+					$staff_data = $db->getUserInfo($watcher);
+					if(!empty(trim($staff_data['email'],' '))){
+					$mailer->sendWatchlistEmail($action,$f_id,$f_title,$staff_data);
+					}
+				}
+			}
+
+		}
 		if ($_POST['return_url']) {
 			header("Location: " . $_POST['return_url']);
 		} else {
@@ -36,18 +55,61 @@ switch ($action) {
 		}
 		break;
 	case 'feature-delete':
-		$db->deleteFeature($_POST['f_id']);
-		if ($_POST['return_url']) {
-			header("Location: " . $_POST['return_url']);
-		} else {
-			header("Location: " . W_ROOT . "/roadmap.php?topic=" . $_POST['topic_id']);
+		
+		$f_id = $_POST['f_id'];
+		$feature_info  = $db->getFeatureByFeatureId($f_id);
+		$db->deleteFeature($f_id);
+		$topic_id = $feature_info['f_topic_id'];
+		$f_title = $feature_info['f_title'];
+		
+		if($f_id){
+			$getwatcherlistbyfeature = $db->getWatcherByModelAndModalId('feature',$f_id);
+			$getwatcherlistbytopic = $db->getWatcherByModelAndModalId('topic',$topic_id);
+			
+			$watcherlist = array_unique(array_merge($getwatcherlistbyfeature,$getwatcherlistbytopic));
+			if($watcherlist){
+				foreach($watcherlist as $watcher){
+					
+					$staff_data = $db->getUserInfo($watcher);
+					if(!empty(trim($staff_data['email'],' '))){
+						$mailer->sendWatchlistEmail($action,$f_id,$f_title,$staff_data);
+					}
+				}
+			}
+			
 		}
+		header("Location: " .$_SERVER['HTTP_REFERER']);
+		
 		break;
 	case 'feature-request':
 		
 		$count = count($_POST['einreichen']);
-		
+		if($_POST['f_id'] == 0){
+			$mail_action = 'feature-add';
+		}else{
+			$mail_action = 'feature-edit';
+		}
 		$request = $db->saveFeatureRequest($_POST);
+		
+		$f_id = $_POST['f_id'];
+		$topic_id = $_POST['f_topic'];
+		$f_title = $_POST['f_title'];
+		
+		if($f_id){
+			$getwatcherlistbyfeature = $db->getWatcherByModelAndModalId('feature',$f_id);
+			$getwatcherlistbytopic = $db->getWatcherByModelAndModalId('topic',$topic_id);
+			
+			$watcherlist = array_unique(array_merge($getwatcherlistbyfeature,$getwatcherlistbytopic));
+			if($watcherlist){
+				foreach($watcherlist as $watcher){
+					$staff_data = $db->getUserInfo($watcher);
+					if(!empty(trim($staff_data['email'],' '))){
+						$mailer->sendWatchlistEmail($mail_action,$f_id,$f_title,$staff_data);
+					}
+				}
+			}
+			
+		}
 		if (!$request) {
 			$_SESSION['feature-request-error'] = 'Etwas ging schief, bitte versuche es später';
 		} else {
@@ -104,7 +166,28 @@ switch ($action) {
 	case 'epic-request':
 		
 		$count   = count($_POST['einreichen']);
+		if($_POST['e_id'] == 0){
+			$mail_action = 'epic-add';
+		}else{
+			$mail_action = 'epic-edit';
+		}
 		$request = $db->saveEpicRequest($_POST);
+		
+		$e_id = $_POST['e_id'];
+		$e_title = $_POST['e_title'];
+		
+		if($e_id){
+			$watcherlist = $db->getWatcherByModelAndModalId('epic',$e_id);
+			if($watcherlist){
+				foreach($watcherlist as $watcher){
+					$staff_data = $db->getUserInfo($watcher);
+					if(!empty(trim($staff_data['email'],' '))){
+						$mailer->sendWatchlistEmail($mail_action,$e_id,$e_title,$staff_data);
+					}
+				}
+			}
+			
+		}
 		
 		if (!$request) {
 			$_SESSION['epic-request-error'] = 'Etwas ging schief, bitte versuche es später';
