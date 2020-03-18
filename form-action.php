@@ -223,6 +223,36 @@ switch ($action) {
 		$_SESSION['login_user_data'] =$db->getUserInfo($_POST['staff_id']);
 		header("Location: " .$_SERVER['HTTP_REFERER']);
 		break;
+	case 'print-pi-features':
+		$features = $_POST['features'];
+		
+		switch ($_POST['print_option']) {
+			case 'title':
+				if($features){
+					$features = explode(',',$features);
+					$features_data = [];
+					foreach ($features as $feature){
+						$features_data[]  = $db->getFeatureTitleTopicColorByFeatureId($feature);
+					}
+					printTitleDocumentByPI($features_data);
+					header("Location: " .$_SERVER['HTTP_REFERER']);
+				}
+				break;
+			case 'title_nemonic':
+				header("Location: " .$_SERVER['HTTP_REFERER']);
+				break;
+			case 'feature_antrag':
+				header("Location: " .$_SERVER['HTTP_REFERER']);
+				break;
+			case 'epic_antrag':
+				header("Location: " .$_SERVER['HTTP_REFERER']);
+				break;
+			case 'detail':
+			default:
+			header("Location: " .$_SERVER['HTTP_REFERER']);
+				break;
+		}
+		break;
 	default:
 		break;
 }
@@ -569,5 +599,43 @@ function printEpicAntragDocument($db, $data)
 	$section->addTitle("Bemerkung", 2);
 	$section->addText($data['e_notes'], 'contentstyle', 'paragraphstyle');
 	
+	$phpWord->save($file_name, 'Word2007', true);
+}
+
+function printTitleDocumentByPI($data)
+{
+	
+	include_once F_ROOT . 'Word_Header.php';
+
+// New Word Document
+	$file_name =  'Titel Karte.docx';
+	$phpWord = new \PhpOffice\PhpWord\PhpWord();
+	$i = 0;
+	foreach ($data as $featureinfo){
+		
+		$highlight_color = str_replace("#", "", $featureinfo['highlight_color']);
+		$fancyTableStyle['bgColor'] = $highlight_color;
+		$section = $phpWord->addSection();
+		$section->addTextBreak(1);
+		$fancyTableStyleName      = 'Fancy Table'.$i;
+		$fancyTableStyle          = array('width' => '100%', 'borderSize' => 1, 'borderColor' => '000000', 'cellMargin' => 0, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 0, 'bgColor' => $highlight_color);
+		$fancyTableFirstRowStyle  = array('borderBottomSize' => 2, 'borderBottomColor' => '000000', 'bgColor' => $highlight_color);
+		$fancyTableCellStyle      = array('valign' => 'center');
+		$fancyTableFontStyle      = array('bold' => true, 'size' => 24, 'Name' => 'Calibri');
+		$fancyTableFontStyleSmall = array('bold' => false, 'size' => 18, 'Name' => 'Calibri');
+		
+		$phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+		
+		$table = $section->addTable($fancyTableStyleName);
+		$table->setWidth(4000);
+		$table->addRow(4000, array('exactHeight' => 4000, 'exactWidth' => 4000));
+		
+		$cell          = $table->addCell(null, $fancyTableCellStyle);
+		$cellHCentered = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
+		$cell->addText($featureinfo['f_title'], $fancyTableFontStyle, $cellHCentered);
+		$cell->addText($featureinfo['name'], $fancyTableFontStyleSmall, $cellHCentered);
+		$i++;
+		
+	}
 	$phpWord->save($file_name, 'Word2007', true);
 }

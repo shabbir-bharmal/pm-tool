@@ -16,7 +16,32 @@ $show_cardfooter_sme         = $show_cardfooter['cardfooter_sme'];
 $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
 ?>
+<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <form name="print_pi_features" id="print_pi_features" method="post" action="<?php echo W_ROOT; ?>/form-action.php">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <input type="hidden" name="action" id="action" value="print-pi-features">
+                    <input type="hidden" name="features" id="features">
 
+                    <select name="print_option" class="print_option form-control">
+                        <option value="" selected="selected">Drucken</option>
+                        <option value="title">Titel-Karte</option>
+                        <!--<option value="detail">Detail-Karte</option>
+                        <option value="title_nemonic">Titel-Karte (Nemonic)</option>
+                        <option value="feature_antrag">Feature-Antrag</option>-->
+                    </select>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="feature_submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
@@ -54,11 +79,11 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
             <thead>
             <tr>
                 <th scope="col">Funnel
-                    <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="0" title="under construction"></i></div>
                     <div style='font-size:10px;font-weight: normal;'>&nbsp;</div>
                 </th>
                 <th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?>
-                    <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $actual_product_increment['pi_id']; ?>" title="under construction"></i></div>
                     <div style='font-size:10px;font-weight: normal;'><?php echo $actual_pi_date; ?></div>
                 </th>
 				<?php
@@ -75,7 +100,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <th scope="col" class="<?php if ($i > 2) {
 						echo 'd-none';
 					} ?>"><?php echo $product_increment['pi_title']; ?>
-                        <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                        <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="under construction"></i></div>
                         <div style='font-size:10px;font-weight: normal;'><?php echo $pi_date; ?></div>
                     </th>
 					<?php
@@ -92,7 +117,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                 <tr class="feature-information <?php echo $eclass; ?>" data-epic_id="<?php echo $epic['e_id']; ?>">
                     <!-- Funnel features start -->
                     <td>
-                        <div class="product-increment" id="pisortable_0">
+                        <div class="product-increment pi_sortable_0" id="pisortable_0">
                             <h4 class="epic_title"><?php echo $epic['e_title']; ?></h4>
 							<?php
 							$pi_id    = 0;
@@ -200,7 +225,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
                     <!-- Actual PI features start -->
                     <td>
-                        <div class="product-increment" id="_<?php echo $actual_product_increment['pi_id']; ?>">
+                        <div class="product-increment pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="_<?php echo $actual_product_increment['pi_id']; ?>">
 							
 							<?php
 							$pi_id    = $actual_product_increment['pi_id'];
@@ -317,7 +342,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 							$class = '';
 						}
 						$pi_id = $product_increment['pi_id'];
-						echo "<td class='$class'><div class='product-increment' id='_" . $pi_id . "'>";
+						echo "<td class='$class'><div class='product-increment pi_sortable_" . $pi_id . "' id='_" . $pi_id . "'>";
 						
 						$sp_totals[$pi_id] = 0;
 						$features          = '';

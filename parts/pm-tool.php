@@ -1,7 +1,7 @@
 <?php
-$actual_pi_date = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
-$selected_team = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ? $teams[0]['id'] : 0);
-$can_edit_roadmap  = $_SESSION['login_user_data']['can_edit_roadmap'];
+$actual_pi_date   = date('d.m.Y', strtotime($actual_product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($actual_product_increment['pi_end']));
+$selected_team    = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ? $teams[0]['id'] : 0);
+$can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];
 
 if ($can_edit_roadmap == 1) {
 	$table    = '';
@@ -18,6 +18,32 @@ $show_cardfooter_attachments = $show_cardfooter['cardfooter_attachments'];
 $show_cardfooter_sme         = $show_cardfooter['cardfooter_sme'];
 $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 ?>
+<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <form name="print_pi_features" id="print_pi_features" method="post" action="<?php echo W_ROOT; ?>/form-action.php">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                    <input type="hidden" name="action" id="action" value="print-pi-features">
+                    <input type="hidden" name="features" id="features">
+
+                    <select name="print_option" class="print_option form-control">
+                        <option value="" selected="selected">Drucken</option>
+                        <option value="title">Titel-Karte</option>
+                        <!--<option value="detail">Detail-Karte</option>
+                        <option value="title_nemonic">Titel-Karte (Nemonic)</option>
+                        <option value="feature_antrag">Feature-Antrag</option>-->
+                    </select>
+
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" id="feature_submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
@@ -55,11 +81,11 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
             <thead>
             <tr>
                 <th scope="col">Funnel
-                    <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="0" title="under construction"></i></div>
                     <div style='font-size:10px;font-weight: normal;'>&nbsp;</div>
                 </th>
                 <th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?>
-                    <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $actual_product_increment['pi_id']; ?>" title="under construction"></i></div>
                     <div style='font-size:10px;font-weight: normal;'><?php echo $actual_pi_date; ?></div>
                 </th>
 				<?php
@@ -76,7 +102,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <th scope="col" class="<?php if ($i > 2) {
 						echo 'd-none';
 					} ?>"><?php echo $product_increment['pi_title']; ?>
-                        <div style="float:right"><i class="fa fa-print" aria-hidden="true" title="under construction"></i></div>
+                        <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="under construction"></i></div>
                         <div style='font-size:10px;font-weight: normal;'><?php echo $pi_date; ?></div>
                     </th>
 					<?php
@@ -87,6 +113,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
             </thead>
             <tbody>
 			<?php
+			
 			if ($selectedtopic != 0) {
 				$topics    = [];
 				$topics[0] = $db->getTopicById($selectedtopic);
@@ -127,10 +154,10 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
                                                 <div class="float-right">
-													<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)){ ?>
+													<?php if ($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)) { ?>
                                                         <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-													<?php } else {?>
-                                                    <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
+													<?php } else { ?>
+                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
 													<?php }
 													if ($can_edit_roadmap == 1) { ?>
                                                         <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
@@ -241,9 +268,9 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                             <div class="col-4">
                                                 <div class="float-right">
-													<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)){ ?>
+													<?php if ($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)) { ?>
                                                         <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-													<?php } else {?>
+													<?php } else { ?>
                                                         <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
 													<?php }
 													if ($can_edit_roadmap == 1) { ?>
@@ -361,9 +388,9 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                     <div class="col-8"><?php echo $feature['f_title']; ?></div>
                                     <div class="col-4">
                                         <div class="float-right">
-											<?php if($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)){ ?>
+											<?php if ($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)) { ?>
                                                 <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-											<?php } else {?>
+											<?php } else { ?>
                                                 <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
 											<?php }
 											if ($can_edit_roadmap == 1) { ?>
@@ -576,6 +603,6 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
     </tbody>
     </table>
-   
+
 </div>
 </div>

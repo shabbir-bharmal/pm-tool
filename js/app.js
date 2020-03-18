@@ -527,6 +527,20 @@ $(function () {
             $( ".print_option" ).prop( "disabled", false );
         }
     }
+    function printAllfeaturesFromPI() {
+
+        $('.print_pi i').on('click', function(){
+            $('.bd-print-modal-sm').modal('show');
+            var pi = $(this).data('pi');
+            var features = [];
+            $('.pi_sortable_'+pi+' .card').each(function () {
+                features.push($(this).attr('id'));
+            });
+            $("#print_pi_features #features").val(features);
+            //$("#print_pi_features").submit();
+        });
+
+    }
     formFilter();
     updateStaffCapacity();
     manageFeature();
@@ -537,6 +551,7 @@ $(function () {
     popover();
     avtarUpload();
     manageAccount();
+    printAllfeaturesFromPI();
 });
 
 

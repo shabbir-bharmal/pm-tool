@@ -18,6 +18,8 @@ $helptexts = $db->getHelpText();
 $teams     = $db->getTeams();
 $topics    = $db->getTopicsByTeam($selected_team);
 
+
+
 if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION['login_user_data']['can_edit_roadmap'] == 0)) {
 	$error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [11]. <br><a href='" . W_ROOT . "'>Login-Maske</a>";
 }

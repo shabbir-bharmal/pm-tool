@@ -1677,4 +1677,15 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	public function getFeatureTitleTopicColorByFeatureId($f_id){
+		try{
+			$stm = $this->pdo->prepare("SELECT features.f_id,features.f_title,featuretypes.highlight_color,topics.name FROM features LEFT JOIN featuretypes ON features.f_type = featuretypes.id LEFT JOIN topics ON features.f_topic_id = topics.id WHERE  features.f_id = :f_id");
+			$stm->bindParam(':f_id', $f_id);
+			$stm->execute();
+			$feature = $stm->fetch(PDO::FETCH_ASSOC);
+			return $feature;
+		}catch (PDOException $e){
+		
+		}
+	}
 }

@@ -1,5 +1,5 @@
 <?php
-$topics          = $db->getTopics();
+$topics_list         = $db->getTopics();
 $watching_topics = $db->getWatchingTopics($login_id);
 ?>
 <div class="form-group row mt-3">
@@ -10,8 +10,8 @@ $watching_topics = $db->getWatchingTopics($login_id);
             <select name="topics_watcher[]" id="topics_watcher" multiple class="form-control">
                 <option value="0">--bitte w<span>&#228;</span>hlen--</option>
 				<?php
-				if ($topics) {
-					foreach ($topics as $topic) {
+				if ($topics_list) {
+					foreach ($topics_list as $topic) {
 						$key      = array_search($topic['id'], array_column($watching_topics, 'model_id'));
 						$selected = $key === false ? '' : 'selected="selected"';
 						?>

@@ -106,6 +106,6 @@
 #img-upload{
     width: 100%;
 }
-.watch-icon{
+.watch-icon,print_pi{
     cursor: pointer;
 }
