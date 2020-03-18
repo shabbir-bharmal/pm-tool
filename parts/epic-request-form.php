@@ -5,6 +5,7 @@ $epic_statuses = $db->getEpicStatuses();
 $teams         = $db->getTeams();
 $e_id          = isset($_REQUEST['e_id']) ? $_REQUEST['e_id'] : 0;
 $epic_info     = $db->getEpicById($e_id);
+$is_watching      = $db->getWatcher($_SESSION['login_user_data']['staff_id'], 'epic', $e_id);
 $login_id         = $_SESSION['login_user_data']['staff_id'];
 $staff_id         = $login_id;
 $can_edit_roadmap = $_SESSION['login_user_data']['can_edit_roadmap'];

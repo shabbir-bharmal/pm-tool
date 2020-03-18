@@ -1,4 +1,4 @@
-<br />
+<br/>
 <h5>Zielbeschreibung</h5>
 
 <div class="form-group row">
@@ -116,9 +116,9 @@
 			<?php
 			foreach ($staff as $staff_member) {
 				if ($staff_member['username']) {
-					$staffname = $staff_member['staff_firstname'].' '.$staff_member['staff_lastname'].' ('.$staff_member['username'].')';
+					$staffname = $staff_member['staff_firstname'] . ' ' . $staff_member['staff_lastname'] . ' (' . $staff_member['username'] . ')';
 				} else {
-					$staffname = $staff_member['staff_firstname'].' '.$staff_member['staff_lastname'];
+					$staffname = $staff_member['staff_firstname'] . ' ' . $staff_member['staff_lastname'];
 				}
 				$selected = !$e_id ? ($_SESSION['login_user_data']['staff_id'] == $staff_member['staff_id'] ? 'selected="selected"' : '') : ($epic_info['e_owner'] == $staff_member['staff_id'] ? 'selected="selected"' : '');
 				?>
@@ -153,5 +153,19 @@
 
     <div class="col-6 col-xs-12">
         <textarea name="e_notes" id="e_notes" class="form-control"  <?php echo $disabled; ?> ><?php echo !$e_id ? '' : $epic_info['e_notes']; ?></textarea>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="watcher" class="col-3 col-xs-12 col-form-label">Watch: </label>
+    <input type="hidden" name="watcher" id="watcher" value="<?php echo $is_watching ? 1 : 0; ?>">
+	<?php
+	$class = 'text-secondary';
+	if ($is_watching) {
+		$class = "text-success";
+	}
+	?>
+    <div class="col-6 col-xs-12">
+        <i class="fa fa-eye <?php echo $class; ?> watch-icon"></i>
     </div>
 </div>

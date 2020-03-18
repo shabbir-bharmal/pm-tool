@@ -100,7 +100,7 @@ $(function () {
 
             if ($(this).val() != '') {
 
-                 $("#f_title").rules("add", {
+                $("#f_title").rules("add", {
                     required : true,
                     maxlength: 55
                 });
@@ -125,12 +125,6 @@ $(function () {
         });
     }
 
-    $('#f_due_date').datetimepicker({
-        format: 'YYYY-MM-DD'
-    });
-    $('[data-toggle="popover"]').popover();
-
-
     function calculateWSJF() {
 
         $("#f_BV,#f_TC,#f_RROE,#f_JS").on('change', function () {
@@ -143,6 +137,20 @@ $(function () {
             } else {
                 var wsjf = (parseInt(f_BV) + parseInt(f_TC) + parseInt(f_RROE)) / parseInt(f_JS);
                 $(".f_WSJF").html('= ' + wsjf);
+            }
+        });
+    }
+    function manageWatcherAction(){
+        $('.watch-icon').on('click', function(){
+            var watcher = $('#watcher');
+            if(watcher.val() == 1){ // already watching so unwatch now
+                watcher.val(0);
+                $('.watch-icon').toggleClass('text-success');
+                $('.watch-icon').addClass('text-secondary');
+            } else { // unwatching so watch now
+                watcher.val(1);
+                $('.watch-icon').toggleClass('text-secondary');
+                $('.watch-icon').addClass('text-success');
             }
         });
     }
@@ -163,6 +171,7 @@ $(function () {
             });
         });
     }
+
     function updateMehrLink() {
         $("input#f_mehr_details").on('blur', function () {
             if ($(this).val() != '') {
@@ -171,10 +180,17 @@ $(function () {
         });
     }
 
+    $('#f_due_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+    $('[data-toggle="popover"]').popover();
+
+
     formValidation();
     validateForm();
     calculateWSJF();
     deleteFile();
     updateMehrLink();
+    manageWatcherAction();
 
 });

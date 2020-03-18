@@ -5,7 +5,7 @@ $topics           = $db->getTopics();
 $feature_statuses = $db->getFeatureStatuses();
 $f_id             = isset($_REQUEST['f_id']) ? $_REQUEST['f_id'] : 0;
 $feature_info     = $db->getFeatureByFeatureId($f_id);
-
+$is_watching      = $db->getWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id);
 $feature_files  = $db->getFeatureFilesByFeatureId($f_id);
 $feature_types = $db->getFeatureType();
 $type = 1;

@@ -355,6 +355,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			
 			$this->saveFeatureDetails($f_id, $feature_info);
 			$this->saveFeatureFiles($f_id, $feature_info);
+			$this->saveWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id, $feature_info['watcher']);
+			
 			
 		}
 		catch (PDOException $e) {
@@ -424,8 +426,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$_POST['f_id']        = $f_id;
 			// Save details
 			$this->saveFeatureDetails($f_id, $feature_info);
-			return $this->saveFeatureFiles($f_id, $feature_info);
-			
+			$this->saveFeatureFiles($f_id, $feature_info);
+			return $this->saveWatcher($_SESSION['login_user_data']['staff_id'], 'feature', $f_id, $feature_info['watcher']);
 		}
 		catch (PDOException $e) {
 		}
@@ -568,7 +570,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			
 			// Save details
 			$this->saveEpicDetails($e_id, $epic_info);
-			return $this->saveEpicFiles($e_id, $epic_info);
+			$this->saveEpicFiles($e_id, $epic_info);
+			return $this->saveWatcher($_SESSION['login_user_data']['staff_id'], 'epic', $e_id, $epic_info['watcher']);
 			
 		}
 		catch (PDOException $e) {
@@ -1408,6 +1411,19 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
 			$this->saveStaffCardFooterPermission($account_info);
+			if(isset($account_info['topics_watcher'])){
+				// Add watching topics
+				foreach($account_info['topics_watcher'] as $topic_id){
+					if($topic_id){
+						$this->saveWatcher($account_info['staff_id'], 'topic', $topic_id, 1);
+					}
+				}
+				// Remove other watching topics
+				$this->unwatchOtherTopics($account_info['staff_id'], $account_info['topics_watcher']);
+			} else {
+				// Remove old topics
+				$this->unwatchAllTopics($account_info['staff_id']);
+			}
 			
 		}
 		catch (PDOException $e) {
@@ -1534,5 +1550,109 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 		
+	}
+	/**
+	 * @param int $staff_id
+	 * @param string $model_type
+	 * @param int $model_id
+	 * @return bool
+	 */
+	public function getWatcher($staff_id = 0, $model_type = 'feature', $model_id = 0){
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `watchers` WHERE `staff_id` = :staff_id AND model_type = :model_type AND model_id = :model_id");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->bindParam(':model_type', $model_type);
+			$stm->bindParam(':model_id', $model_id);
+			$stm->execute();
+			$watcher = $stm->fetch(PDO::FETCH_ASSOC);
+			return $watcher;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	/**
+	 * @param int $staff_id
+	 * @param string $model_type
+	 * @param int $model_id
+	 * @param int $watch
+	 * @return bool
+	 */
+	public function saveWatcher($staff_id = 0, $model_type = 'feature', $model_id = 0, $watch = 0)
+	{
+		try {
+			if ($watch) {
+				$is_watching = $this->getWatcher($staff_id, $model_type, $model_id);
+				if (!$is_watching) {
+					$sql = "INSERT INTO `watchers` (staff_id, model_type, model_id) VALUES (:staff_id, :model_type, :model_id)";
+					$stm = $this->pdo->prepare($sql);
+					$stm->bindParam(':staff_id', $staff_id);
+					$stm->bindParam(':model_type', $model_type);
+					$stm->bindParam(':model_id', $model_id);
+					$stm->execute();
+				}
+			} else {
+				$sql = "DELETE from watchers where staff_id = :staff_id AND model_type = :model_type AND model_id = :model_id";
+				$stm = $this->pdo->prepare($sql);
+				$stm->bindParam(':staff_id', $staff_id);
+				$stm->bindParam(':model_type', $model_type);
+				$stm->bindParam(':model_id', $model_id);
+				$stm->execute();
+			}
+			return true;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	/**
+	 * @param int $staff_id
+	 * @param string $model_type
+	 * @return bool
+	 */
+	public function getWatchingTopics($staff_id = 0, $model_type = 'topic')
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `watchers` WHERE `staff_id` = :staff_id AND model_type = :model_type");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->bindParam(':model_type', $model_type);
+			$stm->execute();
+			$watchers = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $watchers;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	/**
+	 * @param int $staff_id
+	 * @return bool
+	 */
+	public function unwatchAllTopics($staff_id = 0)
+	{
+		try {
+			$sql = "DELETE from watchers where staff_id = :staff_id AND model_type = 'topic'";
+			$stm = $this->pdo->prepare($sql);
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			return true;
+		} catch (PDOException $e) {
+		}
+		return false;
+	}
+	/**
+	 * @param int $staff_id
+	 * @param array $topic_ids
+	 * @return bool
+	 */
+	public function unwatchOtherTopics($staff_id = 0, $topic_ids = array())
+	{
+		try {
+			$sql = "DELETE from watchers where staff_id = :staff_id AND model_type = 'topic' AND model_id NOT IN ("."'".implode("', '", $topic_ids)."'".")";
+			$stm = $this->pdo->prepare($sql);
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			return true;
+		} catch (PDOException $e) {
+		}
+		return false;
 	}
 }
