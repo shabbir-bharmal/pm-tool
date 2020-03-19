@@ -18,7 +18,13 @@ switch ($action) {
 		
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
-			header("location:" . W_ROOT . "/index.php");
+			if($_SESSION['redirect_url']){
+				//$redirectlink = $_SESSION['redirect_url'];
+				header("location:" .$_SESSION['redirect_url']);
+			}else{
+				header("location:" . W_ROOT . "/index.php");
+			}
+			
 		} else {
 			$error             = "Dein Benutzername resp. Passwort ist ung&uuml;ltig";
 			$_SESSION['error'] = $error;
