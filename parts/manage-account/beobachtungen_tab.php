@@ -3,8 +3,21 @@ $topics_list         = $db->getTopics();
 $watching_topics = $db->getWatchingTopics($login_id);
 ?>
 <div class="form-group row mt-3">
+	<div class="from-group col-md-12">
+  Du kannst hier definieren, f&uuml;r welche Topics Du informiert werden willst, wenn:
+  <ul>
+    <li>neue Features</li>
+    <li>angepasste Feature</li>
+    <li>gel&ouml;schte Features</li>
+   </ul>        
+   Du erh&auml;lst dann jeweils ein E-Mail.<br />
+   Hinweis: Du kannst auf den einzelnen Features ebenfalls eine Beobachtung vornehmen.
+	</div>
+</div>
+
+<div class="form-group row mt-3">
     <div class="from-group col-md-9">
-        <label for="topics_watcher" class="col-3 col-form-label">Watch Topics: </label>
+        <label for="topics_watcher" class="col-3 col-form-label">Topics: </label>
 
         <div class="col-md-9 float-right">
             <select name="topics_watcher[]" id="topics_watcher" multiple class="form-control">
@@ -23,4 +36,11 @@ $watching_topics = $db->getWatchingTopics($login_id);
             </select>
         </div>
     </div>
+</div>
+
+<div class="form-group row mt-3">
+	<div class="from-group col-md-12">
+  under construction:<br />
+  Liste aller Features, die Du folgst. 
+	</div>
 </div>

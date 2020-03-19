@@ -83,7 +83,8 @@ include_once F_ROOT . 'parts/layout/head.php';
                     <input type="hidden" name="topic_id" value="<?php echo $selectedtopic; ?>">
                 </form>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="col-md-2"></div>
+            <div class="col-md-2 text-right">
                 <select class="form-control" id="event" name="event">
                     <option value="">--Anzeige <span>&#228;</span>ndern--</option>
                     <option value="incpi">+ ein PI anzeigen</option>

@@ -197,8 +197,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											}
 											if ($show_cardfooter_sme == 1) {
 												if ($feature_info['f_SME'] > 0) {
-													$sme[0]     = $db->getStaffById($feature_info['f_SME']);
-													$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
+                          if($sme[0]['staff_avatar']<>""){
+                              if ($sme[0]['username']<>""){
+    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
+                              }
+                          }else{
+                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+                          }
+                          unset($sme);
 												}
 											}
 											if ($show_cardfooter_attachments == 1) {
@@ -226,7 +233,6 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											}
 											echo '<font style="font-size:10px;">' . substr($cardfooter, 0, -3) . "</font>";
 											?>
-
                                         </div>
                                     </div>
                                 </div>
@@ -254,6 +260,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
+              
+                $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 								if ($feature['f_JS'] == 0) {
 									$wsjf = 0;
 								} else {
@@ -310,8 +318,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											}
 											if ($show_cardfooter_sme == 1) {
 												if ($feature_info['f_SME'] > 0) {
-													$sme[0]     = $db->getStaffById($feature_info['f_SME']);
-													$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
+                          if($sme[0]['staff_avatar']<>""){
+                              if ($sme[0]['username']<>""){
+    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
+                              }
+                          }else{
+                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+                          }
+                          unset($sme);
 												}
 											}
 											if ($show_cardfooter_attachments == 1) {
@@ -374,6 +389,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				$sp_total = 0;
 				if (isset($features) && !empty($features)) {
 					foreach ($features as $feature) {
+          $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
+          
 						if ($feature['f_JS'] == 0) {
 							$wsjf = 0;
 						} else {
@@ -428,12 +445,19 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 										$cardfooter .= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
 										//}
 									}
-									if ($show_cardfooter_sme == 1) {
-										if ($feature_info['f_SME'] > 0) {
-											$sme[0]     = $db->getStaffById($feature_info['f_SME']);
-											$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
-										}
-									}
+											if ($show_cardfooter_sme == 1) {
+												if ($feature_info['f_SME'] > 0) {
+													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
+                          if($sme[0]['staff_avatar']<>""){
+                              if ($sme[0]['username']<>""){
+    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
+                              }
+                          }else{
+                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+                          }
+                          unset($sme);
+												}
+											}
 									if ($show_cardfooter_attachments == 1) {
 										$feature_files = $db->getFeatureFilesByFeatureId($feature['f_id']);
 										

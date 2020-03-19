@@ -1383,11 +1383,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		try {
 			
-			$releation = "staff_firstname=:staff_firstname, staff_lastname=:staff_lastname";
+			$releation = "staff_firstname=:staff_firstname, staff_lastname=:staff_lastname, email=:email";
 			$data      = [
 				':staff_id'        => $account_info['staff_id'],
 				':staff_firstname' => $account_info['staff_firstname'],
-				':staff_lastname'  => $account_info['staff_lastname']
+				':staff_lastname'  => $account_info['staff_lastname'],        
+        ':email'  => $account_info['email']        
 			];
 			
 			if ($_FILES) {
@@ -1411,7 +1412,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$data[':password'] = md5($account_info['password']);
 			}
 			
-			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";
+			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";  
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
 			$this->saveStaffCardFooterPermission($account_info);

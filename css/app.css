@@ -106,6 +106,20 @@
 #img-upload{
     width: 100%;
 }
-.watch-icon,print_pi{
+.watch-icon{
     cursor: pointer;
+}
+
+.zoomavatar {
+  //padding: 0px;
+  //background-color: green;
+  transition: transform .2s; /* Animation */
+  width: 28px !important;
+  height: 28px;
+  margin: 0 10px 0 0;
+  
+}
+
+.zoomavatar:hover {
+  transform: scale(3); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

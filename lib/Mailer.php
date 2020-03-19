@@ -17,7 +17,7 @@ class Mailer
 	 * @var PHPMailer
 	 */
 	public $mail;
-	
+
 	/**
 	 *
 	 */
@@ -35,15 +35,13 @@ class Mailer
 			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
 			$mail->Port       = SMTP_PORT;                                    // TCP port to connect to
 			$this->mail       = $mail;
-		}
-		catch (Exception $e) {
+		} catch (Exception $e) {
 			echo "Can't establish SMTP connection. Error: {$mail->ErrorInfo}";
 		}
 	}
-	
+
 	/**
 	 * Send mail to admin once Feature Request has submitted
-	 *
 	 * @param $data
 	 * @return bool
 	 */
@@ -51,33 +49,31 @@ class Mailer
 	{
 		try {
 			$mail = $this->mail;
-			
+
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
 			$mail->addAddress('philipp@wuermli.com');     // Add a recipient
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Feature beantragt';
-			
+
 			$body = '<p>Hallo, </p>';
-			$body .= '<p>Ein neuer Feature mit dem Titel <b>' . $data['f_title'] . '</b> wurde beantragt, bitte pr&uuml;fen.</p>';
-			$body .= '<p>https://pm.mastaz.ch/feature-request.php?f_id=' . $data['f_id'] . '</p>';
-			
-			
+      $body .= '<p>Ein neuer Feature mit dem Titel <b>'.$data['f_title'].'</b> wurde beantragt, bitte pr&uuml;fen.</p>';
+      $body .= '<p>https://pm.mastaz.ch/feature-request.php?f_id='.$data['f_id'].'</p>';      
+      
+
 			$mail->Body = $body;
-			
+
 			$mail->send();
 			return true;
-		}
-		catch (Exception $e) {
-		
+		} catch (Exception $e) {
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Send mail to admin once Epic Request has submitted
-	 *
 	 * @param $data
 	 * @return bool
 	 */
@@ -85,31 +81,29 @@ class Mailer
 	{
 		try {
 			$mail = $this->mail;
-			
+
 			//Recipients
 			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
 			//$mail->addAddress('wurp@zhaw.ch');     // Add a recipient
-			$mail->addAddress('philipp@wuermli.com');     // Add a recipient
+      		$mail->addAddress('philipp@wuermli.com');     // Add a recipient
 			
 			// Content
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'Neuer Epic erfassen';
-			
+
 			$body = '<p>Hallo, </p>';
-			$body .= '<p>Ein neuer Epic mit dem Titel <b>' . $data['e_title'] . '</b> wurde beantragt, bitte pr&uuml;fen.</p>';
-			$body .= '<p>https://pm.mastaz.ch/epic-request.php?e_id=' . $data['e_id'] . '</p>';
-			
+			$body .= '<p>Ein neuer Epic mit dem Titel <b>'.$data['e_title'].'</b> wurde beantragt, bitte pr&uuml;fen.</p>';
+      $body .= '<p>https://pm.mastaz.ch/epic-request.php?e_id='.$data['e_id'].'</p>';      
+
 			$mail->Body = $body;
-			
+
 			$mail->send();
 			return true;
-		}
-		catch (Exception $e) {
-		
+		} catch (Exception $e) {
+
 		}
 		return false;
 	}
-	
 	public function sendWatchlistEmail($action, $id, $title, $data)
 	{
 		try {
@@ -165,5 +159,4 @@ class Mailer
 		}
 		return false;
 	}
-	
 }

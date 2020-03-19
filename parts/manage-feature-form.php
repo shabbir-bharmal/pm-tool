@@ -68,8 +68,21 @@ if($can_edit_roadmap == 1 || $feature_info['f_SME'] == $login_id || in_array($fe
 	$creation_edit_info= "Erstellt am: ". $creation_date." <br> Editiert am: ".$edited_timestamp;
 	echo "<i class='col-form-label fa fa-info-circle float-right' data-html='true' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $creation_edit_info . "'></i>";
 	?>
+  
+  
+        <input type="hidden" name="watcher" id="watcher" value="<?php echo $is_watching ? 1 : 0; ?>">
+		<?php
+		$class = 'text-secondary';
+		if ($is_watching) {
+			$class = "text-success";
+		}
+		?>
+        <i class="fa fa-eye float-right col-form-label <?php echo $class; ?> watch-icon" style="margin-right:10px;"></i>
+  
+  
     <input type="text" name="f_title" class="form-control" id="f_title" value="<?php echo(!$f_id ? "" : $feature_info['f_title']); ?>"  <?php  echo $disabled; ?>>
 </div>
+
 <!-- Tab Functionality Start-->
 <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">
     <li class="nav-item">
