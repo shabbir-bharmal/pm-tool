@@ -15,6 +15,10 @@
 <?php  if(isset($page)){ ?>
 	<script src="<?php echo W_ROOT.'/js/'.$page.'.js';?>" type="text/javascript"></script>
 <?php } ?>
+<script type="text/javascript" src="<?php echo W_ROOT.'/js/comments-data.js';?>"></script>
+<!-- Libraries -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
+<script type="text/javascript" src="<?php echo W_ROOT.'/js/jquery-comments.js';?>"></script>
 
 <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="yjnjrc7zohtd5iwsukdr9awr5kyeg5nhswk";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
 </body>

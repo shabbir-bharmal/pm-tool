@@ -140,10 +140,11 @@ $(function () {
             }
         });
     }
-    function manageWatcherAction(){
-        $('.watch-icon').on('click', function(){
+
+    function manageWatcherAction() {
+        $('.watch-icon').on('click', function () {
             var watcher = $('#watcher');
-            if(watcher.val() == 1){ // already watching so unwatch now
+            if (watcher.val() == 1) { // already watching so unwatch now
                 watcher.val(0);
                 $('.watch-icon').toggleClass('text-success');
                 $('.watch-icon').addClass('text-secondary');
@@ -154,6 +155,7 @@ $(function () {
             }
         });
     }
+
     function deleteFile() {
         $('.delete_file').on('click', function () {
             var file_id = $(this).data('file_id');
@@ -180,11 +182,12 @@ $(function () {
         });
     }
 
+
+
     $('#f_due_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
     $('[data-toggle="popover"]').popover();
-
 
     formValidation();
     validateForm();
@@ -192,5 +195,4 @@ $(function () {
     deleteFile();
     updateMehrLink();
     manageWatcherAction();
-
 });

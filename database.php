@@ -359,7 +359,6 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			return $f_id;
 			
 			
-			
 		}
 		catch (PDOException $e) {
 		}
@@ -1387,8 +1386,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$data      = [
 				':staff_id'        => $account_info['staff_id'],
 				':staff_firstname' => $account_info['staff_firstname'],
-				':staff_lastname'  => $account_info['staff_lastname'],        
-        ':email'  => $account_info['email']        
+				':staff_lastname'  => $account_info['staff_lastname'],
+				':email'           => $account_info['email']
 			];
 			
 			if ($_FILES) {
@@ -1412,14 +1411,14 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$data[':password'] = md5($account_info['password']);
 			}
 			
-			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";  
+			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
 			$this->saveStaffCardFooterPermission($account_info);
-			if(isset($account_info['topics_watcher'])){
+			if (isset($account_info['topics_watcher'])) {
 				// Add watching topics
-				foreach($account_info['topics_watcher'] as $topic_id){
-					if($topic_id){
+				foreach ($account_info['topics_watcher'] as $topic_id) {
+					if ($topic_id) {
 						$this->saveWatcher($account_info['staff_id'], 'topic', $topic_id, 1);
 					}
 				}
@@ -1475,14 +1474,14 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function saveStaffCardFooterPermission($account_info)
 	{
 		try {
-			$data      = [
-				':staff_id'        => $account_info['staff_id'],
-				':cardfooter_duedate' => (!$account_info['cardfooter_duedate'] ? 0 : 1),
-				':cardfooter_wsjf' => (!$account_info['cardfooter_wsjf'] ? 0 : 1),
-				':cardfooter_sp' => (!$account_info['cardfooter_sp'] ? 0 : 1),
+			$data = [
+				':staff_id'               => $account_info['staff_id'],
+				':cardfooter_duedate'     => (!$account_info['cardfooter_duedate'] ? 0 : 1),
+				':cardfooter_wsjf'        => (!$account_info['cardfooter_wsjf'] ? 0 : 1),
+				':cardfooter_sp'          => (!$account_info['cardfooter_sp'] ? 0 : 1),
 				':cardfooter_attachments' => (!$account_info['cardfooter_attachments'] ? 0 : 1),
-				':cardfooter_sme' => (!$account_info['cardfooter_sme'] ? 0 : 1),
-				':cardfooter_comments' => (!$account_info['cardfooter_comments'] ? 0 : 1),
+				':cardfooter_sme'         => (!$account_info['cardfooter_sme'] ? 0 : 1),
+				':cardfooter_comments'    => (!$account_info['cardfooter_comments'] ? 0 : 1),
 			];
 			
 			$sql
@@ -1519,6 +1518,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		
 		}
 	}
+	
 	public function getStaffCardPermission($staff_id)
 	{
 		
@@ -1534,18 +1534,19 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 		
 	}
+	
 	public function getTopicsPermissionByStaffId($staff_id)
 	{
 		
 		try {
 			$allow = 1;
-			$stm = $this->pdo->prepare("SELECT topic_id FROM `staff_manageable_topics` WHERE `staff_id` = :staff_id AND `allow` = :allow");
+			$stm   = $this->pdo->prepare("SELECT topic_id FROM `staff_manageable_topics` WHERE `staff_id` = :staff_id AND `allow` = :allow");
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->bindParam(':allow', $allow);
 			$stm->execute();
-			$topic_ids = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$topic_ids        = $stm->fetchAll(PDO::FETCH_ASSOC);
 			$topic_permission = [];
-			foreach ($topic_ids as $topic_id){
+			foreach ($topic_ids as $topic_id) {
 				$topic_permission[] = $topic_id['topic_id'];
 			}
 			
@@ -1556,13 +1557,15 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 		
 	}
+	
 	/**
 	 * @param int $staff_id
 	 * @param string $model_type
 	 * @param int $model_id
 	 * @return bool
 	 */
-	public function getWatcher($staff_id = 0, $model_type = 'feature', $model_id = 0){
+	public function getWatcher($staff_id = 0, $model_type = 'feature', $model_id = 0)
+	{
 		try {
 			$stm = $this->pdo->prepare("SELECT * FROM `watchers` WHERE `staff_id` = :staff_id AND model_type = :model_type AND model_id = :model_id");
 			$stm->bindParam(':staff_id', $staff_id);
@@ -1576,6 +1579,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	/**
 	 * @param int $staff_id
 	 * @param string $model_type
@@ -1605,10 +1609,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$stm->execute();
 			}
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
+	
 	/**
 	 * @param int $staff_id
 	 * @param string $model_type
@@ -1623,10 +1629,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$watchers = $stm->fetchAll(PDO::FETCH_ASSOC);
 			return $watchers;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
+	
 	/**
 	 * @param int $staff_id
 	 * @return bool
@@ -1639,10 +1647,12 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->execute();
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
+	
 	/**
 	 * @param int $staff_id
 	 * @param array $topic_ids
@@ -1651,24 +1661,27 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function unwatchOtherTopics($staff_id = 0, $topic_ids = array())
 	{
 		try {
-			$sql = "DELETE from watchers where staff_id = :staff_id AND model_type = 'topic' AND model_id NOT IN ("."'".implode("', '", $topic_ids)."'".")";
+			$sql = "DELETE from watchers where staff_id = :staff_id AND model_type = 'topic' AND model_id NOT IN (" . "'" . implode("', '", $topic_ids) . "'" . ")";
 			$stm = $this->pdo->prepare($sql);
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->execute();
 			return true;
-		} catch (PDOException $e) {
+		}
+		catch (PDOException $e) {
 		}
 		return false;
 	}
-	public function getWatcherByModelAndModalId($model_type, $model_id){
+	
+	public function getWatcherByModelAndModalId($model_type, $model_id)
+	{
 		try {
 			$stm = $this->pdo->prepare("SELECT staff_id FROM `watchers` WHERE model_type = :model_type AND model_id = :model_id");
 			$stm->bindParam(':model_type', $model_type);
 			$stm->bindParam(':model_id', $model_id);
 			$stm->execute();
-			$watchers = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$watchers    = $stm->fetchAll(PDO::FETCH_ASSOC);
 			$watcherlist = [];
-			foreach ($watchers as $watcher){
+			foreach ($watchers as $watcher) {
 				$watcherlist[] = $watcher['staff_id'];
 			}
 			
@@ -1678,15 +1691,176 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	public function getFeatureTitleTopicColorByFeatureId($f_id){
-		try{
+	
+	public function getFeatureTitleTopicColorByFeatureId($f_id)
+	{
+		try {
 			$stm = $this->pdo->prepare("SELECT features.f_id,features.f_title,featuretypes.highlight_color,topics.name FROM features LEFT JOIN featuretypes ON features.f_type = featuretypes.id LEFT JOIN topics ON features.f_topic_id = topics.id WHERE  features.f_id = :f_id");
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
 			$feature = $stm->fetch(PDO::FETCH_ASSOC);
 			return $feature;
-		}catch (PDOException $e){
+		}
+		catch (PDOException $e) {
 		
 		}
 	}
+	
+	public function saveComment($modal, $modal_id, $data, $login_id)
+	{
+		try {
+			
+			foreach ($data as $key => $value) {
+				if ($value == 'true') {
+					$data[$key] = 1;
+				}
+				if ($value == 'false') {
+					$data[$key] = 0;
+				}
+				if ($value == '') {
+					$data[$key] = NULL;
+				}
+				
+			}
+			
+			$comment_data = [
+				':modal'                   => $modal,
+				':modal_id'                => $modal_id,
+				':parent'                  => $data['parent'],
+				':content'                 => $data['content'],
+				':creator'                 => $login_id,
+				':created_by_current_user' => $data['created_by_current_user'],
+				':upvote_count'            => $data['upvote_count'],
+				':user_has_upvoted'        => $data['user_has_upvoted'],
+			];
+			if ($data['id']) {
+				$comment_data[':id'] = $data['id'];
+				$sql = "UPDATE comments SET
+						modal = :modal,
+						modal_id = :modal_id,
+						parent = :parent,
+						content = :content,
+						creator= :creator,
+						created_by_current_user = :created_by_current_user,
+						upvote_count = :upvote_count,
+						user_has_upvoted = :user_has_upvoted
+						WHERE
+						id=:id";
+			} else {
+				$sql = "INSERT INTO `comments` (
+						modal,
+						modal_id,
+						parent,
+						content,
+						creator,
+						created_by_current_user,
+						upvote_count,
+						user_has_upvoted
+					) VALUES (
+						:modal,
+						:modal_id,
+						:parent,
+						:content,
+						:creator,
+						:created_by_current_user,
+						:upvote_count,
+						:user_has_upvoted
+					)";
+			}
+			//	echo str_replace(array_keys($comment_data), array_values($comment_data), $sql);exit;
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($comment_data);
+			if ($data['id']) {
+				$c_id = $data['id'];
+			}else{
+				$c_id = $this->pdo->lastInsertId();
+			}
+			
+			$stm = $this->pdo->prepare("DELETE FROM `pings` WHERE `c_id` = :c_id;");
+			$stm->bindParam(':c_id', $c_id);
+			$stm->execute();
+			
+			if ($data['pings']) {
+				
+				foreach ($data['pings'] as $key => $value) {
+					
+					$pings_data = [
+						':c_id'       => $c_id,
+						':staff_id'   => $key,
+						':staff_name' => $value,
+					
+					];
+					$sql        = "INSERT INTO `pings` (
+						c_id,
+						staff_id,
+						staff_name
+					) VALUES (
+						:c_id,
+						:staff_id,
+						:staff_name
+					)";
+					$stm        = $this->pdo->prepare($sql);
+					$stm->execute($pings_data);
+				}
+				
+			}
+			return $c_id;
+			
+		}
+		catch (PDOException $e) {
+		}
+		
+	}
+	
+	public function getCommentsByIdAndType($modal_id, $modal)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `comments` WHERE `modal` = :modal AND `modal_id` = :modal_id");
+			$stm->bindParam(':modal_id', $modal_id);
+			$stm->bindParam(':modal', $modal);
+			$stm->execute();
+			$comments = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $comments;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getPingByCommentID($id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_name FROM `pings` WHERE `c_id` = :c_id");
+			$stm->bindParam(':c_id', $id);
+			$stm->execute();
+			$pings_data = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$pings      = [];
+			foreach ($pings_data as $ping_info) {
+				$pings[$ping_info['staff_id']] = $ping_info['staff_name'];
+			}
+			
+			return $pings;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function deleteComment($data)
+	{
+		try {
+			$c_id = $data['id'];
+			$stm = $this->pdo->prepare("DELETE FROM `comments` WHERE `id` = :c_id;");
+			$stm->bindParam(':c_id', $c_id);
+			$stm->execute();
+			
+			$stm = $this->pdo->prepare("DELETE FROM `pings` WHERE `c_id` = :c_id;");
+			$stm->bindParam(':c_id', $c_id);
+			$stm->execute();
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
 }

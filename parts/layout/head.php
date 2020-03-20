@@ -13,6 +13,7 @@
     <link href="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo W_ROOT.'/css/bootstrap-datetimepicker.min.css';?>">
 	<link rel="stylesheet" href="<?php echo W_ROOT.'/css/app.css';?>"/>
+	<link rel="stylesheet" href="<?php echo W_ROOT.'/css/jquery-comments.css';?>"/>
 
 </head>
 

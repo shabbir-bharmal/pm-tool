@@ -1,4 +1,4 @@
-var commentsArray = [
+/*var commentsArray = [
     {
         "id"                     : 1,
         "parent"                 : null,
@@ -28,7 +28,8 @@ var commentsArray = [
       "upvote_count"           : 0,
       "user_has_upvoted"       : false
    }
-    /*{
+   {
+
        "id": 2,
        "parent": null,
        "created": "2015-01-02",
@@ -173,9 +174,8 @@ var commentsArray = [
        "upvote_count": 0,
        "user_has_upvoted": false,
        "is_new": false
-    }*/
+    }
 ]
-/*
 var usersArray = [
    {
       id: 1,
@@ -219,4 +219,6 @@ var usersArray = [
       email: "bryan.connery@viima.com",
       profile_picture_url: "https://viima-app.s3.amazonaws.com/media/public/defaults/user-icon.png"
    }
-]*/
+]
+
+ */
