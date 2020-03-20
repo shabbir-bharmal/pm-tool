@@ -20,10 +20,10 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 ?>
 <div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <form name="print_pi_features" id="print_pi_features" method="post" action="<?php echo W_ROOT; ?>/form-action.php">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                    <input type="hidden" name="action" id="action" value="print-pi-features">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="print-pi-features">
                     <input type="hidden" name="features" id="features">
 
                     <select name="print_option" class="print_option form-control">
@@ -34,19 +34,19 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                         <option value="feature_antrag">Feature-Antrag</option>-->
                     </select>
 
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="feature_submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
-    </div>
     </form>
 </div>
 
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -197,15 +197,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											}
 											if ($show_cardfooter_sme == 1) {
 												if ($feature_info['f_SME'] > 0) {
-													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
-                          if($sme[0]['staff_avatar']<>""){
-                              if ($sme[0]['username']<>""){
-    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
-                              }
-                          }else{
-                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
-                          }
-                          unset($sme);
+													$sme[0] = $db->getStaffById($feature_info['f_SME']);
+													if ($sme[0]['staff_avatar'] <> "") {
+														if ($sme[0]['username'] <> "") {
+															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
+														}
+													} else {
+														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+													}
+													unset($sme);
 												}
 											}
 											if ($show_cardfooter_attachments == 1) {
@@ -260,8 +260,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 						
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
-              
-                $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
+								
+								$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 								if ($feature['f_JS'] == 0) {
 									$wsjf = 0;
 								} else {
@@ -318,15 +318,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											}
 											if ($show_cardfooter_sme == 1) {
 												if ($feature_info['f_SME'] > 0) {
-													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
-                          if($sme[0]['staff_avatar']<>""){
-                              if ($sme[0]['username']<>""){
-    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
-                              }
-                          }else{
-                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
-                          }
-                          unset($sme);
+													$sme[0] = $db->getStaffById($feature_info['f_SME']);
+													if ($sme[0]['staff_avatar'] <> "") {
+														if ($sme[0]['username'] <> "") {
+															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
+														}
+													} else {
+														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
+													}
+													unset($sme);
 												}
 											}
 											if ($show_cardfooter_attachments == 1) {
@@ -389,8 +389,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				$sp_total = 0;
 				if (isset($features) && !empty($features)) {
 					foreach ($features as $feature) {
-          $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
-          
+						$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
+						
 						if ($feature['f_JS'] == 0) {
 							$wsjf = 0;
 						} else {
@@ -445,19 +445,19 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 										$cardfooter .= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
 										//}
 									}
-											if ($show_cardfooter_sme == 1) {
-												if ($feature_info['f_SME'] > 0) {
-													$sme[0]     = $db->getStaffById($feature_info['f_SME']);    
-                          if($sme[0]['staff_avatar']<>""){
-                              if ($sme[0]['username']<>""){
-    													 $cardfooter .='<img id="img-upload" class="rounded-circle zoomavatar" src="'.$sme[0]['staff_avatar'] .'" title"Ansprechsperson (Fach): '.$sme[0]['username'] .'">';
-                              }
-                          }else{
-                              $cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
-                          }
-                          unset($sme);
+									if ($show_cardfooter_sme == 1) {
+										if ($feature_info['f_SME'] > 0) {
+											$sme[0] = $db->getStaffById($feature_info['f_SME']);
+											if ($sme[0]['staff_avatar'] <> "") {
+												if ($sme[0]['username'] <> "") {
+													$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
 												}
+											} else {
+												$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
 											}
+											unset($sme);
+										}
+									}
 									if ($show_cardfooter_attachments == 1) {
 										$feature_files = $db->getFeatureFilesByFeatureId($feature['f_id']);
 										

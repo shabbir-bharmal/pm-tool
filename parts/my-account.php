@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 
-                    <input type="hidden" name="action" id="action" value="manage-account">
+                    <input type="hidden" name="action" value="manage-account">
                     <input type="hidden" name="staff_id" id="staff_id" value="<?php echo $login_id;?>">
                     <ul class="nav nav-tabs nav-fill" id="accountTab" role="tablist">
                         <li class="nav-item">

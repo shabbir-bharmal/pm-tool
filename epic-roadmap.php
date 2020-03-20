@@ -68,7 +68,7 @@ include_once F_ROOT . 'parts/layout/head.php';
                 </div>
                 <form method="post" action="<?php echo W_ROOT; ?>/form-action.php" name="delete_feature" id="delete_feature" class="form-horizontal">
                     <input type="hidden" id="f_id" name="f_id" value="">
-                    <input type="hidden" name="action" class="form-control" id="action" value="feature-delete">
+                    <input type="hidden" name="action" class="form-control" value="feature-delete">
                     <input type="hidden" name="return_url" class="form-control" id="return_url" value="<?php echo W_ROOT . '/epic-roadmap.php'; ?>">
                 </form>
             </div>

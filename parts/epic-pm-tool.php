@@ -21,7 +21,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-body">
-                    <input type="hidden" name="action" id="action" value="print-pi-features">
+                    <input type="hidden" name="action" value="print-pi-features">
                     <input type="hidden" name="features" id="features">
 
                     <select name="print_option" class="print_option form-control">
@@ -36,14 +36,14 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="feature_submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+                    <button type="submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">

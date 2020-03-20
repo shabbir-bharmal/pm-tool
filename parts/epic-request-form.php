@@ -26,7 +26,7 @@ if ($login_id !== $staff_id) {
 
 <form action="<?php echo W_ROOT.'/form-action.php'; ?>" method="post" id="epic_request_form" name="epic_request_form" enctype='multipart/form-data'>
 	<input type="hidden" name="e_id" value="<?php echo $e_id; ?>">
-	<input type="hidden" name="action" id="action" value="epic-request">
+	<input type="hidden" name="action" value="epic-request">
 	<div class="form-group row">
 		<label for="e_title" class="col-3 col-xs-12 col-form-label">Titel: <?php if ($helptexts['e_title']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['e_title'] . "'></i>";

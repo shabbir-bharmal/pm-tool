@@ -56,7 +56,7 @@ if($can_edit_roadmap == 1 || $feature_info['f_SME'] == $login_id || in_array($fe
 <input type="hidden" name="topic_name" class="form-control" id="topic_name" value="<?php echo $topic['name']; ?>">
 <input type="hidden" name="f_id" class="form-control" id="f_id" value="<?php echo $f_id; ?>">
 <input type="hidden" name="pi_id" class="form-control" id="pi_id" value="<?php echo $pi_id; ?>">
-<input type="hidden" name="action" class="form-control" id="action" value="<?php echo(!$f_id ? "feature-add" : "feature-edit"); ?>">
+<input type="hidden" name="action" class="form-control" value="<?php echo(!$f_id ? "feature-add" : "feature-edit"); ?>">
 <div class="form-group"> 
     <label for="f_title" class="col-form-label">Titel: <?php if ($helptexts['f_title']) {
 				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_title'] . "'></i>";
@@ -91,6 +91,9 @@ if($can_edit_roadmap == 1 || $feature_info['f_SME'] == $login_id || in_array($fe
         echo '<i class="fa fa-smile-o" title="in diesem Tab wurde was erfasst :-)"></i>';
         ?>
         </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Kommentare</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="false">Rangierung
@@ -141,6 +144,9 @@ if($can_edit_roadmap == 1 || $feature_info['f_SME'] == $login_id || in_array($fe
 <div class="tab-content" id="featureTabContent">
     <div class="tab-pane fade show active" id="allgemein" role="tabpanel" aria-labelledby="allgemein-tab">
         <?php include_once(F_ROOT.'parts/manage-feature/allgemein_tab.php'); ?>
+    </div>
+    <div class="tab-pane fade" id="kommetare" role="tabpanel" aria-labelledby="kommetare-tab">
+		<?php include_once(F_ROOT . 'parts/manage-feature/kommetare_tab.php'); ?>
     </div>
     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
         <?php include_once(F_ROOT.'parts/manage-feature/ranking_tab.php'); ?>

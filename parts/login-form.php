@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <form action="<?php echo W_ROOT; ?>/form-action.php" method="post" id="login_form">
-                    <input type="hidden" name="action" class="form-control" id="action" value="user-login">
+                    <input type="hidden" name="action" class="form-control" value="user-login">
                     <div class="form-group">
                         <label>Benutzername (4-stelliges K&uuml;rzel):</label>
                         <input class="form-control" type="text" name="username">

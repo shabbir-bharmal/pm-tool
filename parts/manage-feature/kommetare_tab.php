@@ -53,10 +53,8 @@ if ($f_id) {
         var modal_id = <?php echo $f_id;?>;
         var login_id = <?php echo $_SESSION['login_user_data']['staff_id'];?>;
         var staff_avatar = '<?php echo $_SESSION['login_user_data']['staff_avatar'];?>';
-       
     </script>
-
-
+    
     <div class="col-12" id="comments-container"></div>
 <?php }
 ?>

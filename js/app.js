@@ -102,6 +102,7 @@ $(function () {
                     updateMehrLink();
                     popover();
                     checkPermission();
+                    commnetFunctionality();
                 }
             });
         });
@@ -651,7 +652,7 @@ $(function () {
             });
         });
     }
-    commnetFunctionality();
+
     formFilter();
     updateStaffCapacity();
     manageFeature();

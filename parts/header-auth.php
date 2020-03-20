@@ -8,6 +8,10 @@ $show_cardfooter = $db->getStaffCardPermission($login_id);
 $topic_permission = $db->getTopicsPermissionByStaffId($login_id);
 
 if ($name) { ?>
+    <script>
+        var login_id = <?php echo $_SESSION['login_user_data']['staff_id'];?>;
+        var staff_avatar = '<?php echo $_SESSION['login_user_data']['staff_avatar'];?>';
+    </script>
     <nav class="navbar navbar-light bg-light">
         <div class="topnav-left">
             <ul class="nav">
