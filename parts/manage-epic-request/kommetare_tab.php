@@ -1,6 +1,23 @@
 </br>
 <div class="form-group row">
 	<?php
+	function convert_from_latin1_to_utf8_recursively($dat)
+	{
+		if (is_string($dat)) {
+			return utf8_encode($dat);
+		} elseif (is_array($dat)) {
+			$ret = [];
+			foreach ($dat as $i => $d) $ret[ $i ] = convert_from_latin1_to_utf8_recursively($d);
+			
+			return $ret;
+		} elseif (is_object($dat)) {
+			foreach ($dat as $i => $d) $dat->$i = convert_from_latin1_to_utf8_recursively($d);
+			
+			return $dat;
+		} else {
+			return $dat;
+		}
+	}
 	if ($e_id) {
 		
 		$users = array();
@@ -13,7 +30,7 @@
 			$i++;
 		}
 		
-		$usersdata = json_encode($users);
+		$usersdata = json_encode(convert_from_latin1_to_utf8_recursively($users));
 		
 		$epic_comments  = $db->getCommentsByIdAndType($e_id,'epic');
 		$epic_comments_data = array();
@@ -24,7 +41,7 @@
 			if ($comments['creator'] != $_SESSION['login_user_data']['staff_id']){
 				$staffcomments = $db->getStaffById($comments['creator']);
 				
-				$comments['fullname'] = htmlentities (  $staffcomments['staff_firstname'] . ' ' . $staffcomments['staff_lastname'], ENT_SUBSTITUTE   , 'utf-8' );
+				$comments['fullname'] = convert_from_latin1_to_utf8_recursively($staffcomments['staff_firstname'] . ' ' . $staffcomments['staff_lastname']);
 				
 				if($staffcomments['staff_avatar']){
 					$comments['profile_picture_url'] = $staffcomments['staff_avatar'];
