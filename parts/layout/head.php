@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">      
 	<title>PM Tool :: <?php echo $page_title;?></title>
 
 	<!-- Bootstrap CSS -->
@@ -15,6 +15,16 @@
 	<link rel="stylesheet" href="<?php echo W_ROOT.'/css/app.css';?>"/>
 	<link rel="stylesheet" href="<?php echo W_ROOT.'/css/jquery-comments.css';?>"/>
 
+<?php  
+ if($datagrid_included=="yes"){   
+?>
+    <!-- Datagrid CSS -->
+    <link href="https://pm.mastaz.ch/datagrid/assets/CSS/style.css" type="text/css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet"/>
+<?php  
+ }   
+?>
 </head>
 
 <body>

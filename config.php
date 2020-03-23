@@ -28,3 +28,14 @@ include_once F_ROOT.'lib/Mailer.php';
 $db            = new Database();
 $mailer        = new Mailer();
 $db_connection = $db->connect();
+
+
+if($datagrid_included=="yes"){
+	// Create connection
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+}
+

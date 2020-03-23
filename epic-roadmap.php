@@ -1,6 +1,16 @@
 <?php
 // Include config
 include_once 'config.php';
+
+
+if(!$_SESSION['login_user_data']){
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+		$actual_link = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	} else {
+		$actual_link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	}
+	$_SESSION['redirect_url'] = $actual_link;
+}
 // Collect Data
 $teams                    = $db->getTeams();
 $selected_team            = ($_GET && $_GET['team']) ? $_GET['team'] : ($teams ? $teams[0]['id'] : 0);

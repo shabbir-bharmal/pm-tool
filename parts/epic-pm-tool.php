@@ -203,7 +203,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 													
 												}
 												if ($show_cardfooter_sp == 1) {
-													if ($feature['f_storypoints'] > 0) {
+													if ($feature['f_storypoints'] > -0.1) {
 														$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 													}
 												}
@@ -314,7 +314,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 													
 												}
 												if ($show_cardfooter_sp == 1) {
-													if ($feature['f_storypoints'] > 0) {
+													if ($feature['f_storypoints'] > -0.1) {
 														$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 													}
 												}
@@ -430,7 +430,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 												
 											}
 											if ($show_cardfooter_sp == 1) {
-												if ($feature['f_storypoints'] > 0) {
+												if ($feature['f_storypoints'] > -0.1) {
 													$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 												}
 											}

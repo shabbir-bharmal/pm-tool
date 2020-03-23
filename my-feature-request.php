@@ -1,6 +1,16 @@
 <?php
 include_once 'config.php';
 
+
+if(!$_SESSION['login_user_data']){
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+		$actual_link = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	} else {
+		$actual_link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	}
+	$_SESSION['redirect_url'] = $actual_link;
+}
+
 // Include header
 $page_title = 'Meine Feature Requests';
 include_once F_ROOT.'parts/layout/head.php';

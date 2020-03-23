@@ -18,10 +18,10 @@ $show_cardfooter_attachments = $show_cardfooter['cardfooter_attachments'];
 $show_cardfooter_sme         = $show_cardfooter['cardfooter_sme'];
 $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 ?>
-<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
     <form name="print_pi_features" id="print_pi_features" method="post" action="<?php echo W_ROOT; ?>/form-action.php">
         <div class="modal-dialog modal-sm">
-            <div class="modal-content">
+            <div class="modal-content" style="width:375px;">
                 <div class="modal-body">
                     <input type="hidden" name="action" value="print-pi-features">
                     <input type="hidden" name="features" id="features">
@@ -37,8 +37,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" form="print_pi_features" value="Submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
+                    <button type="submit" form="print_pi_features" value="Submit" class="btn btn-primary">ausgew&auml;hlte Formular drucken</button>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <div style='font-size:10px;font-weight: normal;'>&nbsp;</div>
                 </th>
                 <th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?>
-                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $actual_product_increment['pi_id']; ?>" title="under construction"></i></div>
+                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $actual_product_increment['pi_id']; ?>" title="Alle Features in diesem PI ausdrucken"></i></div>
                     <div style='font-size:10px;font-weight: normal;'><?php echo $actual_pi_date; ?></div>
                 </th>
 				<?php
@@ -102,7 +102,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <th scope="col" class="<?php if ($i > 2) {
 						echo 'd-none';
 					} ?>"><?php echo $product_increment['pi_title']; ?>
-                        <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="under construction"></i></div>
+                        <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="Alle Features in diesem PI ausdrucken"></i></div>
                         <div style='font-size:10px;font-weight: normal;'><?php echo $pi_date; ?></div>
                     </th>
 					<?php
@@ -200,7 +200,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 													$sme[0] = $db->getStaffById($feature_info['f_SME']);
 													if ($sme[0]['staff_avatar'] <> "") {
 														if ($sme[0]['username'] <> "") {
-															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
+															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
 														}
 													} else {
 														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
@@ -227,7 +227,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 												
 											}
 											if ($show_cardfooter_sp == 1) {
-												if ($feature['f_storypoints'] > 0) {
+												if ($feature['f_storypoints'] > -0.1) {
 													$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 												}
 											}
@@ -321,7 +321,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 													$sme[0] = $db->getStaffById($feature_info['f_SME']);
 													if ($sme[0]['staff_avatar'] <> "") {
 														if ($sme[0]['username'] <> "") {
-															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
+															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
 														}
 													} else {
 														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
@@ -348,7 +348,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 												
 											}
 											if ($show_cardfooter_sp == 1) {
-												if ($feature['f_storypoints'] > 0) {
+												if ($feature['f_storypoints'] > -0.1) {
 													$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 												}
 											}
@@ -450,7 +450,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											$sme[0] = $db->getStaffById($feature_info['f_SME']);
 											if ($sme[0]['staff_avatar'] <> "") {
 												if ($sme[0]['username'] <> "") {
-													$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">';
+													$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
 												}
 											} else {
 												$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
@@ -477,7 +477,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 										
 									}
 									if ($show_cardfooter_sp == 1) {
-										if ($feature['f_storypoints'] > 0) {
+										if ($feature['f_storypoints'] > -0.1) {
 											$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 										}
 									}
@@ -561,8 +561,20 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 		?>
         <tr class="capacity-row">
             <td><?php echo($staff_member['staff_firstname'] . " " . $staff_member['staff_lastname']); ?></td>
-            <td><input type="number" name="<?php echo $capacity_input_name; ?>"
-                       value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input"></td>
+            <td>
+            <td>
+                <?php 
+                if ($pi_capacity['capacity']>-0.1){
+                ?>
+                <input type="number" name="<?php echo $capacity_input_name; ?>"
+                             value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
+                <?php 
+                }else{
+                echo "- Erfassung nicht m&ouml;glich -";
+                }
+                ?>             
+            </td>
+
 			<?php
 			$i = 0;
 			
@@ -576,8 +588,17 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				?>
                 <td class="<?php if ($i > 2) {
 					echo 'd-none';
-				} ?>"><input type="number" name="<?php echo $capacity_input_name; ?>"
+				} ?>">
+                <?php 
+                if ($pi_capacity['capacity']>-0.1){
+                ?>
+                <input type="number" name="<?php echo $capacity_input_name; ?>"
                              value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
+                <?php 
+                }else{
+                echo "- Erfassung nicht m&ouml;glich -";
+                }
+                ?>      
                 </td>
 				
 				<?php

@@ -43,7 +43,7 @@ if ($name) { ?>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
                         <a class="dropdown-item" href="<?php echo W_ROOT . '/feature-request.php'; ?>">Neuer Feature erfassen</a>
                         <a class="dropdown-item" href="<?php echo W_ROOT . '/my-feature-request.php'; ?>">Meine Features</a>
-                        <a class="dropdown-item" href="<?php echo W_ROOT . '/datagrid/my-features.php'; ?>">Meine Features 2.0 (Alpha Version)</a>
+                        <a class="dropdown-item" href="<?php echo W_ROOT . '/all-features.php'; ?>">Alle Features</a>
                     </div>
                 </li>
 				<?php if ($can_manage_config) {

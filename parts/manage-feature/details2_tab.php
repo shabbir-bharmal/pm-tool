@@ -17,8 +17,13 @@
 				}
 				$selected = ($f_SME == $staff['staff_id'] ? 'selected="selected"' : ''); ?>
                 <option value="<?php echo $staff['staff_id']; ?>" <?php echo $selected; ?>><?php echo $staffname; ?></option>
+                <?php
+                if ($f_SME == $staff['staff_id']){$staffname_hidden= '<input type="hidden" id="staffname" name="staffname" value="'.$staffname.'">';}
+                ?>
+                
 			<?php } ?>
         </select>
+        <?php echo $staffname_hidden;?>
     </div>
     <div class="form-group col-6">
         <label for="f_responsible" class="col-form-label">Verantwortlicher Person (ICT): <?php if ($helptexts['f_responsible']) {

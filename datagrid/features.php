@@ -10,7 +10,8 @@ error_reporting(0);
 <title>Features Live Inline Update data</title>
 <meta name="viewport" content="width=device-width">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://grid.mastaz.ch/assets/CSS/style.css" type="text/css" rel="stylesheet" />
+<!-- <link href="https://grid.mastaz.ch/assets/CSS/style.css" type="text/css" rel="stylesheet" /> -->
+<link href="https://pm.mastaz.ch/datagrid/assets/CSS/style.css" type="text/css" rel="stylesheet" />
 <script src="./vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="./assets/js/inlineEdit.js"></script>
 
@@ -36,22 +37,21 @@ error_reporting(0);
 		<?php
     session_start();
     define('W_ROOT', 'https://pm.mastaz.ch');
-    include_once '../parts/header-auth.php'; ?>
-		<?php if(!$can_manage_config){
-			$error = "You don't have enough permission to view this page.";
-			?>
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h2><?php echo $error;?></h2>
-                    </div>
-                </div>
-            </div>
-		<?php } else { ?>
+    include_once '../parts/header-auth.php'; ?> 
 	</header>
   <!-- Scripts from pm.mastaz.ch Root  STOP-->
-  
-  
+  <?php if(!$can_manage_config){
+    $error = "Sorry, leider hast Du keine Berechtigung daf&uuml;r oder bist nicht angemeldet [3]. <br><a href='".W_ROOT."'>Login-Maske</a>";
+      ?>
+  <div class="container-fluid mt-3">
+      <div class="row">
+          <div class="col-12 text-center">
+              <h2><?php echo $error;?></h2>
+          </div>
+      </div>
+  </div>
+  <?php } else { ?>
+<div class="container-fluid">   
   <div class="data-main-heading">
     <h1 align="center">Features Live Inline Update data</h1>
   </div>
@@ -206,7 +206,7 @@ foreach ($faqResult as $k => $v) {
 ?>
  </tbody>
  </table>
-
+</div>
 
 </body>
 </html>
@@ -251,7 +251,8 @@ var table = $('#UserTable').DataTable( {
             fixedHeader: true,
             ordering: true,
             bLengthChange: true,
-            iDisplayLength: 10,
+            iDisplayLength: 15,
+            aLengthMenu: [[10, 15, 50, -1], [10, 15, 50, "All"]],
             bFilter: true,
             pagingType: "full_numbers",
             bInfo: false,
