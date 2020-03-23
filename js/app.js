@@ -134,7 +134,7 @@ $(function () {
             rules         : {
                 f_title      : {
                     required : true,
-                    maxlength: 55
+                    maxlength: 100
 
                 },
                 f_storypoints: {
@@ -145,7 +145,7 @@ $(function () {
             messages      : {
                 f_title      : {
                     required : "Please enter feature title.",
-                    maxlength: "Feature title must be less than 55 characters."
+                    maxlength: "Feature title must be less than 100 characters."
                 },
                 f_storypoints: {
                     number: "Please enter numeric value."

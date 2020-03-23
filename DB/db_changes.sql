@@ -82,3 +82,7 @@ ALTER TABLE `epic_details` CHANGE `e_hs_for` `e_hs_for` TEXT CHARACTER SET utf8 
 --- 17 March 2020
 ALTER TABLE `staff` ADD `staff_avatar` VARCHAR(255) NOT NULL AFTER `can_manage_config`;
 CREATE TABLE `watchers`( `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT, `staff_id` INT(11) UNSIGNED NOT NULL, `model_type` ENUM('feature','epic','topic') NOT NULL DEFAULT 'feature', `model_id` INT(11) UNSIGNED NOT NULL, PRIMARY KEY (`id`) ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--- 23 March 2020
+ALTER TABLE `epics` CHANGE `e_title` `e_title` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `features` CHANGE `f_title` `f_title` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

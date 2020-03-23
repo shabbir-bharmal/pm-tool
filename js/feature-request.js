@@ -9,7 +9,7 @@ $(function () {
             messages      : {
                 f_title       : {
                     required : "Please enter feature title.",
-                    maxlength: "Feature title must be less than 55 characters."
+                    maxlength: "Feature title must be less than 100 characters."
                 },
                 f_epic        : {
                     required: "Please choose feature epic.",
@@ -57,7 +57,7 @@ $(function () {
             form.find('input[name="action"]').val('feature-request');
             $("#f_title").rules("add", {
                 required : true,
-                maxlength: 55
+                maxlength: 100
             });
             $("#f_epic").rules("add", "required");
             $("#f_topic").rules("add", "required");
@@ -78,7 +78,7 @@ $(function () {
 
             $("#f_title").rules("add", {
                 required : true,
-                maxlength: 55
+                maxlength: 100
             });
             $("#f_epic").rules("remove");
             $("#f_topic").rules("remove");
@@ -102,7 +102,7 @@ $(function () {
 
                 $("#f_title").rules("add", {
                     required : true,
-                    maxlength: 55
+                    maxlength: 100
                 });
                 $("#f_epic").rules("add", "required");
                 $("#f_topic").rules("add", "required");

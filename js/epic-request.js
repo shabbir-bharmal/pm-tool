@@ -5,7 +5,7 @@ $(function () {
       rules   : {
         e_title               : {
           required : true,
-          maxlength: 30
+          maxlength: 100
         },
         e_status_id           : {
           required: true
@@ -97,7 +97,7 @@ $(function () {
     $('#EINREICHEN').on('click', function () {
       $("#e_title").rules("add", {
         required : true,
-        maxlength: 30
+        maxlength: 100
       });
       $("#e_status_id").rules("add", "required");
       $("#e_hs_for").rules("add", "required");
@@ -120,7 +120,7 @@ $(function () {
 
       $("#e_title").rules("add", {
         required : true,
-        maxlength: 30
+        maxlength: 100
       });
       $("#e_status_id").rules("remove");
       $("#e_hs_for").rules("remove");
@@ -150,7 +150,7 @@ $(function () {
 
         $("#e_title").rules("add", {
           required : true,
-          maxlength: 30
+          maxlength: 100
         });
         $("#e_status_id").rules("add", "required");
         $("#e_hs_for").rules("add", "required");
