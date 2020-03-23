@@ -25,7 +25,6 @@ if ($f_id) {
 	$i     = 0;
 	foreach ($feature_staff as $staff) {
 		$users[$i]['id']                  = $staff['staff_id'];
-		//$users[$i]['fullname']            = htmlentities (  $staff['staff_firstname'] . ' ' . $staff['staff_lastname'], ENT_SUBSTITUTE   , 'utf-8' );
 		$users[$i]['fullname']            = $staff['staff_firstname'] . ' ' . $staff['staff_lastname'];
 		$users[$i]['email']               = $staff['email'];
 		$users[$i]['profile_picture_url'] = $staff['staff_avatar'];

@@ -24,7 +24,7 @@
 		$i     = 0;
 		foreach ($staff as $staff_info) {
 			$users[$i]['id']                  = $staff_info['staff_id'];
-			$users[$i]['fullname']            = htmlentities (  $staff_info['staff_firstname'] . ' ' . $staff_info['staff_lastname'], ENT_SUBSTITUTE   , 'utf-8' );
+			$users[$i]['fullname']            = $staff_info['staff_firstname'] . ' ' . $staff_info['staff_lastname'];
 			$users[$i]['email']               = $staff_info['email'];
 			$users[$i]['profile_picture_url'] = $staff_info['staff_avatar'];
 			$i++;
