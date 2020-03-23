@@ -242,11 +242,11 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 							}
 						}
 						?>
-
+						<?php if ($can_edit_roadmap == 1) { ?>
+                            <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+						<?php } ?>
                     </div>
-					<?php if ($can_edit_roadmap == 1) { ?>
-                        <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
-					<?php } ?>
+					
                 </td>
                 <!-- Funnel features end -->
 
@@ -362,10 +362,11 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 							}
 						}
 						?>
+						<?php if ($can_edit_roadmap == 1) { ?>
+                            <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+						<?php } ?>
                     </div>
-					<?php if ($can_edit_roadmap == 1) { ?>
-                        <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
-					<?php } ?>
+					
                 </td>
                 <!-- Actual PI features end -->
 
@@ -493,11 +494,11 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 					$sp_totals[$pi_id] += $sp_total;
 				}
 				?>
-
+				<?php if ($can_edit_roadmap == 1) { ?>
+                    <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
+				<?php } ?>
     </div>
-	<?php if ($can_edit_roadmap == 1) { ?>
-        <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
-	<?php } ?>
+	
     </td>
 	<?php
 	$i++;
