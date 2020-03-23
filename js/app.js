@@ -567,7 +567,7 @@ $(function () {
                             var isNotSelf = user.id != login_id;
                             return containsSearchTerm && isNotSelf;
                         }));
-                    }, 500);
+                    }, 100);
                 },
                 getComments         : function (success, error) {
                     setTimeout(function () {

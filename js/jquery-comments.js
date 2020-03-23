@@ -757,18 +757,23 @@
                     n = F.map(e, function (e) {
                         return e.value
                     });
+                console.log(e);
                 if (e.length) {
                     var a = e[0].strategy;
                     a.id ? this.$el.attr("data-strategy", a.id) : this.$el.removeAttr("data-strategy"), this._renderHeader(n), this._renderFooter(n), t && (this._renderContents(t), this._fitToBottom(), this._fitToRight(), this._activateIndexedItem()), this._setScroll()
                 } else this.noResultsMessage ? this._renderNoResultsMessage(n) : this.shown && this.deactivate();
                 var i = parseInt(this.$el.css("top")) + l.options.scrollContainer.scrollTop();
-                this.$el.css("top", i);
+               // this.$el.css("top", i);
+               /* i = i + 20;
+                console.log(i);*/
+                this.$el.css("top", 0);
+                this.$el.css("position", "absolute");
                 var o = this.$el.css("left");
                 this.$el.css("left", 0);
                 var r = l.$el.width() - this.$el.outerWidth(),
                     s = Math.min(r, parseInt(o));
                 this.$el.css("left", s)
-            }, F.fn.textcomplete.ContentEditable.prototype._skipSearch = function (e) {
+            }, F.fn.textcomplete    .ContentEditable.prototype._skipSearch = function (e) {
                 switch (e.keyCode) {
                     case 9:
                     case 13:
