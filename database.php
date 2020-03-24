@@ -1405,10 +1405,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				}
 				
 			}
-			if ($account_info['password']) {
+			if ($account_info['password_new']) {
 				$releation .= ", password = :password";
 				
-				$data[':password'] = md5($account_info['password']);
+				$data[':password'] = md5($account_info['password_new']);
 			}
 			
 			$sql = "UPDATE staff SET $releation WHERE staff_id=:staff_id";

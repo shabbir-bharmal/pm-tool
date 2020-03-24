@@ -45,7 +45,7 @@
 			} ?> </label>
 
         <div class="col-md-12">
-            <input type="password" name="password" id="password" class="form-control valid" value="" aria-invalid="false" <?php echo $disabled; ?>>
+            <input type="password" name="password_new" id="password_new" class="form-control valid" value="" aria-invalid="false" <?php echo $disabled; ?>>
         </div>
     </div>
     <div class="from-group col-md-6">

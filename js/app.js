@@ -497,7 +497,7 @@ $(function () {
                     required: true
                 },
                 confirm_password: {
-                    equalTo: "#password"
+                    equalTo: "#password_new"
                 }
             },
             // Setting error messages for the fields
