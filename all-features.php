@@ -32,13 +32,50 @@ $helptexts        = $db->getHelpText();
 	<header>
 		<?php include_once(F_ROOT.'parts/header-auth.php'); ?>
 	</header>
+    
+    
+    
+
+    <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Feature</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="<?php echo W_ROOT; ?>/form-action.php" id="feature_form" name="feature_form" enctype='multipart/form-data'>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <div class="form-group col-md-4 mr-auto p-0">
+                        <select name="print_option" class="print_option form-control" <?php echo $disabled; ?>>
+                            <option value="" selected="selected">Drucken</option>
+                            <option value="title">Titel-Karte</option>
+                            <option value="detail">Detail-Karte</option>
+                            <option value="title_nemonic">Titel-Karte (Nemonic)</option>
+                            <option value="feature_antrag">Feature-Antrag</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="feature_submit" form="feature_form" value="Submit" class="btn btn-primary" <?php echo $disabled; ?>>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+    
+    
+    
 
 	<div class="container-fluid mt-3 mb-3">
 
 		<div class="row mb-3">
 			<div class="col-12">
-				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Alle Features <?php if ($helptexts['title_my_features']) {
-				              echo "<span class=\"h6\" style=\"display: inline-flex;vertical-align: middle;\"><i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_my_features'] . "'></i></span>";
+				<h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Alle Features <?php if ($helptexts['title_all_features']) {
+				              echo "<span class=\"h6\" style=\"display: inline-flex;vertical-align: middle;\"><i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_all_features'] . "'></i></span>";
 			               } ?>  </h2>
         
 			</div>

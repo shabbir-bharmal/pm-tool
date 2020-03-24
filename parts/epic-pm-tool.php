@@ -92,12 +92,12 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 					<?php
 					$sp_totals[$product_increment['pi_id']] = 0;
 					$class                                  = '';
-					if ($i > 2) {
+					if ($i > $_SESSION['show_pi']) {
 						$class = 'd-none';
 					}
 					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($product_increment['pi_end']));
 					?>
-                    <th scope="col" class="<?php if ($i > 2) {
+                    <th scope="col" class="<?php if ($i > $_SESSION['show_pi']) {
 						echo 'd-none';
 					} ?>"><?php echo $product_increment['pi_title']; ?>
                         <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="under construction"></i></div>
@@ -117,7 +117,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                 <tr class="feature-information <?php echo $eclass; ?>" data-epic_id="<?php echo $epic['e_id']; ?>">
                     <!-- Funnel features start -->
                     <td>
-                        <div class="product-increment pi_sortable_0" id="pisortable_0">
+                        <div class="product-increment <?php echo $_SESSION['show_all']; ?> pi_sortable_0" id="pisortable_0">
                             <h4 class="epic_title"><?php echo $epic['e_title']; ?></h4>
 							<?php
 							$pi_id    = 0;
@@ -150,7 +150,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             </div>
                                         </div>
 										<?php if ($feature['f_desc']) { ?>
-                                            <div class="card-body height0">
+                                            <div class="card-body <?php echo $_SESSION['expand']; ?>">
 												<?php
 												if (strlen($feature['f_desc']) > 250) {
 													echo substr($feature['f_desc'], 0, 250) . '[...]';
@@ -225,7 +225,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
                     <!-- Actual PI features start -->
                     <td>
-                        <div class="product-increment pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="_<?php echo $actual_product_increment['pi_id']; ?>">
+                        <div class="product-increment <?php echo $_SESSION['show_all']; ?> pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="_<?php echo $actual_product_increment['pi_id']; ?>">
 							
 							<?php
 							$pi_id    = $actual_product_increment['pi_id'];
@@ -263,7 +263,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                             </div>
                                         </div>
 										<?php if ($feature['f_desc']) { ?>
-                                            <div class="card-body height0">
+                                            <div class="card-body <?php echo $_SESSION['expand']; ?>">
 												<?php
 												if (strlen($feature['f_desc']) > 250) {
 													echo substr($feature['f_desc'], 0, 250) . '[...]';
@@ -336,13 +336,13 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 					$i         = 0;
 					$sp_totals = array();
 					foreach ($product_increments as $product_increment) {
-						if ($i > 2) {
+						if ($i > $_SESSION['show_pi']) {
 							$class = 'd-none';
 						} else {
 							$class = '';
 						}
 						$pi_id = $product_increment['pi_id'];
-						echo "<td class='$class'><div class='product-increment pi_sortable_" . $pi_id . "' id='_" . $pi_id . "'>";
+						echo "<td class='$class'><div class='product-increment ".$_SESSION['show_all']." pi_sortable_" . $pi_id . "' id='_" . $pi_id . "'>";
 						
 						$sp_totals[$pi_id] = 0;
 						$features          = '';
@@ -379,7 +379,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                         </div>
                                     </div>
 									<?php if ($feature['f_desc']) { ?>
-                                        <div class="card-body height0">
+                                        <div class="card-body <?php echo $_SESSION['expand']; ?>">
 											<?php
 											if (strlen($feature['f_desc']) > 250) {
 												echo substr($feature['f_desc'], 0, 250) . '[...]';

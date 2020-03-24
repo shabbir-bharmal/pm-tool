@@ -88,8 +88,17 @@ include_once F_ROOT . 'parts/layout/head.php';
                     <option value="">--Anzeige <span>&#228;</span>ndern--</option>
                     <option value="incpi">+ ein PI anzeigen</option>
                     <option value="decpi">- ein PI entfernen</option>
-                    <option value="show_all">H&ouml;he minimieren</option>
-                    <option value="expand">Kurzbeschreibung anzeigen</option>
+					<?php
+					if($_SESSION['show_all'] == 'scrollable'){ ?>
+                        <option value="show_all">H<span>&#246;</span>he vergr<span>&#246;</span>ssern</option>
+					<?php }else{ ?>
+                        <option value="show_all">H<span>&#246;</span>he minimieren</option>
+					<?php }
+					if($_SESSION['expand'] == 'height0'){ ?>
+                        <option value="expand">Kurzbeschreibung anzeigen</option>
+					<?php }else{ ?>
+                        <option value="expand">Kurzbeschreibung ausblenden</option>
+					<?php }  ?>
                 </select>
             </div>
         </div>

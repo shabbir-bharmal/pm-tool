@@ -94,12 +94,12 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 					<?php
 					$sp_totals[$product_increment['pi_id']] = 0;
 					$class                                  = '';
-					if ($i > 2) {
+					if ($i > $_SESSION['show_pi']) {
 						$class = 'd-none';
 					}
 					$pi_date = date('d.m.Y', strtotime($product_increment['pi_start'])) . " - " . date('d.m.Y', strtotime($product_increment['pi_end']));
 					?>
-                    <th scope="col" class="<?php if ($i > 2) {
+                    <th scope="col" class="<?php if ($i > $_SESSION['show_pi']) {
 						echo 'd-none';
 					} ?>"><?php echo $product_increment['pi_title']; ?>
                         <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="Alle Features in diesem PI ausdrucken"></i></div>
@@ -133,7 +133,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                         <h2><?php echo $selected_topic_name; ?></h2>
 					<?php } ?>
 
-                    <div class=" product-increment pi_sortable_0" id="pi_sortable_0" data-topic_id="<?php echo $selected_topic; ?>">
+                    <div class=" product-increment <?php echo $_SESSION['show_all']; ?> pi_sortable_0" id="pi_sortable_0" data-topic_id="<?php echo $selected_topic; ?>">
 						<?php
 						$pi_id    = 0;
 						$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
@@ -167,7 +167,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                         </div>
                                     </div>
 									<?php if ($feature['f_desc']) { ?>
-                                        <div class="card-body height0">
+                                        <div class="card-body <?php echo $_SESSION['expand']; ?>">
 											<?php
 											if (strlen($feature['f_desc']) > 250) {
 												echo substr($feature['f_desc'], 0, 250) . '[...]';
@@ -252,7 +252,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 
                 <!-- Actual PI features start -->
                 <td>
-                    <div class=" product-increment pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>">
+                    <div class=" product-increment <?php echo $_SESSION['show_all']; ?> pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>">
 						
 						<?php
 						$pi_id    = $actual_product_increment['pi_id'];
@@ -289,7 +289,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                         </div>
                                     </div>
 									<?php if ($feature['f_desc']) { ?>
-                                        <div class="card-body height0">
+                                        <div class="card-body <?php echo $_SESSION['expand']; ?>">
 											<?php
 											if (strlen($feature['f_desc']) > 250) {
 												echo substr($feature['f_desc'], 0, 250) . '[...]';
@@ -377,13 +377,13 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				foreach ($product_increments
 				
 				as $product_increment) {
-				if ($i > 2) {
+				if ($i > $_SESSION['show_pi']) {
 					$class = 'd-none';
 				} else {
 					$class = '';
 				}
 				$pi_id = $product_increment['pi_id'];
-				echo "<td class='$class'><div class=' product-increment pi_sortable_" . $pi_id . "' id='pi_sortable_" . $pi_id . "' data-topic_id=" . $selected_topic . ">";
+				echo "<td class='$class'><div class=' product-increment ".$_SESSION['show_all']." pi_sortable_" . $pi_id . "' id='pi_sortable_" . $pi_id . "' data-topic_id=" . $selected_topic . ">";
 				
 				
 				$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
@@ -419,7 +419,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                 </div>
                             </div>
 							<?php if ($feature['f_desc']) { ?>
-                                <div class="card-body height0">
+                                <div class="card-body <?php echo $_SESSION['expand']; ?>">
 									<?php
 									if (strlen($feature['f_desc']) > 250) {
 										echo substr($feature['f_desc'], 0, 250) . '[...]';
@@ -541,7 +541,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				}
 				
 				?>
-                <td class="<?php if ($i > 2) {
+                <td class="<?php if ($i > $_SESSION['show_pi']) {
 					echo 'd-none';
 				} ?>">
                     <span class="pi_total_capacity"><?php echo $total_capacity; ?></span>
@@ -562,7 +562,6 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 		?>
         <tr class="capacity-row">
             <td><?php echo($staff_member['staff_firstname'] . " " . $staff_member['staff_lastname']); ?></td>
-            <td>
             <td>
                 <?php 
                 if ($pi_capacity['capacity']>-0.1){
@@ -587,7 +586,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				}
 				$pi_capacity_totals[$product_increment['pi_id']] = $pi_capacity_totals[$product_increment['pi_id']] + $pi_capacity['capacity'];
 				?>
-                <td class="<?php if ($i > 2) {
+                <td class="<?php if ($i > $_SESSION['show_pi']) {
 					echo 'd-none';
 				} ?>">
                 <?php 
@@ -635,7 +634,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				$color = 'text-success';
 			}
 			?>
-            <td class="<?php if ($i > 2) {
+            <td class="<?php if ($i > $_SESSION['show_pi']) {
 				echo 'd-none';
 			} ?>">
                 <span class="pi_total_sp <?php echo $color; ?>"><?php echo $sp_totals[$product_increment['pi_id']]; ?></span>

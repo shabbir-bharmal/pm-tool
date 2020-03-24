@@ -420,6 +420,13 @@ $(function () {
     function changeEvent() {
         $("#event").on('change', function () {
             var eveName = $(this).val();
+            $.ajax({
+                url    : wroot + '/ajax.php?action=event-store-in-session&event=' + eveName,
+                type   : 'GET',
+                success:  function (response) {
+
+                }
+            });
             if (eveName == 'incpi') {
                 incrementPI();
             } else if (eveName == 'decpi') {

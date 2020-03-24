@@ -18,6 +18,9 @@ switch ($action) {
 		
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
+			$_SESSION['show_pi'] = 2;
+			$_SESSION['show_all'] = '';
+			$_SESSION['expand'] = 'height0';
 			if($_SESSION['redirect_url']){
 				//$redirectlink = $_SESSION['redirect_url'];
 				header("location:" .$_SESSION['redirect_url']);

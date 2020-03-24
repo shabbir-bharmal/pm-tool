@@ -1,6 +1,14 @@
 <?php
-include_once 'config.php';
+namespace Phppot;
 
+use Phppot\Model\epic;
+error_reporting(0);
+?>
+
+<?php
+$datagrid_included="yes";
+
+include_once 'config.php';
 
 if(!$_SESSION['login_user_data']){
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
@@ -16,8 +24,7 @@ $page_title = 'Meine Feature Requests';
 include_once F_ROOT.'parts/layout/head.php';
 $helptexts        = $db->getHelpText();
 
-// Collect data
-$my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id']);
+
 ?>
 	<!--Body content-->
 
@@ -25,6 +32,37 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 	<header>
 		<?php include_once(F_ROOT.'parts/header-auth.php'); ?>
 	</header>
+    
+    <div class="modal fade" id="feature" role="dialog" tabindex='-1'>
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Feature</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="<?php echo W_ROOT; ?>/form-action.php" id="feature_form" name="feature_form" enctype='multipart/form-data'>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <div class="form-group col-md-4 mr-auto p-0">
+                        <select name="print_option" class="print_option form-control" <?php echo $disabled; ?>>
+                            <option value="" selected="selected">Drucken</option>
+                            <option value="title">Titel-Karte</option>
+                            <option value="detail">Detail-Karte</option>
+                            <option value="title_nemonic">Titel-Karte (Nemonic)</option>
+                            <option value="feature_antrag">Feature-Antrag</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="feature_submit" form="feature_form" value="Submit" class="btn btn-primary" <?php echo $disabled; ?>>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
 
 	<div class="container-fluid mt-3 mb-3">
 
@@ -37,61 +75,38 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-12">
-				<?php
-				if (isset($_SESSION['feature-request-error'])) {
-					$msg = $_SESSION['feature-request-error'];
-					unset($_SESSION['feature-request-error']);
-					?>
-					<div class="alert alert-danger" role="alert">
-						<?php echo $msg; ?>
-					</div>
-					<?php
-				}
-				if (isset($_SESSION['feature-request-success'])) {
-					$msg = $_SESSION['feature-request-success'];
-					unset($_SESSION['feature-request-success']);
-					?>
-					<div class="alert alert-success" role="alert">
-						<?php echo $msg; ?>
-					</div>
-					<?php
-				}
-				?>
-			</div>
-		</div>
 
 		<div class="row">
 			<div class="col-12">
-				<?php
-				if ($my_frs) {
-					?>
-					<table class="table">
-						<thead>
-						<tr>
-							<th>Feature Title</th>
-							<th>Status</th>
-						</tr>
-						</thead>
-						<tbody>
-						<?php
-						foreach($my_frs as $fr){
-							?>
-							<tr>
-								<td><a href="<?php echo W_ROOT.'/feature-request.php?f_id='.$fr['f_id'];?>"><?php echo $fr['f_title'];?></a></td>
-								<td><?php echo $fr['f_status'];?></td>
-							</tr>
-							<?php
-						}
-						?>
-						</tbody>
-					</table>
-					<?php
-				} else {
-					echo "<p>No Feature Requests found.</p>";
-				}
-				?>
+
+
+            <?php 
+                //Philipp: this if we would like to show only the features where the user is SME : $SMEID = $_SESSION['login_user_data']['staff_id'];
+                $SMEID=$_SESSION['login_user_data']['staff_id'];
+                $fStatus="";
+                $EPICID="";
+                include_once("./datagrid/feature-list-inc.php");
+            ?>
+
+ </tbody>
+ </table>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
 			</div>
 		</div>
 	</div>
@@ -99,3 +114,60 @@ $my_frs = $db->getFeatureRequestsBySME($_SESSION['login_user_data']['staff_id'])
 <?php         
 // Include footer
 include_once F_ROOT.'parts/layout/footer.php';
+?>
+
+
+<script type="text/javascript">
+  
+$(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#UserTable thead tr').clone(true).appendTo( '#UserTable thead' );
+    $('#UserTable thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input class="filter'+title+'" type="text" placeholder="Search '+title+'" />' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+
+    } );             
+
+       
+ 
+    var table = $('#UserTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true,
+            ordering: true,
+            bLengthChange: true,
+            iDisplayLength: 10,
+            bFilter: true,
+            pagingType: "full_numbers",
+            bInfo: false,
+            dom: "lBfrtip",   
+            
+           language: {
+             search: "Suchen:"             
+          },          
+          
+
+          buttons: [
+            
+            {
+                extend: 'excelHtml5',
+                 title: '',
+                exportOptions: {
+                    columns: ':visible'
+                    
+                }
+            },
+        
+            'colvis'
+        ]
+              } );
+} );
+</script>   
