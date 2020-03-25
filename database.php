@@ -1735,7 +1735,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			];
 			if ($data['id']) {
 				$comment_data[':id'] = $data['id'];
-				$sql = "UPDATE comments SET
+				$sql                 = "UPDATE comments SET
 						modal = :modal,
 						modal_id = :modal_id,
 						parent = :parent,
@@ -1772,7 +1772,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute($comment_data);
 			if ($data['id']) {
 				$c_id = $data['id'];
-			}else{
+			} else {
 				$c_id = $this->pdo->lastInsertId();
 			}
 			
@@ -1850,7 +1850,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		try {
 			$c_id = $data['id'];
-			$stm = $this->pdo->prepare("DELETE FROM `comments` WHERE `id` = :c_id;");
+			$stm  = $this->pdo->prepare("DELETE FROM `comments` WHERE `id` = :c_id;");
 			$stm->bindParam(':c_id', $c_id);
 			$stm->execute();
 			
@@ -1863,4 +1863,85 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 	
+	public function getFeatureMatchedByJiraId($epic_id, $status_id)
+	{
+		try {
+			$data = array();
+			
+			$where .= 'WHERE feature_details.f_jira_id IN(SELECT jira_id FROM `jira_tickets`)';
+			if ($epic_id != 0) {
+				$where           .= " AND feature_details.f_epic = :f_epic";
+				$data[':f_epic'] = $epic_id;
+			}
+			if ($status_id != 0) {
+				$where                .= " AND features.f_status_id = :f_status_id";
+				$data[':f_status_id'] = $status_id;
+			}
+			
+			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC limit 0,10";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
+			
+			return $feature;
+			
+		}
+		catch (PDOException $e) {
+		
+		}
+		return false;
+	}
+	
+	public function getJiraTicketById($f_jira_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `jira_tickets` WHERE `jira_id` = :jira_id");
+			$stm->bindParam(':jira_id', $f_jira_id);
+			$stm->execute();
+			$jira_ticket = $stm->fetch(PDO::FETCH_ASSOC);
+			return $jira_ticket;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getJiraTicketsNotMatched()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `jira_tickets` WHERE `jira_id` NOT IN (SELECT f_jira_id FROM `feature_details` WHERE `f_jira_id` IS NOT NULL) ORDER BY `id` desc LIMIT 0,10");
+			
+			$stm->execute();
+			$jira_ticket = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $jira_ticket;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getFeatureNoteMatchedByJiraId($epic_id, $status_id)
+	{
+		try {
+			$data = array();
+			
+			$where .= 'WHERE (feature_details.f_jira_id Not IN(SELECT jira_id FROM `jira_tickets`) OR feature_details.f_jira_id IS NULL)';
+			if ($epic_id != 0) {
+				$where           .= " AND feature_details.f_epic = :f_epic";
+				$data[':f_epic'] = $epic_id;
+			}
+			if ($status_id != 0) {
+				$where                .= " AND features.f_status_id = :f_status_id";
+				$data[':f_status_id'] = $status_id;
+			}
+			
+			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC limit 0,10";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $feature;
+		}
+		catch (PDOException $e) {
+		
+		}
+		return false;
+	}
 }
