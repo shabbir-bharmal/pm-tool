@@ -34,6 +34,53 @@ switch ($action) {
 			header("Location: " . W_ROOT);
 		}
 		break;
+	case 'forgotten-pw':
+
+  		$username = $_POST['username'];
+		
+ 
+
+        //check if user exists
+        // MISSING
+
+
+        
+		if ($count > 1) {
+            // create a new password with 
+            $length=8;
+            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+            $password = substr( str_shuffle( $chars ), 0, $length );
+            $password_md5 = md($password);
+            
+            //update database > staff with new password
+            // MISSING
+            
+            //check if Email address exists
+            // MISSING
+        
+            //if not exist create email address $username.'@zhaw.ch'
+            // MISSING
+            
+            // Send email
+            // Subject: pm.mastaz.ch: Dein Neues Passwort 
+            // Body:
+            // Hallo $username
+            // Du hast für http://pm.mastaz.ch ein neues Passwort beantragt. Dies lautet $password.
+            
+            
+            
+			$success             = "Ok, Dir wurde auf die Email Adresse ".$email." ein neues PW gesendet";
+			$_SESSION['success'] = $success;
+			header("Location: " . W_ROOT. "/forgotten-pw.php");
+			
+		} else {
+			$error             = "Dieser Benutzer ist nicht erfasst. Hast Du den vierstelligen ZHAW-K&uuml;rzel genommen?";
+			$_SESSION['error'] = $error;
+		    header("Location: " . W_ROOT. "/forgotten-pw.php");
+		}
+
+            
+		break;        
 	case 'feature-add':
 	case 'feature-edit':
 	

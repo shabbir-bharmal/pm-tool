@@ -158,19 +158,36 @@ $(document).ready(function() {
             
            language: {
              search: "Suchen:"             
-          },          
+          }, 
           
 
+ columnDefs: [
+    { visible: false, targets: [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29] }
+  ], 
+
           buttons: [
-            
-            {
-                extend: 'excelHtml5',
-                 title: '',
-                exportOptions: {
-                    columns: ':visible'
-                    
-                }
-            },
+          {
+              extend: 'excelHtml5',
+              title: '',
+
+          exportOptions: {
+
+                      format   : {
+                          body : (data, row, col, node) => {
+                              let node_text = '';
+                              const spacer = node.childNodes.length < 1 ? ' ' : '';
+                              node.childNodes.forEach(child_node => {
+                                  const temp_text = child_node.nodeName == "SELECT" ? child_node.selectedOptions[0].textContent : child_node.textContent;
+                                  node_text += temp_text ? `${temp_text}${spacer}` : '';
+								  node_text = $.trim(node_text.replace(/ +/g,' '));
+                              });
+                              return node_text ;
+
+                          }
+                      }
+                  },
+          },            
+
         
             'colvis'
         ]

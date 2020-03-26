@@ -16,7 +16,7 @@
                         <p class="text-danger"><?php echo $error; ?></p>
                     </div>
                     <input class="btn btn-primary" type="submit" value=" Login "/>
-                    <a href="mailto:wurp@zhaw.ch?subject=PMmastaz:%20Passwort&amp;body=Hallo%20Philipp,%0D%0A%0D%0AIch%20brauche%20ein%20Passwort%20fuer%20pm.mastaz.ch">Passwort vergessen? Kein Login?</a>        
+                    <a href="mailto:wurp@zhaw.ch?subject=PMmastaz:%20Passwort&amp;body=Hallo%20Philipp,%0D%0A%0D%0AIch%20brauche%20ein%20Passwort%20fuer%20pm.mastaz.ch">Kein Login?</a>  |  <a href="./forgotten-pw.php">Passwort vergessen?</a>      
                 </form>
             </div>
         </div>
