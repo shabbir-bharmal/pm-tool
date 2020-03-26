@@ -33,15 +33,13 @@ include_once F_ROOT . 'parts/layout/head.php';
 	foreach ($getepicss as $epic){
 		$allepics[$epic['e_id']] = $epic['e_title'];
     }
-	
-	
 	$feature_statuses = $db->getFeatureStatuses();
 	$feature_types = $db->getFeatureType();
 	$alltypes = array();
-	
 	foreach ($feature_types as $f_type){
 		$alltypes[$f_type['id']] = $f_type['name'];
     }
+	
 	$selected_epic = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
 	?>
@@ -103,7 +101,7 @@ include_once F_ROOT . 'parts/layout/head.php';
             </div>
         </div>
         <div class="row m-0">
-			<?php include_once(F_ROOT.'parts/manage-jira/note-matched-jira.php'); ?>
+			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-jira.php'); ?>
         </div>
     </div>
     <div class="container-fluid mt-3 mb-3">
@@ -113,7 +111,7 @@ include_once F_ROOT . 'parts/layout/head.php';
             </div>
         </div>
         <div class="row m-0">
-			<?php include_once(F_ROOT.'parts/manage-jira/note-matched-pm.php'); ?>
+			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-pm.php'); ?>
         </div>
     </div>
 <?php } ?>

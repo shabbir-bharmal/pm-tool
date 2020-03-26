@@ -54,6 +54,7 @@ if ($name) { ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
                             <a class="dropdown-item" href="<?php echo W_ROOT . '/admin-config.php'; ?>">Config</a>
+                            <a class="dropdown-item" href="<?php echo W_ROOT . '/admin-jira.php'; ?>">Jira</a>
                             <a class="dropdown-item" href="<?php echo W_ROOT . '/datagrid/helptext.php'; ?>">Hilfe-Texte</a>
                             <a class="dropdown-item" href="<?php echo W_ROOT . '/datagrid/product-increments.php'; ?>">Produkt-Inkremente</a>
                             <a class="dropdown-item" href="<?php echo W_ROOT . '/datagrid/staff.php'; ?>">Mitarbeitende</a>

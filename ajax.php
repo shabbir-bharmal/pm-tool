@@ -60,16 +60,16 @@ switch ($action) {
 				$_SESSION['show_pi'] = $_SESSION['show_pi'] - 1;
 				break;
 			case 'show_all':
-				if($_SESSION['show_all'] == 'scrollable'){
+				if ($_SESSION['show_all'] == 'scrollable') {
 					$_SESSION['show_all'] = '';
-				}else{
+				} else {
 					$_SESSION['show_all'] = 'scrollable';
 				}
 				break;
 			case 'expand':
-				if($_SESSION['expand'] == 'height0'){
+				if ($_SESSION['expand'] == 'height0') {
 					$_SESSION['expand'] = '';
-				}else{
+				} else {
 					$_SESSION['expand'] = 'height0';
 				}
 				break;
@@ -78,6 +78,393 @@ switch ($action) {
 		}
 		//echo $event;
 		
+		break;
+	case 'display-non-matched-pm':
+		
+		if (!(isset($_GET['pagenum']))) {
+			$pagenum = 1;
+		} else {
+			$pagenum = intval($_GET['pagenum']);
+		}
+		$page_limit = 10;
+		
+		$getepicss = $db->getEpics();
+		$allepics  = array();
+		foreach ($getepicss as $epic) {
+			$allepics[$epic['e_id']] = $epic['e_title'];
+		}
+		$feature_statuses = $db->getFeatureStatuses();
+		$feature_types    = $db->getFeatureType();
+		$alltypes         = array();
+		foreach ($feature_types as $f_type) {
+			$alltypes[$f_type['id']] = $f_type['name'];
+		}
+		
+		$selected_epic   = $_GET['epic'];
+		$selected_status = $_GET['f_status_id'];
+		
+		$cnt = $db->getFeatureNonMatchedByJiraIdCount($selected_epic, $selected_status);
+		
+		$last = ceil($cnt / $page_limit);
+		if ($pagenum < 1) {
+			$pagenum = 1;
+		} elseif ($pagenum > $last) {
+			$pagenum = $last;
+		}
+		$lower_limit = ($pagenum - 1) * $page_limit;
+		
+		
+		if (empty($selected_epic)) {
+			$selected_epic = 0;
+		}
+		if (empty($selected_status)) {
+			$selected_status = 0;
+		}
+		
+		$feature_list = $db->getFeatureNonMatchedByJiraId($selected_epic, $selected_status, $lower_limit, $page_limit);
+		
+		foreach ($feature_list as $feature) {
+			
+			$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
+			?>
+            <div class="col-md-12 p-3">
+                <table class="table-sm table-bordered col-md-6">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>PM</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Titel:</th>
+                        <td><?php echo $feature_info['f_title']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Jira ID:</th>
+                        <td><?php echo $feature_info['f_jira_id']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Bemerkung:</th>
+                        <td><?php echo $feature_info['f_note']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>BV (Business Value):</th>
+                        <td><?php echo $feature_info['f_BV']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td><?php echo $alltypes[$feature_info['f_type']]; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Epic:</th>
+                        <td><?php echo $allepics[$feature_info['f_epic']]; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Kommentar:</th>
+                        <td colspan="2"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+			<?php
+		}
+		?>
+
+        <nav aria-label="Page navigation example" class="ml-3">
+            <ul class="pagination">
+				
+				<?php
+				if (($pagenum - 1) > 0) {
+					?>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
+					<?php
+				}
+				//Show page links
+				for ($i = 1; $i <= $last; $i++) {
+					if ($i == $pagenum) {
+						?>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);" class="selected"><?php echo $i ?></a></li>
+						<?php
+					} else {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $i; ?>');"><?php echo $i ?></a></li>
+						<?php
+					}
+				}
+				if (($pagenum + 1) <= $last) {
+					?>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum + 1; ?>');" class="links">Next</a></li>
+				<?php }
+				if (($pagenum) != $last) { ?>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $last; ?>');" class="links">Last</a></li>
+					<?php
+				}
+				?>
+            </ul>
+        </nav>
+		<?php
+		break;
+	case 'display-matched-pm':
+		if (!(isset($_GET['pagenum']))) {
+			$pagenum = 10;
+		} else {
+			$pagenum = intval($_GET['pagenum']);
+		}
+		
+		$getepicss = $db->getEpics();
+		$allepics  = array();
+		foreach ($getepicss as $epic) {
+			$allepics[$epic['e_id']] = $epic['e_title'];
+		}
+		$feature_statuses = $db->getFeatureStatuses();
+		$feature_types    = $db->getFeatureType();
+		$alltypes         = array();
+		foreach ($feature_types as $f_type) {
+			$alltypes[$f_type['id']] = $f_type['name'];
+		}
+		
+		$selected_epic   = $_GET['epic'];
+		$selected_status = $_GET['f_status_id'];
+		
+		if (empty($selected_epic)) {
+			$selected_epic = 0;
+		}
+		if (empty($selected_status)) {
+			$selected_status = 0;
+		}
+		
+		$page_limit = 1;
+		
+		$cnt = $db->getFeatureMatchedByJiraIdCount($selected_epic, $selected_status);
+		
+		$last = ceil($cnt / $page_limit);
+		if ($pagenum < 1) {
+			$pagenum = 1;
+		} elseif ($pagenum > $last) {
+			$pagenum = $last;
+		}
+		$lower_limit = ($pagenum - 1) * $page_limit;
+		
+		if (empty($selected_epic)) {
+			$selected_epic = 0;
+		}
+		if (empty($selected_status)) {
+			$selected_status = 0;
+		}
+		
+		$feature_list = $db->getFeatureMatchedByJiraId($selected_epic, $selected_status, $lower_limit, $page_limit);
+		
+		foreach ($feature_list as $feature) {
+			
+			$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
+			$jira_info    = $db->getJiraTicketById($feature['f_jira_id']);
+			?>
+            <div class="col-md-12 p-3">
+                <table class="table-sm table-bordered col-md-6">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Jira</th>
+                        <th>PM</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Titel:</th>
+                        <td><?php echo $jira_info['title']; ?></td>
+                        <td><?php echo $feature_info['f_title']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Jira ID:</th>
+                        <td><?php echo $jira_info['jira_id']; ?></td>
+                        <td><?php echo $feature_info['f_jira_id']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Bemerkung:</th>
+                        <td><?php echo $jira_info['bemerkung']; ?></td>
+                        <td><?php echo $feature_info['f_note']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>BV (Business Value):</th>
+                        <td><?php echo $jira_info['BV']; ?></td>
+                        <td><?php echo $feature_info['f_BV']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td><?php echo $jira_info['type']; ?></td>
+                        <td><?php echo $alltypes[$feature_info['f_type']]; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Epic:</th>
+                        <td><?php echo $jira_info['epic']; ?></td>
+                        <td><?php echo $allepics[$feature_info['f_epic']]; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Kommentar:</th>
+                        <td colspan="2"><?php echo $jira_info['kommentar']; ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+			<?php
+		}
+		if ($cnt > 10) {
+			?>
+            <nav aria-label="Page navigation example" class="ml-3">
+                <ul class="pagination">
+					
+					<?php
+					if (($pagenum - 1) > 0) {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
+						<?php
+					}
+					//Show page links
+					for ($i = 1; $i <= $last; $i++) {
+						if ($i == $pagenum) {
+							?>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0);" class="selected"><?php echo $i ?></a></li>
+							<?php
+						} else {
+							?>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $i; ?>');"><?php echo $i ?></a></li>
+							<?php
+						}
+					}
+					if (($pagenum + 1) <= $last) {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum + 1; ?>');" class="links">Next</a></li>
+					<?php }
+					if (($pagenum) != $last) { ?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $last; ?>');" class="links">Last</a></li>
+						<?php
+					}
+					?>
+                </ul>
+            </nav>
+			<?php
+		}
+		break;
+	case 'display-non-matched-jira':
+		if (!(isset($_GET['pagenum']))) {
+			$pagenum = 1;
+		} else {
+			$pagenum = intval($_GET['pagenum']);
+		}
+		$selected_epic   = $_GET['epic'];
+		$selected_status = $_GET['f_status_id'];
+		
+		if (empty($selected_epic)) {
+			$selected_epic = 0;
+		}
+		if (empty($selected_status)) {
+			$selected_status = 0;
+		}
+		$page_limit = 10;
+		
+		$cnt = $db->getJiraTicketsNotMatchedCount();
+		
+		$last = ceil($cnt / $page_limit);
+		if ($pagenum < 1) {
+			$pagenum = 1;
+		} elseif ($pagenum > $last) {
+			$pagenum = $last;
+		}
+		$lower_limit = ($pagenum - 1) * $page_limit;
+		
+		if (empty($selected_epic)) {
+			$selected_epic = 0;
+		}
+		if (empty($selected_status)) {
+			$selected_status = 0;
+		}
+		
+		$jira_list = $db->getJiraTicketsNotMatched($lower_limit, $page_limit);
+		
+		foreach ($jira_list as $jira_info) {
+			?>
+            <div class="col-md-12 p-3">
+                <table class="table-sm table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Jira</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Titel:</th>
+                        <td><?php echo $jira_info['title']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Jira ID:</th>
+                        <td><?php echo $jira_info['jira_id']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Bemerkung:</th>
+                        <td><?php echo $jira_info['bemerkung']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>BV (Business Value):</th>
+                        <td><?php echo $jira_info['BV']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td><?php echo $jira_info['type']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Epic:</th>
+                        <td><?php echo $jira_info['epic']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Kommentar:</th>
+                        <td><?php echo $jira_info['kommentar']; ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+			<?php
+		}
+		if ($cnt > 10) {
+			?>
+            <nav aria-label="Page navigation example" class="ml-3">
+                <ul class="pagination">
+					
+					<?php
+					if (($pagenum - 1) > 0) {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedJira('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedJira('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
+						<?php
+					}
+					//Show page links
+					for ($i = 1; $i <= $last; $i++) {
+						if ($i == $pagenum) {
+							?>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0);" class="selected"><?php echo $i ?></a></li>
+							<?php
+						} else {
+							?>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedJira('<?php echo $page_limit; ?>', '<?php echo $i; ?>');"><?php echo $i ?></a></li>
+							<?php
+						}
+					}
+					if (($pagenum + 1) <= $last) {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedJira('<?php echo $page_limit; ?>', '<?php echo $pagenum + 1; ?>');" class="links">Next</a></li>
+					<?php }
+					if (($pagenum) != $last) { ?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedJira('<?php echo $page_limit; ?>', '<?php echo $last; ?>');" class="links">Last</a></li>
+						<?php
+					}
+					?>
+                </ul>
+            </nav>
+			<?php
+		}
 		break;
 	
 	default:
