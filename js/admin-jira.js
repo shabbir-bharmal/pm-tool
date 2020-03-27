@@ -8,7 +8,6 @@ $(function () {
         });
     }
     formFilter();
-
 });
 function storeJiraNotes() {
     var timer;

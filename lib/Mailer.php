@@ -159,4 +159,26 @@ class Mailer
 		}
 		return false;
 	}
+	
+	public function sendForgetPasswordEmail($data)
+	{
+		try {
+			$mail = $this->mail;
+			//Recipients
+			$mail->setFrom('do-not-reply@mastaz.ch', 'mastaz.ch');
+			$mail->addAddress($data['email']);     // Add a recipient
+			// Content
+			$mail->isHTML(true);                                  // Set email format to HTML
+			$mail->Subject = 'pm.mastaz.ch: Dein Neues Passwort ';
+			
+			$body = '<p>Hallo, '.$data['username'].'</p>';
+			$body .= 'Du hast für http://pm.mastaz.ch ein neues Passwort beantragt. Dies lautet '.$data['password_new'];
+			$mail->Body = $body;
+			$mail->send();
+			return true;
+		} catch (Exception $e) {
+		
+		}
+		return false;
+	}
 }

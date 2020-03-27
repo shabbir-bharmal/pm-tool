@@ -6,13 +6,19 @@
                     <input type="hidden" name="action" class="form-control" value="forgotten-pw">
                     <div class="form-group">
                      <div class="form-group">
-                        <p class="text-danger">Sorry, erst in Entwicklung -> bei wurp@zhaw.ch melden.</p>
+                         <p class="text-danger">Sorry, erst in Entwicklung -> bei wurp@zhaw.ch melden.</p>
                     </div>                      
                         <label>Benutzername (4-stelliges K&uuml;rzel):</label>
                         <input class="form-control" type="text" name="username">
                     </div>
                     <div class="form-group">
-                        <p class="text-danger"><?php echo $error; ?></p>
+                        <?php
+                        if($success){
+                            echo "<p class='text-success'>$success</p>";
+                        }else if($error){
+                            echo "<p class='text-danger'>$error</p>";
+                        }
+                        ?>
                     </div>
                     <input class="btn btn-primary" type="submit" value=" Neues Passwort generieren "/>
                     <a href="mailto:wurp@zhaw.ch">Hilfe?</a>   

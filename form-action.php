@@ -37,28 +37,42 @@ switch ($action) {
 	case 'forgotten-pw':
 
   		$username = $_POST['username'];
+  		
+  		$userinfo = $db->getUserInfoByUsername($username);
+  		
+  		$count = count($userinfo);
 		
- 
-
+		
         //check if user exists
         // MISSING
-
-
-        
+	
 		if ($count > 1) {
-            // create a new password with 
-            $length=8;
-            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
-            $password = substr( str_shuffle( $chars ), 0, $length );
-            $password_md5 = md($password);
-            
-            //update database > staff with new password
+			
+			// create a new password with
+			$length=8;
+			$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+			$password = substr( str_shuffle( $chars ), 0, $length );
+			//$password_md5 = md5($password);
+			
+			$userinfo['password_new'] = $password;
+			
+			
+			
+			//check if Email address exists
+			
+			if(empty($userinfo['email'])){
+				//if not exist create email address $username.'@zhaw.ch'
+				$userinfo['email'] = $username.'@zhaw.ch';
+			}
+			
+			$email = $userinfo['email'];
+			
+			//update database > staff with new password
+			$db->manageAccount($userinfo);
+			
+		
             // MISSING
-            
-            //check if Email address exists
-            // MISSING
-        
-            //if not exist create email address $username.'@zhaw.ch'
+			
             // MISSING
             
             // Send email
@@ -66,9 +80,10 @@ switch ($action) {
             // Body:
             // Hallo $username
             // Du hast für http://pm.mastaz.ch ein neues Passwort beantragt. Dies lautet $password.
-            
-            
-            
+			
+			
+			$mailer->sendForgetPasswordEmail($userinfo);
+			
 			$success             = "Ok, Dir wurde auf die Email Adresse ".$email." ein neues PW gesendet";
 			$_SESSION['success'] = $success;
 			header("Location: " . W_ROOT. "/forgotten-pw.php");

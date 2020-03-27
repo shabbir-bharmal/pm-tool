@@ -1472,7 +1472,6 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		catch (PDOException $e) {
 		}
 		return false;
-		
 	}
 	
 	public function saveStaffCardFooterPermission($account_info)
@@ -2027,6 +2026,21 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->bindParam(':f_id', $f_id);
 			$stm->execute();
 			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getUserInfoByUsername($username)
+	{
+		
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `staff` WHERE `username` = :username");
+			$stm->bindParam(':username', $username);
+			$stm->execute();
+			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
+			return $userdata;
 		}
 		catch (PDOException $e) {
 		}
