@@ -396,7 +396,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_BV'          => $feature_info['f_BV'],
 				':f_TC'          => $feature_info['f_TC'],
 				':f_RROE'        => $feature_info['f_RROE'],
-				':f_JS'          => $feature_info['f_JS']
+				':f_JS'          => $feature_info['f_JS'],
 			];
 			
 			if (!$feature_info['f_id']) {
@@ -414,7 +414,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					':f_BV'          => $feature_info['f_BV'],
 					':f_TC'          => $feature_info['f_TC'],
 					':f_RROE'        => $feature_info['f_RROE'],
-					':f_JS'          => $feature_info['f_JS']
+					':f_JS'          => $feature_info['f_JS'],
 				];
 				$sql  = "UPDATE features SET f_title=:f_title, f_desc=:f_desc, f_status_id=:f_status_id,f_topic_id=:f_topic_id, f_storypoints = :f_storypoints, f_BV = :f_BV, f_TC = :f_TC, f_RROE = :f_RROE, f_JS = :f_JS, f_type = :f_type WHERE f_id=:f_id";
 			}
@@ -462,7 +462,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_targetstate'         => $feature_info['f_targetstate'],
 				':f_inscope'             => $feature_info['f_inscope'],
 				':f_outofscope'          => $feature_info['f_outofscope'],
-				':f_risks'               => $feature_info['f_risks']
+				':f_risks'               => $feature_info['f_risks'],
+        ':f_jira_id'             => $feature_info['f_jira_id']
 			];
 			
 			$sql
@@ -483,7 +484,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					f_targetstate,
 					f_inscope,
 					f_outofscope,
-					f_risks
+					f_risks,
+          f_jira_id
 					
 				) VALUES (
 					:f_id,
@@ -502,7 +504,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					:f_targetstate,
 					:f_inscope,
 					:f_outofscope,
-					:f_risks
+					:f_risks,
+          :f_jira_id
 				)
 				ON DUPLICATE KEY UPDATE
 					f_note = :f_note,
@@ -520,7 +523,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 					f_targetstate = :f_targetstate,
 					f_inscope = :f_inscope,
 					f_outofscope = :f_outofscope,
-					f_risks = :f_risks
+					f_risks = :f_risks,
+          f_jira_id = :f_jira_id
 					";
 			$stm = $this->pdo->prepare($sql);
 			

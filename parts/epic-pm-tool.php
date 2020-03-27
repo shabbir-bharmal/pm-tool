@@ -164,11 +164,14 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                         <div class="card-footer">
                                             <div class="text-right">
 												<?php if ($feature['f_status_id'] == '3') { ?>
-                                                    <span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
+                                                    <span style="color: green;" class="float-left mr-1"><i class="fa fa-check-circle"></i></span>
 												<?php } ?>
 												<?php if ($feature['f_mehr_details']) { ?>
-                                                    <a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                                    <a class="float-left mr-1" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 												<?php } ?>
+  											<?php if ($feature_info['f_jira_id']) { ?>
+                                                  <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
+  											<?php } ?>                        
 												
 												<?php
 												$cardfooter = "";
@@ -234,6 +237,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 							$actual_sp_total = 0;
 							if (isset($features) && !empty($features)) {
 								foreach ($features as $feature) {
+                $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 									if ($feature['f_JS'] == 0) {
 										$wsjf = 0;
 									} else {
@@ -276,11 +280,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                         <div class="card-footer">
                                             <div class="text-right">
 												<?php if ($feature['f_status_id'] == '3') { ?>
-                                                    <span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
+                                                    <span style="color: green;" class="float-left mr-1"><i class="fa fa-check-circle"></i></span>
 												<?php } ?>
 												<?php if ($feature['f_mehr_details']) { ?>
-                                                    <a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                                    <a class="float-left mr-1" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 												<?php } ?>
+											  <?php if ($feature_info['f_jira_id']) { ?>
+                                                  <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
+  											<?php } ?>
+                                                
 												<?php
 												$cardfooter = "";
 												
@@ -351,6 +359,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 						$sp_total = 0;
 						if (isset($features) && !empty($features)) {
 							foreach ($features as $feature) {
+              $feature_info = $db->getFeatureByFeatureId($feature['f_id']);
 								if ($feature['f_JS'] == 0) {
 									$wsjf = 0;
 								} else {
@@ -392,11 +401,14 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                                     <div class="card-footer">
                                         <div class="text-right">
 											<?php if ($feature['f_status_id'] == '3') { ?>
-                                                <span style="color: green;" class="float-left mr-2"><i class="fa fa-check-circle"></i></span>
+                                                <span style="color: green;" class="float-left mr-1"><i class="fa fa-check-circle"></i></span>
 											<?php } ?>
 											<?php if ($feature['f_mehr_details']) { ?>
-                                                <a class="float-left" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                                <a class="float-left mr-1" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 											<?php } ?>
+											<?php if ($feature_info['f_jira_id']) { ?>
+                                                  <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
+  											<?php } ?>                      
 											<?php
 											$cardfooter = "";
 											
