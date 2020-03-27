@@ -85,7 +85,7 @@
                 </tr>
                 <tr>
                     <th>Kommentar:</th>
-                    <td colspan="2"><?php echo $jira_info['kommentar']; ?></td>
+                    <td colspan="2"><textarea name="f_jira_notes" data-f_id="<?php echo $feature_info['f_id'];?>" class="f_jira_notes form-group w-100"><?php echo $feature_info['f_jira_notes']; ?></textarea></td>
                 </tr>
                 </tbody>
             </table>

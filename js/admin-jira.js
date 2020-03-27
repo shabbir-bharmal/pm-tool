@@ -8,7 +8,31 @@ $(function () {
         });
     }
     formFilter();
+
 });
+function storeJiraNotes() {
+    var timer;
+    var timeout = 500;
+
+    $('.f_jira_notes').keyup(function(){
+        clearTimeout(timer);
+        if ($(this).val) {
+            var f_id = $(this).data('f_id');
+            var f_jira_notes = $(this).val();
+            timer = setTimeout(function(){
+                $.ajax({
+                    type: "GET",
+                    url    : wroot +'/ajax.php',
+                    data: "action=update-feature-jira-notes&f_id=" + f_id + "&f_jira_notes=" + f_jira_notes,
+                    cache: false,
+                    success: function(html) {
+                    }
+                });
+            }, timeout);
+        }
+    });
+}
+storeJiraNotes();
 
 function displayRecordsforNonMatchedPM(numRecords, pageNum) {
 
@@ -40,6 +64,7 @@ function displayRecordsforMatchedPM(numRecords, pageNum) {
         cache: false,
         success: function(html) {
             $("#matched_jira_pm").html(html);
+            storeJiraNotes();
         }
     });
 }

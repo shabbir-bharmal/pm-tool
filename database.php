@@ -2019,5 +2019,17 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
+	public function updateFeatureJiraNote($f_id, $f_jira_notes)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `feature_details` SET f_jira_notes = :f_jira_notes WHERE `f_id` = :f_id ");
+			$stm->bindParam(':f_jira_notes', $f_jira_notes);
+			$stm->bindParam(':f_id', $f_id);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
 }
