@@ -84,8 +84,6 @@ $helptexts        = $db->getHelpText();
 // Include footer
 include_once F_ROOT.'parts/layout/footer.php';
 ?>
-
-
 <script type="text/javascript">
   
 $(document).ready(function() {
@@ -136,7 +134,6 @@ $(document).ready(function() {
                     alert( 'under construction' );
                 }
             },
-
 
 
           {

@@ -34,12 +34,29 @@ include_once F_ROOT . 'parts/layout/head.php';
 		$allepics[$epic['e_id']] = $epic['e_title'];
     }
 	$feature_statuses = $db->getFeatureStatuses();
+ 	$allfeaturesstatuses = array();
+	foreach ($feature_statuses as $f_status){
+		$allfeaturesstatuses[$f_status['id']] = $f_status['name'];
+    }   
+  
 	$feature_types = $db->getFeatureType();
 	$alltypes = array();
 	foreach ($feature_types as $f_type){
 		$alltypes[$f_type['id']] = $f_type['name'];
-    }
-	
+    }    
+    
+	$getproductintrements = $db->getAllProductIncrements();
+	$allproductincrements = array();
+	foreach ($getproductintrements as $productincrements){
+		$allproductincrements[$productincrements['pi_id']] = $productincrements['pi_title'];
+    }    
+
+	$gettopics = $db->getTopics();
+	$alltopics = array();
+	foreach ($gettopics as $topics){
+		$alltopics[$topics['id']] = $topics['name'];
+    }     
+	  
 	$selected_epic = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
 	?>

@@ -32,7 +32,7 @@
 //Notes from Philipp: removed as it made some problems with the Help icons:
 //<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 ?>
-<script src="./datagrid/assets/js/inlineEdit.js"></script>
+<script src="./../../datagrid/assets/js/inlineEdit.js"></script>
 <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>

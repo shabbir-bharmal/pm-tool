@@ -60,7 +60,7 @@ switch ($action) {
 			
 			//check if Email address exists
 			
-			if(empty($userinfo['email'])){
+			if($userinfo['email'] == ''){
 				//if not exist create email address $username.'@zhaw.ch'
 				$userinfo['email'] = $username.'@zhaw.ch';
 			}

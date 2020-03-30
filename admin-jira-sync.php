@@ -1,6 +1,10 @@
 <?php
 
-
+/*
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+*/
 
 	$datagrid_included="yes";
 
@@ -41,13 +45,13 @@ if (!$_SESSION['login_user_data'] || ($_SESSION['login_user_data'] && $_SESSION[
 }
 
 // Include header
-$page_title = 'Jira Importer';
+$page_title = 'Jira Importer';      
 include_once F_ROOT . 'parts/layout/head.php';
 
 
 
 	// including import controller file
-	include_once './controllers/import-controller.php';
+	include './controllers/import-controller.php';
 
     // creating object of import controller and passing connection object as a parameter
 	$importCtrl      =    	new ImportController($conn);

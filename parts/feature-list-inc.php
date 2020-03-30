@@ -98,7 +98,7 @@ foreach ($myfeatureResult as $k => $v) {
                  </td>
                  <td><?php echo utf8_decode($myfeatureResult[$k]["staff_firstname"]); ?>&nbsp;<?php echo utf8_decode($myfeatureResult[$k]["staff_lastname"]); ?></td>
                  <td><?php echo utf8_decode($myfeatureResult[$k]["statusename"]); ?></td>         
-                 <td><a style="text-decoration:none" href="https://jira.zhaw.ch/browse/<?php echo $myfeatureResult[$k]["f_id"];?>" target="_blank"><?php echo utf8_decode($myfeatureResult[$k]["jira_id"]); ?></a></td>
+                 <td><a style="text-decoration:none" href="https://jira.zhaw.ch/browse/<?php echo $myfeatureResult[$k]["f_id"];?>" target="_blank"><?php echo utf8_decode($myfeatureResult[$k]["j_key"]); ?></a></td>
                  <td><?php echo utf8_decode($myfeatureResult[$k]["piname"]); ?></td> 
                  <td><?php echo utf8_decode($myfeatureResult[$k]["e_title"]); ?></td>
                  <td><?php echo utf8_decode($myfeatureResult[$k]["topicsname"]); ?></td>

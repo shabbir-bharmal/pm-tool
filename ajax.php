@@ -278,7 +278,7 @@ switch ($action) {
                     </tr>
                     <tr>
                         <th>Jira ID:</th>
-                        <td><?php echo $jira_info['jira_id']; ?></td>
+                        <td><?php echo $jira_info['j_key']; ?></td>
                         <td><?php echo $feature_info['f_jira_id']; ?></td>
                     </tr>
                     <tr>
@@ -401,7 +401,7 @@ switch ($action) {
                     </tr>
                     <tr>
                         <th>Jira ID:</th>
-                        <td><?php echo $jira_info['jira_id']; ?></td>
+                        <td><?php echo $jira_info['j_key']; ?></td>
                     </tr>
                     <tr>
                         <th>Bemerkung:</th>

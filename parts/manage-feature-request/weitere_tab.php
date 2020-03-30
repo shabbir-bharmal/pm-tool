@@ -124,3 +124,4 @@
     </select>
 </div>
 </div>
+<input type="hidden" name="f_jira_id" id="f_jira_id" value="<?php echo !$f_id ? '' : $feature_info['f_jira_id']; ?>">
