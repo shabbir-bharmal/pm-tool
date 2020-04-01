@@ -463,7 +463,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_inscope'             => $feature_info['f_inscope'],
 				':f_outofscope'          => $feature_info['f_outofscope'],
 				':f_risks'               => $feature_info['f_risks'],
-        ':f_jira_id'             => $feature_info['f_jira_id']
+				':f_jira_id'             => $feature_info['f_jira_id']
 			];
 			
 			$sql
@@ -1025,7 +1025,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `username` = :username AND `password` = :password");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,can_edit_customers_inputs,staff_avatar FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
 			$stm->bindParam(':password', $password);
 			$stm->execute();
@@ -1463,7 +1463,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,	email,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
+			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,	email,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,can_edit_customers_inputs,staff_avatar FROM `staff` WHERE `staff_id` = :staff_id");
 			$stm->bindParam(':staff_id', $staff_id);
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
@@ -1938,6 +1938,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	public function getJiraTicketsNotMatched($lower_limit, $page_limit)
 	{
 		try {
@@ -1951,6 +1952,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	public function getJiraTicketsNotMatchedCount()
 	{
 		try {
@@ -1964,7 +1966,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	public function getFeatureNonMatchedByJiraId($epic_id, $status_id,$lower_limit,$page_limit)
+	
+	public function getFeatureNonMatchedByJiraId($epic_id, $status_id, $lower_limit, $page_limit)
 	{
 		try {
 			$data = array();
@@ -2018,6 +2021,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	
 	public function updateFeatureJiraNote($f_id, $f_jira_notes)
 	{
 		try {
@@ -2041,6 +2045,227 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
 			return $userdata;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getAllDepartements()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `oe` WHERE `oe_type` = 'Dep'");
+			$stm->execute();
+			$pi = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $pi;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getProductIncrementById($pi_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `productincrements` WHERE `pi_id` = :pi_id");
+			$stm->bindParam(':pi_id', $pi_id);
+			$stm->execute();
+			$pi = $stm->fetch(PDO::FETCH_ASSOC);
+			return $pi;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getOeById($oe_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `oe` WHERE `oe_id` = :oe_id");
+			$stm->bindParam(':oe_id', $oe_id);
+			$stm->execute();
+			$oe = $stm->fetch(PDO::FETCH_ASSOC);
+			return $oe;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getFeatureByStatusAndTopic($f_status, $f_topics)
+	{
+		try {
+			$f_status_ids = implode(',', $f_status);
+			$f_topic_id   = implode(',', $f_topics);
+			
+			$where                = "WHERE  FIND_IN_SET (features.f_status_id, :f_status_id)";
+			$data                 = array();
+			$data[':f_status_id'] = $f_status_ids;
+			if (isset($f_topics[0]) && !empty($f_topics[0])) {
+				$where               .= " AND FIND_IN_SET (features.f_topic_id, :f_topic_id)";
+				$data[':f_topic_id'] = $f_topic_id;
+			}
+			$sql = "SELECT features.*, feature_details.f_note FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id " . $where . " ORDER BY features.f_ranking ASC ";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			$features = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $features;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function updateFeatureNote($f_id, $f_note)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `feature_details` SET f_note = :f_note WHERE `f_id` = :f_id ");
+			$stm->bindParam(':f_note', $f_note);
+			$stm->bindParam(':f_id', $f_id);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getFPRankingInfo($f_id, $pi_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `fp_rankings` WHERE `fp_fid` = :fp_fid AND `fp_piid` = :fp_piid");
+			$stm->bindParam(':fp_fid', $f_id);
+			$stm->bindParam(':fp_piid', $pi_id);
+			$stm->execute();
+			$fpranaking = $stm->fetch(PDO::FETCH_ASSOC);
+			if (empty($fpranaking)) {
+				
+				$insert_data = [
+					':fp_fid'  => $f_id,
+					':fp_piid' => $pi_id,
+				];
+				$sql         = "INSERT INTO `fp_rankings` (
+							fp_fid,
+							fp_piid
+						) VALUES (
+							:fp_fid,
+							:fp_piid
+						)";
+				$stm         = $this->pdo->prepare($sql);
+				$stm->execute($insert_data);
+				return $this->getFPRankingInfo($f_id, $pi_id);
+			} else {
+				return $fpranaking;
+			}
+			
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function updateFpRanking($fp_id, $fp_BV, $fp_TC, $fp_RROE, $fp_JS)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `fp_rankings` SET `fp_BV`= :fp_BV,`fp_TC`= :fp_TC,`fp_RROE`= :fp_RROE,`fp_JS`= :fp_JS WHERE fp_id = :fp_id");
+			$stm->bindParam(':fp_id', $fp_id);
+			$stm->bindParam(':fp_BV', $fp_BV);
+			$stm->bindParam(':fp_TC', $fp_TC);
+			$stm->bindParam(':fp_RROE', $fp_RROE);
+			$stm->bindParam(':fp_JS', $fp_JS);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function saveDrRanking($fp_id, $data_info)
+	{
+		try {
+			
+			$data = [
+				':dr_oeid'  => $data_info['oe'],
+				':dr_fprid' => $fp_id,
+			];
+			$stm  = $this->pdo->prepare("SELECT * FROM `deptrankings` WHERE `dr_oeid` = :dr_oeid AND `dr_fprid` = :dr_fprid");
+			$stm->execute($data);
+			$drranaking               = $stm->fetch(PDO::FETCH_ASSOC);
+			$data[':dr_rankingvalue'] = $data_info['dr_rankingvalue'];
+			if (empty($drranaking)) {
+				$sql = "INSERT INTO `deptrankings` (
+					dr_oeid,
+					dr_fprid,
+					dr_rankingvalue
+				) VALUES (
+					:dr_oeid,
+					:dr_fprid,
+					:dr_rankingvalue
+				)
+				";
+				$stm = $this->pdo->prepare($sql);
+				$stm->execute($data);
+				return true;
+			} else {
+				
+				$stm = $this->pdo->prepare("UPDATE `deptrankings` SET `dr_rankingvalue`= :dr_rankingvalue WHERE `dr_oeid` = :dr_oeid AND `dr_fprid` = :dr_fprid");
+				$stm->execute($data);
+			}
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function getDrRanking($dr_fprid, $dr_oeid)
+	{
+		try {
+			$data = [
+				':dr_oeid'  => $dr_oeid,
+				':dr_fprid' => $dr_fprid,
+			];
+			$stm  = $this->pdo->prepare("SELECT * FROM `deptrankings` WHERE `dr_oeid` = :dr_oeid AND `dr_fprid` = :dr_fprid");
+			$stm->execute($data);
+			$drranaking = $stm->fetch(PDO::FETCH_ASSOC);
+			return $drranaking;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	
+	public function saveDrNotes($fp_id, $data_info)
+	{
+		try {
+			
+			$data = [
+				':dr_oeid'  => $data_info['oe'],
+				':dr_fprid' => $fp_id,
+			];
+			$stm  = $this->pdo->prepare("SELECT * FROM `deptrankings` WHERE `dr_oeid` = :dr_oeid AND `dr_fprid` = :dr_fprid");
+			$stm->execute($data);
+			$drranaking               = $stm->fetch(PDO::FETCH_ASSOC);
+			$data[':dr_notes'] = $data_info['dr_notes'];
+			if (empty($drranaking)) {
+				$sql = "INSERT INTO `deptrankings` (
+					dr_oeid,
+					dr_fprid,
+					dr_notes
+				) VALUES (
+					:dr_oeid,
+					:dr_fprid,
+					:dr_notes
+				)
+				";
+				$stm = $this->pdo->prepare($sql);
+				$stm->execute($data);
+				return true;
+			} else {
+				
+				$stm = $this->pdo->prepare("UPDATE `deptrankings` SET `dr_notes`= :dr_notes WHERE `dr_oeid` = :dr_oeid AND `dr_fprid` = :dr_fprid");
+				$stm->execute($data);
+			}
 		}
 		catch (PDOException $e) {
 		}

@@ -303,7 +303,7 @@ switch ($action) {
                     </tr>
                     <tr>
                         <th>Kommentar:</th>
-                        <td colspan="2"><textarea name="f_jira_notes" data-f_id="<?php echo $feature_info['f_id'];?>" class="f_jira_notes form-group w-100"><?php echo $feature_info['f_jira_notes']; ?></textarea></td>
+                        <td colspan="2"><textarea name="f_jira_notes" data-f_id="<?php echo $feature_info['f_id']; ?>" class="f_jira_notes form-group w-100"><?php echo $feature_info['f_jira_notes']; ?></textarea></td>
                     </tr>
                     </tbody>
                 </table>
@@ -466,11 +466,36 @@ switch ($action) {
 			<?php
 		}
 		break;
-    case 'update-feature-jira-notes':
-        $f_id = $_REQUEST['f_id'];
-        $f_jira_notes = $_REQUEST['f_jira_notes'];
-        $db->updateFeatureJiraNote($f_id,$f_jira_notes);
-        break;
+	case 'update-feature-jira-notes':
+		$f_id         = $_REQUEST['f_id'];
+		$f_jira_notes = $_REQUEST['f_jira_notes'];
+		$db->updateFeatureJiraNote($f_id, $f_jira_notes);
+		break;
+	case 'update-feature-notes':
+		$f_id   = $_REQUEST['f_id'];
+		$f_note = $_REQUEST['f_note'];
+		$db->updateFeatureNote($f_id, $f_note);
+		break;
+	case 'update-fp_ranking':
+		$fp_id   = $_REQUEST['fp_id'];
+		$fp_BV   = $_REQUEST['fp_BV'];
+		$fp_TC   = $_REQUEST['fp_TC'];
+		$fp_RROE = $_REQUEST['fp_RROE'];
+		$fp_JS   = $_REQUEST['fp_JS'];
+		
+		$db->updateFpRanking($fp_id, $fp_BV,$fp_TC,$fp_RROE,$fp_JS);
+		break;
+	
+	case 'save-dr_ranking':
+		$fp_id   = $_REQUEST['fp_id'];
+		$data = $_REQUEST;
+		$db->saveDrRanking($fp_id,$data);
+		break;
+	case 'save-dr-notes':
+		$fp_id   = $_REQUEST['fp_id'];
+		$data = $_REQUEST;
+		$db->saveDrNotes($fp_id,$data);
+		break;
 	default:
 		break;
 }

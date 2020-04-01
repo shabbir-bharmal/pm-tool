@@ -9,6 +9,7 @@ $(function () {
     }
     formFilter();
 });
+
 function storeJiraNotes() {
     var timer;
     var timeout = 500;
