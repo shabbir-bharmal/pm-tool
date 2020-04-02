@@ -125,6 +125,14 @@
 .zoomavatar:hover {
   transform: scale(3); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
+
+.c_input select {
+    width: auto;
+    padding: 2px;
+    font-size: 12px;
+    font-weight: 100;
+    line-height: 1;
+}
 .c_input td, .c_input th {
-    min-width: 80px;
+    padding: 5px;
 }

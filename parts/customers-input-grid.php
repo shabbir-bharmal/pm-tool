@@ -194,7 +194,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 				<?php foreach ($feature_list as $feature) { ?>
                     <tr data-f_id="<?php echo $feature['f_id']; ?>">
                         <td><?php echo $feature['f_title']; ?></td>
-                        <td><textarea class="form-control f_note" style="width:200px;" name="f_note"><?php echo $feature['f_note']; ?></textarea></td>
+                        <td><textarea class="form-control f_note" style="width:150px;" name="f_note"><?php echo $feature['f_note']; ?></textarea></td>
                         <td><?php echo $allfeaturesstatuses[$feature['f_status_id']]; ?></td>
                         <td><?php echo $alltopics[$feature['f_topic_id']]; ?></td>
 						<?php foreach ($f_pi as $pi_id) {
@@ -211,7 +211,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
                                 </select>
                             </td>
                             <td>
-                                <textarea data-oe_id="9" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" class="form-control dr_notes" name="dr_notes" style="width:200px;"><?php echo $res_rankingdata['dr_notes']; ?></textarea>
+                                <textarea data-oe_id="9" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" class="form-control dr_notes" name="dr_notes" style="width:150px;"><?php echo $res_rankingdata['dr_notes']; ?></textarea>
                             </td>
 							<?php
 							foreach ($f_oe as $oe_id) {
@@ -269,7 +269,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									} else {
 										$wsjf = ($fp_rankingdata['fp_BV'] + $fp_rankingdata['fp_TC'] + $fp_rankingdata['fp_RROE']) / $fp_rankingdata['fp_JS'];
 									}
-									echo $wsjf;
+									echo round($wsjf, 3);
 									?></span>
                             </td>
 						<?php } ?>

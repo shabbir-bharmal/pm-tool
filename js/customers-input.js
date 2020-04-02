@@ -39,6 +39,9 @@ $(function () {
                 $(".fp_WSJF[data-fp_id='" + fp_id + "']").html('0');
             } else {
                 var wsjf = (parseInt(fp_BV) + parseInt(fp_TC) + parseInt(fp_RROE)) / parseInt(fp_JS);
+                wsjf = wsjf.toFixed(3);
+                wsjf = parseFloat(wsjf);
+
                 $(".fp_WSJF[data-fp_id='" + fp_id + "']").html(wsjf);
             }
 
