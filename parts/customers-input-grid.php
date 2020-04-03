@@ -201,7 +201,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 							$fp_rankingdata  = $db->getFPRankingInfo($feature['f_id'], $pi_id);
 							$res_rankingdata = $db->getDrRanking($fp_rankingdata['fp_id'], 9);
 							?>
-                            <td>
+                            <td style="background-color: <?php echo $color[$res_rankingdata['dr_rankingvalue']];?>">
                                 <select class="form-control dr_rankingvalue" data-oe_id="9" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="dr_rankingvalue">
 									<?php
 									foreach ($op_values as $opt) {
@@ -217,7 +217,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 							foreach ($f_oe as $oe_id) {
 								$oe_rankingdata = $db->getDrRanking($fp_rankingdata['fp_id'], $oe_id);
 								?>
-                                <td>
+                                <td style="background-color: <?php echo $color[$oe_rankingdata['dr_rankingvalue']];?>">
                                     <select class="form-control dr_rankingvalue" data-oe_id="<?php echo $oe_id ?>" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="dr_rankingvalue">
 										<?php
 										foreach ($op_values as $opt) {

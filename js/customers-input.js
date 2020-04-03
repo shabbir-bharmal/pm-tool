@@ -64,6 +64,20 @@ $(function () {
             var fp_id = $(this).data('fp_id');
             var dr_rankingvalue = $(this).val();
 
+            if(dr_rankingvalue == '0'){
+                $(this).parent('td').css('background-color','white');
+            }else if(dr_rankingvalue == '1'){
+                $(this).parent('td').css('background-color','blue');
+            }else if(dr_rankingvalue == '2'){
+                $(this).parent('td').css('background-color','green');
+            }else if(dr_rankingvalue == '3'){
+                $(this).parent('td').css('background-color','yellow');
+            }else if(dr_rankingvalue == '4'){
+                $(this).parent('td').css('background-color','orange');
+            }else if(dr_rankingvalue == '5'){
+                $(this).parent('td').css('background-color','red');
+            }
+
             $.ajax({
                 type   : "GET",
                 url    : wroot + '/ajax.php',
