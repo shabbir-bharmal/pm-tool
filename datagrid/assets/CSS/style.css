@@ -75,3 +75,42 @@ table#UserTable {
 div#UserTable_wrapper {
     margin: 0 0 30px;
 }
+
+table tfoot {display :none;} 
+.dt-buttons .dt-button {
+    color: #fff;
+    background: #007bff;
+    border-color: #007bff;
+    padding: 9px 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    margin: 0 0 0 20px;
+    //text-transform: uppercase;
+    min-width: 100px;
+    position: relative;
+}
+.dt-buttons .dt-button:hover, .dt-buttons .dt-button:hover:not(.disabled) {
+    color: #fff;
+    background: #007bff;
+    border-color: #007bff;
+}
+#UserTable_length {
+    margin-top: 4px;
+}
+.my-feat-h{
+	text-align:left;
+	margin-bottom:20px;
+}
+.dt-buttons .dt-button-collection .dt-button.buttons-columnVisibility {
+    margin: 3px 0;
+    padding: 0 !important;
+    background: #007bff !important;
+    box-shadow: none;
+    border-color: #007bff;
+    font-size: 11px;
+}
+.dt-buttons .dt-button-collection {
+    width: 184px;
+    left: 144px !important;
+}

@@ -5,15 +5,21 @@
 	} else {
 		$pagenum = intval($_GET['pagenum']);
 	}
+  
 	$selected_epic   = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
+  $selected_pi     = $_GET['f_pi_id'];
 	
-	if (empty($selected_epic)) {
+  if (empty($selected_epic)) {
 		$selected_epic = 0;
 	}
 	if (empty($selected_status)) {
 		$selected_status = 0;
 	}
+	if (empty($selected_pi)) {
+		$selected_pi = 0;
+	}  
+  
 	$page_limit = 10;
 	
 	$cnt = $db->getJiraTicketsNotMatchedCount();
@@ -32,6 +38,9 @@
 	if (empty($selected_status)) {
 		$selected_status = 0;
 	}
+	if (empty($selected_pi)) {
+		$selected_pi = 0;
+	}    
 	
 	$jira_list = $db->getJiraTicketsNotMatched($lower_limit, $page_limit);
 	
@@ -55,6 +64,10 @@
                     <td><?php echo $jira_info['j_key']; ?></td>
                 </tr>
                 <tr>
+                    <th>Features:</th>
+                    <td>Select all Features</td>
+                </tr>                
+                <tr>
                     <th>Bemerkung:</th>
                     <td><?php echo $jira_info['bemerkung']; ?></td>
                 </tr>
@@ -74,6 +87,10 @@
                     <th>Kommentar:</th>
                     <td><?php echo $jira_info['kommentar']; ?></td>
                 </tr>
+                <tr>
+                    <th>Ok, dass kein Match?:</th>
+                    <td colspan="2"><input type="checkbox" id="XXXX" name="XX" value="XXX"></td>
+                </tr>                  
                 </tbody>
             </table>
         </div>

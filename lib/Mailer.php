@@ -159,7 +159,6 @@ class Mailer
 		}
 		return false;
 	}
-	
 	public function sendForgetPasswordEmail($data)
 	{
 		try {
@@ -171,8 +170,10 @@ class Mailer
 			$mail->isHTML(true);                                  // Set email format to HTML
 			$mail->Subject = 'pm.mastaz.ch: Dein Neues Passwort ';
 			
-			$body = '<p>Hallo, '.$data['username'].'</p>';
-			$body .= 'Du hast für http://pm.mastaz.ch ein neues Passwort beantragt. Dies lautet '.$data['password_new'];
+			$body = '<p>Hallo, '.$data['firstname'].'</p>';
+			$body .= '<p>Du hast f&uuml;r http://pm.mastaz.ch ein neues Passwort beantragt. Dies lautet '.$data['password_new'].'<p>';
+      $body .= '<p>Hier geht es zum Login > <a href="https://pm.mastaz.ch" target="_blank">https://pm.mastaz.ch</a></p>';
+      $body .= '<p>Solltest Du das Passwort nicht beantragt haben, bitte an <a href="mailto:wurp@zhaw.ch" target="_blank">wurp@zhaw.ch</a> schreiben. Danke.</p>';
 			$mail->Body = $body;
 			$mail->send();
 			return true;

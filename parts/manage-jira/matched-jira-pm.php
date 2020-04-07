@@ -9,17 +9,21 @@
 	
 	$selected_epic   = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
+  $selected_pi     = $_GET['f_pi_id'];
 	
-    if (empty($selected_epic)) {
+  if (empty($selected_epic)) {
 		$selected_epic = 0;
 	}
 	if (empty($selected_status)) {
 		$selected_status = 0;
 	}
+	if (empty($selected_pi)) {
+		$selected_pi = 0;
+	}  
 	
-	$page_limit = 10;
+	$page_limit = 1;
 	
-	$cnt = $db->getFeatureMatchedByJiraIdCount($selected_epic, $selected_status);
+	$cnt = $db->getFeatureMatchedByJiraIdCount($selected_epic, $selected_status, $selected_pi);
 	
 	$last = ceil($cnt / $page_limit);
 	if ($pagenum < 1) {
@@ -35,8 +39,11 @@
 	if (empty($selected_status)) {
 		$selected_status = 0;
 	}
+	if (empty($selected_pi)) {
+		$selected_pi = 0;
+	}    
 	
-	$feature_list = $db->getFeatureMatchedByJiraId($selected_epic, $selected_status, $lower_limit, $page_limit);
+	$feature_list = $db->getFeatureMatchedByJiraId($selected_epic, $selected_status, $selected_pi, $lower_limit, $page_limit);
 	
 	foreach ($feature_list as $feature) {
 		
@@ -44,22 +51,21 @@
 		$jira_info    = $db->getJiraTicketById($feature['f_jira_id']);
 		?>
         <div class="col-md-12 p-3">
-            <table class="table-sm table-bordered col-md-6">
+            <table class="table-sm table-bordered col-md-7" style="table-layout: fixed; width: 100%;">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>Jira
+                    <th style="width:20%; min-width:20% !important;max-width:20% !important;"></th>
+                    <th style="width:38%; min-width:38% !important;max-width:38% !important;">Jira
                       <?php if ($jira_info['j_key']) { ?>
                          <a class="mr-1 " target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $jira_info['j_key']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
 											<?php } ?>                
-                    </th>
-                    <th>PM-Tool
+                    </th >
+                    <th style="width:38%; min-width:38% !important;max-width:38% !important;">PM-Tool
                       <?php if ($feature_info['f_id']) { ?>
                          <a class="mr-1 " target="_blank" href="https://pm.mastaz.ch/feature-request.php?f_id=<?php echo $feature_info['f_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 											<?php } ?>                    
                     </th>
-                    <th style="width:20px !important; min-width:20px !important;">OK?</th>  
-                                       
+                    <th style="width:4%; min-width:4% !important;max-width:4% !important;">OK?</th>  
                 </tr>
                 </thead>
                 <tbody>
@@ -169,8 +175,6 @@
                     <td><?php echo $wsjf_pm; ?></td>
                     <?php echo valueequal($wsjf_jira, $wsjf_pm) ?>
                 </tr>     
-                
-             
                 <tr>
                     <th>
                       <label for="f_type" class="col-form-label">Type: <?php if ($helptexts['f_type']) {
@@ -222,8 +226,8 @@
                   		    } ?> 
                       </label>                     
                     </th>
-                    <td><?php echo $jira_info['j_desc']; ?></td>
-                    <td><?php echo $feature_info['f_desc']; ?></td>
+                    <td style="overflow-wrap: break-word;"><?php echo $jira_info['j_desc']; ?></td>
+                    <td style="overflow-wrap: break-word;"><?php echo $feature_info['f_desc']; ?></td>
                     <?php echo valueequal($jira_info['j_desc'], $feature_info['f_desc']) ?>
                 </tr>                                                                                                                                
                 <tr>
@@ -235,18 +239,23 @@
         </div>
 		<?php
 	}
-	if ($cnt > 10) {
+	if ($cnt > $page_limit) {
 		?>
         <nav aria-label="Page navigation example" class="ml-3">
         <ul class="pagination">
 			
 			<?php
-			if (($pagenum - 1) > 0) {
-				?>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
-				<?php
-			}
+					if (($pagenum - 1) > 0) {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
+						<?php
+					}else{
+          ?>
+                        <li class="page-item"><span class="page-link" class="links" >First</span></li>
+                        <li class="page-item"><span class="page-link" class="links" >Previous</span></li>
+          <?php                                  
+          }
 			//Show page links
 			for ($i = 1; $i <= $last; $i++) {
 				if ($i == $pagenum) {
@@ -268,8 +277,9 @@
 				<?php
 			}
 			?>
+                <li class="page-item" style="margin-left:10px;"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforMatchedPM('all', '1');" class="links">All</a></li>      
         </ul>
-        </nav>
+        </nav>                                                                                                                                            
 		<?php
 	} ?>
 </div>

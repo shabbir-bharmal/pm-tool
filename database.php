@@ -463,7 +463,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				':f_inscope'             => $feature_info['f_inscope'],
 				':f_outofscope'          => $feature_info['f_outofscope'],
 				':f_risks'               => $feature_info['f_risks'],
-				':f_jira_id'             => $feature_info['f_jira_id']
+        ':f_jira_id'             => $feature_info['f_jira_id']
 			];
 			
 			$sql
@@ -1866,7 +1866,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 	
-	public function getFeatureMatchedByJiraId($epic_id, $status_id, $lower_limit, $page_limit)
+	public function getFeatureMatchedByJiraId($epic_id, $status_id, $pi_id, $lower_limit, $page_limit)
 	{
 		try {
 			$data = array();
@@ -1880,6 +1880,11 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$where                .= " AND features.f_status_id = :f_status_id";
 				$data[':f_status_id'] = $status_id;
 			}
+			if ($pi_id != 0) {    
+				$where                .= " AND features.f_PI = :f_PI";
+				$data[':f_PI'] = $pi_id;
+			}   
+      
 			
 			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC limit $lower_limit,$page_limit";
 			$stm = $this->pdo->prepare($sql);
@@ -1887,6 +1892,8 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
 			
 			return $feature;
+      
+
 			
 		}
 		catch (PDOException $e) {
@@ -1895,7 +1902,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 	
-	public function getFeatureMatchedByJiraIdCount($epic_id, $status_id)
+	public function getFeatureMatchedByJiraIdCount($epic_id, $status_id, $pi_id)
 	{
 		try {
 			$data = array();
@@ -1904,17 +1911,21 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 			if ($epic_id != 0) {
 				$where           .= " AND feature_details.f_epic = :f_epic";
 				$data[':f_epic'] = $epic_id;
-			}
+			}              
 			if ($status_id != 0) {
 				$where                .= " AND features.f_status_id = :f_status_id";
 				$data[':f_status_id'] = $status_id;
-			}
+			}   
+			if ($pi_id != 0) {          
+				$where                .= " AND features.f_PI = :f_PI";
+				$data[':f_PI'] = $pi_id;
+			}    
 			
 			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
 			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
-			
+
 			return count($feature);
 			
 		}
@@ -1938,7 +1949,6 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
 	public function getJiraTicketsNotMatched($lower_limit, $page_limit)
 	{
 		try {
@@ -1952,7 +1962,6 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
 	public function getJiraTicketsNotMatchedCount()
 	{
 		try {
@@ -1966,8 +1975,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
-	public function getFeatureNonMatchedByJiraId($epic_id, $status_id, $lower_limit, $page_limit)
+	public function getFeatureNonMatchedByJiraId($epic_id, $status_id, $pi_id, $lower_limit, $page_limit)
 	{
 		try {
 			$data = array();
@@ -1981,6 +1989,10 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$where                .= " AND features.f_status_id = :f_status_id";
 				$data[':f_status_id'] = $status_id;
 			}
+			if ($pi_id != 0) {          
+				$where                .= " AND features.f_PI = :f_PI";
+				$data[':f_PI'] = $pi_id;
+			}           
 			
 			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC limit $lower_limit,$page_limit";
 			$stm = $this->pdo->prepare($sql);
@@ -1994,7 +2006,7 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		return false;
 	}
 	
-	public function getFeatureNonMatchedByJiraIdCount($epic_id, $status_id)
+	public function getFeatureNonMatchedByJiraIdCount($epic_id, $status_id, $pi_id)
 	{
 		try {
 			$data = array();
@@ -2008,12 +2020,17 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 				$where                .= " AND features.f_status_id = :f_status_id";
 				$data[':f_status_id'] = $status_id;
 			}
-			
+			if ($pi_id != 0) {          
+				$where                .= " AND features.f_PI = :f_PI";
+				$data[':f_PI'] = $pi_id;
+			}       
+      
 			$sql = "SELECT features.f_id,feature_details.f_jira_id  FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute($data);
 			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
 			
+      
 			return count($feature);
 		}
 		catch (PDOException $e) {
@@ -2021,7 +2038,6 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
 	public function updateFeatureJiraNote($f_id, $f_jira_notes)
 	{
 		try {
@@ -2050,7 +2066,22 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
-	
+  
+	/**
+	 * @return bool
+	 */
+	public function getAllJira()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `jira_tickets`");
+			$stm->execute();
+			$jira = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $jira;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}  
 	public function getAllDepartements()
 	{
 		try {

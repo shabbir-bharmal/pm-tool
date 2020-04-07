@@ -14,9 +14,9 @@ class DataSource
     // when using above 7.1.0, declare the below constants as private
     const HOST = 'localhost';
 
-    const USERNAME = 'root';
+    const USERNAME = 'pmmastazusr';
 
-    const PASSWORD = 'password';
+    const PASSWORD = 'P2g*n5s3';
 
     const DATABASENAME = 'pmmastaz';
 

@@ -206,7 +206,7 @@ $(function () {
                             var isNotSelf = user.id != login_id;
                             return containsSearchTerm && isNotSelf;
                         }));
-                    }, 100);
+                    }, 500);
                 },
                 getComments         : function (success, error) {
                     setTimeout(function () {

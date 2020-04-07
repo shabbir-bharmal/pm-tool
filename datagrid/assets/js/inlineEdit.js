@@ -47,9 +47,9 @@ function staffhowEdit(editableObj) {
 
 function staffsaveToDatabase(editableObj, column, staff_id) {
 	$(editableObj)
-			.css("background", "#FFF url(./images/loaderIcon.gif) no-repeat center right 5px");
+			.css("background", "#FFF url(./datagrid/images/loaderIcon.gif) no-repeat center right 5px");
 	$.ajax({
-		url : "./ajax-end-point/staff-edit.php",
+		url : "./datagrid/ajax-end-point/staff-edit.php",
 		type : "POST",
 		data : 'column=' + column + '&editval=' + editableObj.innerHTML
 				+ '&staff_id=' + staff_id,

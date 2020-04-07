@@ -55,10 +55,17 @@ include_once F_ROOT . 'parts/layout/head.php';
 	$alltopics = array();
 	foreach ($gettopics as $topics){
 		$alltopics[$topics['id']] = $topics['name'];
-    }     
+    }   
+    
+	$getjira = $db->getAllJira();
+	$alljiras = array();
+	foreach ($getjira as $alljiras){
+		$alljiras[$jiras['id']] = $jiras['title'];
+    }         
 	  
 	$selected_epic = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
+	$selected_pi = $_GET['f_pi_id'];  
 	?>
     <div class="container-fluid mt-3 mb-3">
 
@@ -75,63 +82,102 @@ include_once F_ROOT . 'parts/layout/head.php';
                         <div class="col-md-3">
                             <select class="form-control" id="epic" name="epic">
                                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
-								<?php
-								foreach ($getepicss as $gepics) {
-									$selected = $gepics['e_id'] == $selected_epic ? "selected='selected'" : ""; ?>
-                                    ?>
-                                    <option value="<?php echo $gepics['e_id']; ?>" <?php echo $selected; ?>><?php echo $gepics['e_title']; ?></option>
-									<?php
-								}
-								?>
+                    								<?php
+                    								foreach ($getepicss as $gepics) {
+                    									$selected = $gepics['e_id'] == $selected_epic ? "selected='selected'" : ""; ?>
+                                                        ?>
+                                                        <option value="<?php echo $gepics['e_id']; ?>" <?php echo $selected; ?>><?php echo $gepics['e_title']; ?></option>
+                    									<?php
+                    								}
+                    								?>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="form-control" name="f_status_id" id="f_status_id" <?php echo $disabled; ?>>
                                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
-								<?php
-								foreach ($feature_statuses as $feature_status) {
-									$selected = ($selected_status == $feature_status['id'] ? 'selected="selected"' : ''); ?>
-                                    <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
-								<?php } ?>
+                    								<?php
+                    								foreach ($feature_statuses as $feature_status) {
+                    									$selected = ($selected_status == $feature_status['id'] ? 'selected="selected"' : ''); ?>
+                                                        <option value="<?php echo $feature_status['id']; ?>" <?php echo $selected; ?>><?php echo $feature_status['name']; ?></option>
+                    								<?php } ?>
                             </select>
                         </div>
+                        <div class="col-md-2">
+                            <select class="form-control" name="f_pi_id" id="f_pi_id" <?php echo $disabled; ?>>
+                                <option value="0">--bitte w<span>&#228;</span>hlen--</option>
+                                <option value="F">Funnel</option>
+                    								<?php
+                    								foreach ($getproductintrements as $productincrements) {
+                    									$selected = ($selected_pi == $productincrements['pi_id'] ? 'selected="selected"' : ''); ?>
+                                                        <option value="<?php echo $productincrements['pi_id']; ?>" <?php echo $selected; ?>><?php echo $productincrements['pi_title']; ?></option>
+                    								<?php } ?>
+                            </select>
+                        </div>        
+                        
+                        <div class="col-md-2">
+                            <select class="form-control" name="xxxx" id="xxx" <?php echo $disabled; ?>>
+                                <option value="0">TYPE</option>
+                            </select>
+                        </div>    
+
+                        <div class="col-md-2">
+                            <select class="form-control" name="xxxx" id="xxx" <?php echo $disabled; ?>>
+                                <option value="0">Alle</option>
+                                <option value="0">nur wo Match NOK</option>
+                            </select>
+                        </div>   
+                                                                
                     </div>
                 </form>
             </div>
         </div>
         
     </div>
-    <div class="container-fluid mt-3 mb-3">
-        <div class="row mb-3">
-            <div class="col-12">
-                <h2 class="m-0">Matched Jira With PM Feature</h2>
-            </div>
+    
+    
+    <ul class="nav nav-tabs nav-fill" id="featureTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="antragsformular-tab" data-toggle="tab" href="#antragsformular" role="tab" aria-controls="antragsformular" aria-selected="true">Jira == pm.mastaz.ch
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="kommetare-tab" data-toggle="tab" href="#kommetare" role="tab" aria-controls="kommetare" aria-selected="false">Jira &ne;> pm.mastaz.ch</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="dateien-tab" data-toggle="tab" href="#dateien" role="tab" aria-controls="dateien" aria-selected="false">pm.mastaz.ch &ne;> Jira</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="featureTabContent">
+        <div class="tab-pane fade show active" id="antragsformular" role="tabpanel" aria-labelledby="antragsformular-tab">
+                      <div class="container-fluid mt-3 mb-3">
+                          <div class="row m-0">
+                  			<?php include_once(F_ROOT.'parts/manage-jira/matched-jira-pm.php'); ?>
+                          </div>
+                      </div>
         </div>
-        <div class="row m-0">
-			<?php include_once(F_ROOT.'parts/manage-jira/matched-jira-pm.php'); ?>
+        <div class="tab-pane fade" id="kommetare" role="tabpanel" aria-labelledby="kommetare-tab">
+                      <div class="container-fluid mt-3 mb-3">
+                          <div class="row m-0">
+                  			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-jira.php'); ?>
+                          </div>
+                      </div>
         </div>
+        <div class="tab-pane fade" id="dateien" role="tabpanel" aria-labelledby="dateien-tab">
+                      <div class="container-fluid mt-3 mb-3">
+                          <div class="row m-0">
+                  			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-pm.php'); ?>
+                          </div>
+                      </div>
+        </div>
+
     </div>
-    <div class="container-fluid mt-3 mb-3">
-        <div class="row mb-3">
-            <div class="col-12">
-                <h2 class="m-0">None Matched Jira</h2>
-            </div>
-        </div>
-        <div class="row m-0">
-			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-jira.php'); ?>
-        </div>
-    </div>
-    <div class="container-fluid mt-3 mb-3">
-        <div class="row mb-3">
-            <div class="col-12">
-                <h2 class="m-0">None Matched PM Feature</h2>
-            </div>
-        </div>
-        <div class="row m-0">
-			<?php include_once(F_ROOT.'parts/manage-jira/non-matched-pm.php'); ?>
-        </div>
-    </div>
+    
+    
+        
+    
+
 <?php } ?>
 <?php
 // Include footer
 include_once F_ROOT . 'parts/layout/footer.php';
+                                                             

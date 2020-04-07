@@ -51,7 +51,7 @@ include_once F_ROOT . 'parts/layout/head.php';
 
 
 	// including import controller file
-	include './controllers/import-controller-jira.php';
+	include './controllers/import-controller-topdesk.php';
 
     // creating object of import controller and passing connection object as a parameter
 	$importCtrl      =    	new ImportController($conn);
@@ -70,7 +70,7 @@ include_once F_ROOT . 'parts/layout/head.php';
             <div class="col-md-12">
             
             
-                                    <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Import Jira
+                                    <h2 class="m-0"><img src="<?php echo W_ROOT; ?>/favicon.ico" style="height:30px;margin-right:10px">Import TopDesk
                             <span class="h6" style="display: inline-flex;vertical-align: middle;">
         			       <?php if ($helptexts['title_import_topdesk']) {
 							   echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_import_topdesk'] . "'></i>";
@@ -111,44 +111,33 @@ include_once F_ROOT . 'parts/layout/head.php';
             				</div>
             				<div class="col-md-7 border shadow"  id="helpbox"  style="display:none">
             					<h4>Kurzanleitung</h4>
-                      Es werden s&auml;mtliche in Jira erfassten Features synchronisiert. 
-                      <ul>
-                        <li>Alle Jira Features werden in einer Tabelle (Jira) importiert, sind aber nicht unter Featuers oder den Roadmaps ersichtlich.</li>
-                        <li>Anschliessend findet die Synchronisation statt zwischen Jira und pm.mastaz.ch Features:
-                          <ul>
-                            <li>Gibt es den Eintrag noch nicht (Issue Key bei keinem Feature im pm.mastaz.ch Tool gefunden), so wird gepr&uuml;ft, ob es ein Feature gibt, mit dem gleichen Namen
-                              <ul>
-                                <li>Gibt es ein Matching, so wird dem Feature im pm.mastaz.ch der Issue Key zugewiesen und somit zugeordnet.</li>
-                                <li>Gibt es kein Matching, wird nichts vorgenommen (nicht automatisch importiert)</li>
-                              </ul>
-                            </li>
-                            <li>Gibt es den Eintrag schon (Issue Key bei einem Feature im pm.mastaz.ch Tool gefunden), so wird nichts am Feature im pm.mastaz.ch angepasst.</li>
-                          </ul>
-                        </li>
-                      </ul>
-                      Unter <a href="/admin-jira.php">Jira Abgleich</a> k&ouml;nnen dann die Features im Jira und im pm.mastaz.ch verglichen werden und ggf. im pm.mastaz.ch die Daten angepasst werden. (manueller Abgleich)<br/><br/>
+                      <font color="red">ERKLÄREN UM WAS ES GEHT, WAS IMPORTIERT WIRD UND WIE ES VERARBEITET WIRD!</font>
                       <ol>
-                        <li>Liste aufrufen im Jira:
-                        <br /><a href="https://jira.zhaw.ch/issues/?filter=10704" target="_blank">https://jira.zhaw.ch/issues/?filter=10704</a>
-
- 
-
-                        <br />FILTER: <input id="filtering" value="project = ART AND Labels in (SA, SM) ORDER BY labels ASC, due DESC, issuetype DESC, priority DESC, updated DESC" style="width:100%;">
-                        <button type="button" id="copy_to_clipboard" onclick="CopyToClipboard('filtering')" style="font-size: 10px;float:right;margin-top:4px;margin-left:5px;"><i class="fa fa-copy"></i></button>
+                        <li>Auswahl aufrufen im TopDesk:  <a href="https://servicedesk.zhaw.ch/" target="_blank">RfC Evento</a>
                         <br />&nbsp;
+                        
+                          <textarea id="columnorder"style="width:100%;" rows="4">Selektiere alle 2nd-Level-Incidents 	
+die als	Incidentart	gleich 'RFC (request for change)' haben	 	
+und 		
+die sind erstellt nach '1. August 2019 19:00'</textarea>
+                          <button type="button" id="copy_to_clipboard" onclick="CopyToClipboard('columnorder')" style="font-size: 10px;float:right;margin-top:4px;margin-left:5px;"><i class="fa fa-copy"></i></button>                        
+                          <br />&nbsp;
+                        
+                        
                         </li>
                         <li>Exportieren<br />
                           <ul>
-                            <li>CSV (Current fields)</li>
-                            <li>Als Separator ist | zu verwenden (Vertical Bar)</li>
+                            <li>Memofelder anzeigen > Nicht anzeigen</li>
+                            <li>CSV</li>
+                            <li>Als Separator ist , zu verwenden (Komma)</li>
                           </ul>
+                          <br />
                         </li>
                         <li>File pr&uuml;fen:<br />
                           Die Reihenfolge der Felder/Spalten muss folgende sein:<br />
-                          <textarea id="columnorder"style="width:100%;">Issue key|Issue id|Custom field (Feature Name)|Description|Custom field (Feature/Story Type)|Status|Due Date|Original Estimate|Custom field (User Business Value)|Custom field (Time Criticality)|Custom field (Risk Reduction / Opportunity Enablement)|Custom field (Job Size)|Created|Updated|Labels|Labels|Labels</textarea>
-                           
+                          <textarea id="columnorder"style="width:100%;">Incidentnummer, Kurzbeschreibung (Details), Incidentart, Name Anmelder,	Status,	Bearbeiter,	Termin,	Auswirkung,	Kategorie,	Unterkategorie,	Bearbeitergruppe,	Departement,	Erstelldatum/-zeit</textarea>
                           <button type="button" id="copy_to_clipboard" onclick="CopyToClipboard('columnorder')" style="font-size: 10px;float:right;margin-top:4px;margin-left:5px;"><i class="fa fa-copy"></i></button>
-                          <br />Hinweis: es k&ouml;nnen maximal 6 Label-Felder verarbeitet werden.<br />&nbsp;
+                          <br />&nbsp;
                         </li>
                         <li>Hier importieren
                         <br />&nbsp;

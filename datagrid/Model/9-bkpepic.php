@@ -1,11 +1,11 @@
-<?php  
+<?php 
 namespace Phppot\Model;
 
 use Phppot\Datasource;
 
 class epic
 {
-    private $ds;    
+    private $ds;
     
   function __construct()
   {
@@ -264,132 +264,6 @@ function getStaff()
   }
 
   // ******************************End All Epics**************************
- 
-  // ******************************Start My feature************************
-  function getmyfeature($SMEID)
-  {
-        
-    $myfeature= "SELECT f.*,fd.*,st.*,ep.*,topics.name as topicsname,feature_statuses.name as statusename, pi.pi_title as piname    
-        FROM features AS f
-         LEFT JOIN feature_details AS fd ON fd.f_id = f.f_id 
-         LEFT JOIN staff AS st ON st.staff_id = fd.f_SME 
-         LEFT JOIN epics AS ep ON ep.e_id = fd.f_epic 
-         LEFT JOIN productincrements AS pi ON pi.pi_id = f.f_PI
-         LEFT JOIN feature_statuses AS feature_statuses ON feature_statuses.id = f.f_status_id 
-          LEFT JOIN topics AS topics ON topics.id = f.f_topic_id";
-        $myfeatureresult = $this->ds->select($myfeature);  
-        //print '<pre>';print_r($myfeatureresult);
-        return $myfeatureresult;
-  }
 
-  // ******************************End My feature**************************
-
-  // ******************************Start feature dynamic************************
-  function getfeaturesdynamic($SMEID=NULL,$fStatus=NULL,$EPICID=NULL)
-  {
-        
-    $myfeature= "SELECT f.*,fd.*,st.*,ep.*,topics.name as topicsname,feature_statuses.name as statusename,  resp.staff_firstname as responsible_firstname, resp.staff_lastname as responsible_lasttname, ft.name as ftname, pi.pi_title as piname    
-        FROM features AS f
-         LEFT JOIN feature_details AS fd ON fd.f_id = f.f_id 
-         LEFT JOIN staff AS st   ON   st.staff_id = fd.f_SME 
-         LEFT JOIN staff AS resp ON resp.staff_id = fd.f_responsible
-         LEFT JOIN epics AS ep ON ep.e_id = fd.f_epic 
-         LEFT JOIN featuretypes AS ft ON ft.id = f.f_type 
-         LEFT JOIN productincrements AS pi ON pi.pi_id = f.f_PI
-         LEFT JOIN feature_statuses AS feature_statuses ON feature_statuses.id = f.f_status_id 
-          LEFT JOIN topics AS topics ON topics.id = f.f_topic_id";
-          if ($SMEID || $EPICID || $fStatus){
-              $whereset=0;
-
-              if ($SMEID) {
-                    $myfeature.=" where ";              
-                    $myfeature.="fd.f_SME='".$SMEID."'"; 
-                    $whereset=1;
-              }
-              if ($EPICID) {
-                if ($whereset==1){
-                    $myfeature.=" and "; 
-                }else{
-                    $myfeature.=" where ";                
-                    $whereset=1;
-                }
-                    $myfeature.="fd.f_epic='".$EPICID."'"; 
-              }
-              if ($fStatus) {
-                if ($whereset==1){
-                    $myfeature.=" and "; 
-                }else{
-                    $myfeature.=" where ";                
-                    $whereset=1;
-                }              
-                    $myfeature.="f.fstatus_id in (".$fStatus.")"; 
-              }
-          }
-        $myfeatureresult = $this->ds->select($myfeature);  
-        //print '<pre>';print_r($myfeatureresult);
-        return $myfeatureresult;             
-  }
-
-  // ******************************End feature dynamic**************************
-  
-  
- // ******************************Start All feature************************
-  function getallfeature()
-  {
-        
-    $allfeature= "SELECT f.*,fd.*,st.*,ep.*,topics.name as topicsname,feature_statuses.name as statusename
-        FROM features AS f
-         LEFT JOIN feature_details AS fd ON fd.f_id = f.f_id 
-         LEFT JOIN staff AS st ON st.staff_id = fd.f_SME 
-         LEFT JOIN epics AS ep ON ep.e_id = fd.f_epic 
-         LEFT JOIN feature_statuses AS feature_statuses ON feature_statuses.id = f.f_status_id 
-          LEFT JOIN topics AS topics ON topics.id = f.f_topic_id"; 
-        $allfeatureresult = $this->ds->select($allfeature);  
-        //print '<pre>';print_r($allfeatureresult);
-        return $allfeatureresult;
-  }
-
-  // ******************************End All feature**************************
-      
-
-  // ******************************Start Epics Details**********************
-
-  function EpicsDetails() 
-  {
-     
-        // $EpicsDetails="SELECT * FROM epics
-        // LEFT JOIN team
-        // ON team.id = epics.team_id";
-
-
-    $EpicsDetails="SELECT e.*,stf.*,ed.*,team.name as teamname,epics_statuses.name as statusename
-              FROM epics AS e
-              LEFT JOIN team as team ON team.id=e.team_id
-              LEFT JOIN epics_statuses as epics_statuses ON epics_statuses.id=e.e_status_id
-              LEFT JOIN staff AS stf ON stf.staff_id = e.e_owner 
-             LEFT JOIN epic_details AS ed ON ed.e_id = e.e_id where ed.e_id = e.e_id";
-        $EpicsDetailsresult = $this->ds->select($EpicsDetails);
-        //print '<pre>';print_r($EpicsDetailsresult);
-        return $EpicsDetailsresult;
-  }
-       
-  // ******************************End Epics Details********************** 
- 
- // ******************************Start Features Details********************** 
-  function FeaturesDetails() 
-  {
-     
-        $FeaturesDetails= "SELECT f.*,fd.*,st.*,fs.name as fname,pi.pi_title as ptitle,tp.name as tname
-        FROM features AS f
-        LEFT JOIN feature_statuses AS fs ON fs.id = f.f_status_id
-        LEFT JOIN productincrements AS pi ON pi.pi_id = f.f_PI
-        LEFT JOIN topics AS tp ON tp.id = f.f_topic_id
-        LEFT JOIN feature_details AS fd ON fd.f_id = f.f_id
-        LEFT JOIN staff AS st ON st.staff_id = fd.f_SME";                 
-        $FeaturesDetailsresult = $this->ds->select($FeaturesDetails);
-        //print '<pre>';print_r($FeaturesDetailsresult);
-        return $FeaturesDetailsresult;
-  }
-  // ******************************End Features Details********************** 
 
 }

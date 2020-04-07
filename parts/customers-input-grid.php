@@ -14,7 +14,7 @@ foreach ($gettopics as $topics) {
 	$alltopics[$topics['id']] = $topics['name'];
 }
 $color = [
-	0 => 'white',
+  0 => '#e0fffc',
 	1 => 'blue',
 	2 => 'green',
 	3 => 'yellow',
@@ -58,6 +58,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 							   echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['title_customers_input'] . "'></i>";
 						   } ?>
         </span></h2>
+          <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
         </div>
     </div>
     <div class="row">
@@ -155,53 +156,59 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
             <table class="table table-responsive c_input">
                 <thead>
                 <tr>
-                    <th colspan="4">&nbsp;</th>
+                    <th colspan="5">&nbsp;</th>
 					<?php foreach ($f_pi as $pi_id) {
+          $i++;
 						$pi_info = $db->getProductIncrementById($pi_id);
 						$col     = 7 + count($f_oe);
 						?>
 
-                        <th colspan="<?php echo $col; ?>" class="bg-secondary border border-dark">
+                        <th colspan="<?php echo $col; ?>" class="<?php
+                        if($i % 2 == 0){echo "bg-odd border border-gray";}
+                        else{echo "bg-even border border-gray";}
+                        ?>">     
 							<?php echo $pi_info['pi_title']; ?>
                             <div style="font-size:10px;font-weight: normal;"><?php echo $pi_info['pi_start']; ?> - <?php echo $pi_info['pi_end']; ?></div>
                         </th>
 					<?php } ?>
                 </tr>
-                <tr>
+                <tr>                                        
                     <th>Title</th>
                     <th>Notizen</th>
                     <th>Status</th>
                     <th>Topic</th>
+                    <th>FG</th>
 					<?php foreach ($f_pi as $pi_id) {
 						?>
-                        <th>Res</th>
-                        <th>Kommentar</th>
+                        <th class="td-block-1">Res</th>
+                        <th class="td-block-1">Kommentar</th>
 						<?php
 						foreach ($f_oe as $oe_id) {
 							$oe_info = $db->getOeById($oe_id);
 							?>
-                            <th><?php echo $oe_info['oe_shortname']; ?></th>
+                            <th class="td-block-1"><?php echo $oe_info['oe_shortname']; ?></th>
 						<?php } ?>
-                        <th>BV</th>
-                        <th>TC</th>
-                        <th>RROE</th>
-                        <th>JS</th>
-                        <th>WSJF</th>
+                        <th class="td-block-2">BV</th>
+                        <th class="td-block-2">TC</th>
+                        <th class="td-block-2">RROE</th>
+                        <th class="td-block-2">JS</th>
+                        <th class="td-block-2">WSJF</th>
 					<?php } ?>
                 </tr>
                 </thead>
                 <tbody>
 				<?php foreach ($feature_list as $feature) { ?>
                     <tr data-f_id="<?php echo $feature['f_id']; ?>">
-                        <td><?php echo $feature['f_title']; ?></td>
+                        <td><a style="text-decoration:none" href="https://pm.mastaz.ch/feature-request.php?f_id=<?php echo $feature["f_id"];?>" target="_blank"><?php echo $feature["f_title"]; ?></td>
                         <td><textarea class="form-control f_note" style="width:150px;" name="f_note"><?php echo $feature['f_note']; ?></textarea></td>
                         <td><?php echo $allfeaturesstatuses[$feature['f_status_id']]; ?></td>
                         <td><?php echo $alltopics[$feature['f_topic_id']]; ?></td>
+                        <td>StudAdm</td>
 						<?php foreach ($f_pi as $pi_id) {
 							$fp_rankingdata  = $db->getFPRankingInfo($feature['f_id'], $pi_id);
 							$res_rankingdata = $db->getDrRanking($fp_rankingdata['fp_id'], 9);
 							?>
-                            <td style="background-color: <?php echo $color[$res_rankingdata['dr_rankingvalue']];?>">
+                            <td class="td-block-1" style="background-color: <?php echo $color[$res_rankingdata['dr_rankingvalue']];?>">
                                 <select class="form-control dr_rankingvalue" data-oe_id="9" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="dr_rankingvalue">
 									<?php
 									foreach ($op_values as $opt) {
@@ -210,14 +217,14 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									<?php } ?>
                                 </select>
                             </td>
-                            <td>
+                            <td class="td-block-1">
                                 <textarea data-oe_id="9" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" class="form-control dr_notes" name="dr_notes" style="width:150px;"><?php echo $res_rankingdata['dr_notes']; ?></textarea>
                             </td>
 							<?php
 							foreach ($f_oe as $oe_id) {
 								$oe_rankingdata = $db->getDrRanking($fp_rankingdata['fp_id'], $oe_id);
 								?>
-                                <td style="background-color: <?php echo $color[$oe_rankingdata['dr_rankingvalue']];?>">
+                                <td class="td-block-1" style="background-color: <?php echo $color[$oe_rankingdata['dr_rankingvalue']];?>">
                                     <select class="form-control dr_rankingvalue" data-oe_id="<?php echo $oe_id ?>" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="dr_rankingvalue">
 										<?php
 										foreach ($op_values as $opt) {
@@ -227,7 +234,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
                                     </select>
                                 </td>
 							<?php } ?>
-                            <td>
+                            <td  class="td-block-2">
                                 <select class="form-control fp_BV" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="fp_BV">
 									<?php
 									foreach ($opt_values as $opt) {
@@ -236,7 +243,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									<?php } ?>
                                 </select>
                             </td>
-                            <td>
+                            <td  class="td-block-2">
                                 <select class="form-control fp_TC" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="fp_TC">
 									<?php
 									foreach ($opt_values as $opt) {
@@ -245,7 +252,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									<?php } ?>
                                 </select>
                             </td>
-                            <td>
+                            <td  class="td-block-2">
                                 <select class="form-control fp_RROE" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="fp_RROE">
 									<?php
 									foreach ($opt_values as $opt) {
@@ -254,7 +261,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									<?php } ?>
                                 </select>
                             </td>
-                            <td>
+                            <td  class="td-block-2">
                                 <select class="form-control fp_JS" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>" name="fp_JS">
 									<?php
 									foreach ($opt_values as $opt) {
@@ -263,7 +270,7 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 									<?php } ?>
                                 </select>
                             </td>
-                            <td>
+                            <td  class="td-block-2">
                                 <span class="form-control  fp_WSJF" data-fp_id="<?php echo $fp_rankingdata['fp_id']; ?>"><?php if ($fp_rankingdata['fp_JS'] == 0) {
 										$wsjf = 0;
 									} else {
@@ -274,9 +281,25 @@ $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
                             </td>
 						<?php } ?>
                     </tr>
+                    <tr id="demo" class="collapse">
+                    <?php
+                      if ($feature['f_desc']<>""){
+                    ?>
+                      <td  colspan="5">
+                      <label>Beschreibung:</label>
+                      <?php
+                       echo '<div class="form-control divtextarea" style="width:100%;height:100%" >'.nl2br($feature['f_desc']).'</div>';
+                       ?>
+                      </td>     
+                    <?php                                          
+                      }
+                    ?>                                      
+                    </tr>
 				<?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+
