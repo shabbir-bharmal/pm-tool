@@ -35,7 +35,24 @@ function storeJiraNotes() {
         }
     });
 }
+function storeJiraID() {
+    $('.f_jira_id').on('change', function () {
+        var f_id = $(this).data('f_id');
+        var f_jira_id = $(this).val();
+        $.ajax({
+            type: "GET",
+            url    : wroot +'/ajax.php',
+            data: "action=update-feature-jira-id&f_id=" + f_id + "&f_jira_id=" + f_jira_id,
+            cache: false,
+            success: function(html) {
+            }
+        });
+    });
+}
+
+
 storeJiraNotes();
+storeJiraID();
 
 function displayRecordsforNonMatchedPM(numRecords, pageNum) {
 
@@ -50,6 +67,7 @@ function displayRecordsforNonMatchedPM(numRecords, pageNum) {
         cache: false,
         success: function(html) {
             $("#non_matched_pm").html(html);
+            storeJiraID();
         }
     });
 }
@@ -85,6 +103,7 @@ function displayRecordsforNonMatchedJira(numRecords, pageNum) {
         cache: false,
         success: function(html) {
             $("#non_matched_jira").html(html);
+
         }
     });
 }

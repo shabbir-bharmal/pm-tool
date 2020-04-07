@@ -2302,4 +2302,30 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	public function getJiraTicketsNotMatchedList()
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT * FROM `jira_tickets` WHERE `j_key` NOT IN (SELECT f_jira_id FROM `feature_details` WHERE `f_jira_id` IS NOT NULL) ORDER BY `id` desc");
+			
+			$stm->execute();
+			$jira_ticket = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $jira_ticket;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function updateFeatureJiraId($f_id,$f_jira_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `feature_details` SET f_jira_id = :f_jira_id WHERE `f_id` = :f_id ");
+			$stm->bindParam(':f_jira_id', $f_jira_id);
+			$stm->bindParam(':f_id', $f_id);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
 }

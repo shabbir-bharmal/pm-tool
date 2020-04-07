@@ -8,9 +8,9 @@
 	
 	$selected_epic   = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
-  $selected_pi     = $_GET['f_pi_id'];
+	$selected_pi     = $_GET['f_pi_id'];
 	
-  if (empty($selected_epic)) {
+	if (empty($selected_epic)) {
 		$selected_epic = 0;
 	}
 	if (empty($selected_status)) {
@@ -18,7 +18,7 @@
 	}
 	if (empty($selected_pi)) {
 		$selected_pi = 0;
-	}  
+	}
 	
 	$page_limit = 10;
 	
@@ -40,10 +40,10 @@
 	}
 	if (empty($selected_pi)) {
 		$selected_pi = 0;
-	} 
-  
-	$feature_list = $db->getFeatureNonMatchedByJiraId($selected_epic, $selected_status, $selected_pi, $lower_limit, $page_limit);
+	}
 	
+	$feature_list = $db->getFeatureNonMatchedByJiraId($selected_epic, $selected_status, $selected_pi, $lower_limit, $page_limit);
+	$getnotmatchedjira = $db->getJiraTicketsNotMatchedList();
 	foreach ($feature_list as $feature) {
 		
 		$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
@@ -54,9 +54,9 @@
                 <tr>
                     <th></th>
                     <th>PM
-                      <?php if ($feature_info['f_id']) { ?>
-                         <a class="mr-1 " target="_blank" href="https://pm.mastaz.ch/feature-request.php?f_id=<?php echo $feature_info['f_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-											<?php } ?>                        
+						<?php if ($feature_info['f_id']) { ?>
+                            <a class="mr-1 " target="_blank" href="https://pm.mastaz.ch/feature-request.php?f_id=<?php echo $feature_info['f_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<?php } ?>
                     </th>
                 </tr>
                 </thead>
@@ -68,19 +68,19 @@
                 <tr>
                     <th>Jira ID:</th>
                     <td>
-                    
-                            <select class="form-control" id="jira" name="jira">
-                                <option value="">--bitte w<span>&#228;</span>hlen--</option>
-                    								<?php
-                    								foreach ($getjira as $jiraget) {
-                    									$selected = $jiraget['e_id'] == $selected_epic ? "selected='selected'" : ""; ?>
-                                                        ?>
-                                                        <option value="<?php echo $jiraget['id']; ?>" <?php echo $selected; ?>><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; ?> / [PIx]) </option>
-                    									<?php
-                    								}
-                    								?>
-                            </select>
-                    </td>                            
+
+                        <select class="form-control f_jira_id" data-f_id="<?php echo $feature_info['f_id']; ?>"  name="jira">
+                            <option value="">--bitte w<span>&#228;</span>hlen--</option>
+							<?php
+							foreach ($getnotmatchedjira as $jiraget) {
+							 
+								?>
+                                <option value="<?php echo $jiraget['j_key']; ?>"><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; ?> / [<?php echo $jiraget['j_PI']; ?>])</option>
+								<?php
+							}
+							?>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Bemerkung:</th>
@@ -97,16 +97,16 @@
                 <tr>
                     <th>Status:</th>
                     <td><?php echo $allfeaturesstatuses[$feature_info['f_status_id']]; ?></td>
-                </tr>                
+                </tr>
                 <tr>
                     <th>
-                      <label for="f_PI" class="col-form-label">PI: <?php if ($helptexts['f_PI']) {
-                  				echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_PI'] . "'></i>";
-                  		    } ?> 
-                      </label>                     
+                        <label for="f_PI" class="col-form-label">PI: <?php if ($helptexts['f_PI']) {
+								echo "<i class='fa fa-question-circle-o' data-container='body' data-toggle='popover' data-placement='top' data-content='" . $helptexts['f_PI'] . "'></i>";
+							} ?>
+                        </label>
                     </th>
                     <td><?php echo $allproductincrements[$feature_info['f_PI']]; ?></td>
-                </tr>                  
+                </tr>
                 <tr>
                     <th>Kommentar:</th>
                     <td colspan="2"></td>
@@ -114,7 +114,7 @@
                 <tr>
                     <th>Ok, dass kein Match?:</th>
                     <td colspan="2"><input type="checkbox" id="XXXX" name="XX" value="XXX"></td>
-                </tr>                
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -125,37 +125,37 @@
 	if ($cnt > 10) {
 		?>
         <nav aria-label="Page navigation example" class="ml-3">
-        <ul class="pagination">
-			
-			<?php
-			if (($pagenum - 1) > 0) {
-				?>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
+            <ul class="pagination">
+				
 				<?php
-			}
-			//Show page links
-			for ($i = 1; $i <= $last; $i++) {
-				if ($i == $pagenum) {
+				if (($pagenum - 1) > 0) {
 					?>
-                    <li class="page-item active"><a class="page-link" href="javascript:void(0);" class="selected"><?php echo $i ?></a></li>
-					<?php
-				} else {
-					?>
-                    <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $i; ?>');"><?php echo $i ?></a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo 1; ?>');">First</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum - 1; ?>');">Previous</a></li>
 					<?php
 				}
-			}
-			if (($pagenum + 1) <= $last) {
+				//Show page links
+				for ($i = 1; $i <= $last; $i++) {
+					if ($i == $pagenum) {
+						?>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);" class="selected"><?php echo $i ?></a></li>
+						<?php
+					} else {
+						?>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);" class="links" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $i; ?>');"><?php echo $i ?></a></li>
+						<?php
+					}
+				}
+				if (($pagenum + 1) <= $last) {
+					?>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum + 1; ?>');" class="links">Next</a></li>
+				<?php }
+				if (($pagenum) != $last) { ?>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $last; ?>');" class="links">Last</a></li>
+					<?php
+				}
 				?>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $pagenum + 1; ?>');" class="links">Next</a></li>
-			<?php }
-			if (($pagenum) != $last) { ?>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="displayRecordsforNonMatchedPM('<?php echo $page_limit; ?>', '<?php echo $last; ?>');" class="links">Last</a></li>
-				<?php
-			}
-			?>
-        </ul>
+            </ul>
         </nav>
 		<?php
 	}
