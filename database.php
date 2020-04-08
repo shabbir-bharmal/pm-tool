@@ -2342,4 +2342,61 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	public function getFeaturesNotMatchedList($epic_id, $status_id, $pi_id)
+	{
+		try {
+			$data = array();
+			
+			$where .= 'WHERE (feature_details.f_jira_id Not IN(SELECT j_key FROM `jira_tickets`) OR feature_details.f_jira_id IS NULL)';
+			if ($epic_id != 0) {
+				$where           .= " AND feature_details.f_epic = :f_epic";
+				$data[':f_epic'] = $epic_id;
+			}
+			if ($status_id != 0) {
+				$where                .= " AND features.f_status_id = :f_status_id";
+				$data[':f_status_id'] = $status_id;
+			}
+			if ($pi_id != 0) {
+				$where                .= " AND features.f_PI = :f_PI";
+				$data[':f_PI'] = $pi_id;
+			}
+			
+			$sql = "SELECT features.f_id,features.f_PI,features.f_title FROM `features` LEFT JOIN feature_details ON feature_details.f_id = features.f_id $where ORDER BY `features`.`f_id` DESC";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute($data);
+			$feature = $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $feature;
+		}
+		catch (PDOException $e) {
+		
+		}
+		return false;
+	}
+	public function updateJiraKommentar($j_key, $kommentar)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `jira_tickets` SET kommentar = :kommentar WHERE `j_key` = :j_key ");
+			$stm->bindParam(':kommentar', $kommentar);
+			$stm->bindParam(':j_key', $j_key);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function updateJiraMatch($j_key,$jira_match)
+	{
+		try {
+			echo $f_jira_match;
+			$stm = $this->pdo->prepare("UPDATE `jira_tickets` SET jira_match = :jira_match WHERE `j_key` = :j_key ");
+			$stm->bindParam(':jira_match', $jira_match);
+			$stm->bindParam(':j_key', $j_key);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
 }

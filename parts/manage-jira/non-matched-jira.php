@@ -5,12 +5,12 @@
 	} else {
 		$pagenum = intval($_GET['pagenum']);
 	}
-  
+	
 	$selected_epic   = $_GET['epic'];
 	$selected_status = $_GET['f_status_id'];
-  $selected_pi     = $_GET['f_pi_id'];
+	$selected_pi     = $_GET['f_pi_id'];
 	
-  if (empty($selected_epic)) {
+	if (empty($selected_epic)) {
 		$selected_epic = 0;
 	}
 	if (empty($selected_status)) {
@@ -18,8 +18,8 @@
 	}
 	if (empty($selected_pi)) {
 		$selected_pi = 0;
-	}  
-  
+	}
+	
 	$page_limit = 10;
 	
 	$cnt = $db->getJiraTicketsNotMatchedCount();
@@ -40,9 +40,10 @@
 	}
 	if (empty($selected_pi)) {
 		$selected_pi = 0;
-	}    
+	}
 	
-	$jira_list = $db->getJiraTicketsNotMatched($lower_limit, $page_limit);
+	$jira_list            = $db->getJiraTicketsNotMatched($lower_limit, $page_limit);
+	$getnotmatchedfeature = $db->getFeaturesNotMatchedList($selected_epic, $selected_status, $selected_pi);
 	
 	foreach ($jira_list as $jira_info) {
 		?>
@@ -65,8 +66,20 @@
                 </tr>
                 <tr>
                     <th>Features:</th>
-                    <td>Select all Features</td>
-                </tr>                
+                    <td>
+                        <select class="form-control f_id" data-j_key="<?php echo $jira_info['j_key']; ?>" name="f_id">
+                            <option value="">--bitte w<span>&#228;</span>hlen--</option>
+							<?php
+							foreach ($getnotmatchedfeature as $featuredata) {
+								
+								?>
+                                <option value="<?php echo $featuredata['f_id']; ?>"><?php echo $featuredata['f_title']; ?> ( [PI<?php echo $featuredata['f_PI']; ?>] )</option>
+								<?php
+							}
+							?>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <th>Bemerkung:</th>
                     <td><?php echo $jira_info['bemerkung']; ?></td>
@@ -85,12 +98,12 @@
                 </tr>
                 <tr>
                     <th>Kommentar:</th>
-                    <td><?php echo $jira_info['kommentar']; ?></td>
+                    <td><textarea data-j_key="<?php echo $jira_info['j_key']; ?>" name="kommentar" class="kommentar form-group w-100"><?php echo $jira_info['kommentar']; ?></textarea></td>
                 </tr>
                 <tr>
                     <th>Ok, dass kein Match?:</th>
-                    <td colspan="2"><input type="checkbox" id="XXXX" name="XX" value="XXX"></td>
-                </tr>                  
+                    <td colspan="2"><input class="jira_match" type="checkbox" data-j_key="<?php echo $jira_info['j_key']; ?>" name="jira_match" <?php if($jira_info['jira_match'] == 1){ echo "checked"; }?> ></td>
+                </tr>
                 </tbody>
             </table>
         </div>

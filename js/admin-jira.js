@@ -48,6 +48,21 @@ function storeJiraID() {
             }
         });
     });
+
+    $('.f_id').on('change', function () {
+
+        var f_id = $(this).val();
+        var f_jira_id = $(this).data('j_key');
+        $.ajax({
+            type: "GET",
+            url    : wroot +'/ajax.php',
+            data: "action=update-feature-jira-id&f_id=" + f_id + "&f_jira_id=" + f_jira_id,
+            cache: false,
+            success: function(html) {
+            }
+        });
+    });
+
 }
 function storeMatchJira() {
     $('.f_jira_match').on('change', function () {
@@ -69,12 +84,55 @@ function storeMatchJira() {
             }
         });
     });
+
+    $('.jira_match').on('change', function () {
+        var j_key = $(this).data('j_key');
+        var jira_match = 1;
+        if($(this).prop("checked") == true){
+            jira_match = 1;
+        }
+        else if($(this).prop("checked") == false){
+            jira_match = 0;
+        }
+
+        $.ajax({
+            type: "GET",
+            url    : wroot +'/ajax.php',
+            data: "action=update-jira-match&j_key=" + j_key + "&jira_match=" + jira_match,
+            cache: false,
+            success: function(html) {
+            }
+        });
+    });
+}
+
+function storeJiraKommentar() {
+    var timer;
+    var timeout = 500;
+
+    $('.kommentar').keyup(function(){
+        clearTimeout(timer);
+        if ($(this).val) {
+            var j_key = $(this).data('j_key');
+            var kommentar = $(this).val();
+            timer = setTimeout(function(){
+                $.ajax({
+                    type: "GET",
+                    url    : wroot +'/ajax.php',
+                    data: "action=update-jira-kommentar&j_key=" + j_key + "&kommentar=" + kommentar,
+                    cache: false,
+                    success: function(html) {
+                    }
+                });
+            }, timeout);
+        }
+    });
 }
 
 storeJiraNotes();
 storeJiraID();
 storeMatchJira();
-
+storeJiraKommentar();
 function displayRecordsforNonMatchedPM(numRecords, pageNum) {
 
     var epic = $('#epic').val();
@@ -126,7 +184,9 @@ function displayRecordsforNonMatchedJira(numRecords, pageNum) {
         cache: false,
         success: function(html) {
             $("#non_matched_jira").html(html);
-
+            storeJiraID();
+            storeJiraKommentar();
+            storeMatchJira();
         }
     });
 }
