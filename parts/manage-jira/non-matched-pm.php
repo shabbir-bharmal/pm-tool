@@ -75,7 +75,7 @@
 							foreach ($getnotmatchedjira as $jiraget) {
 							 
 								?>
-                                <option value="<?php echo $jiraget['j_key']; ?>"><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; ?> / [<?php echo $jiraget['j_PI']; ?>])</option>
+                                <option value="<?php echo $jiraget['j_key']; ?>"><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; if($jiraget['j_PI']) { ?>  / [<?php echo $jiraget['j_PI']; ?>] <?php } ?> )</option>
 								<?php
 							}
 							?>
@@ -109,11 +109,11 @@
                 </tr>
                 <tr>
                     <th>Kommentar:</th>
-                    <td colspan="2"></td>
+                    <td colspan="2"><textarea name="f_jira_notes" data-f_id="<?php echo $feature_info['f_id'];?>" class="f_jira_notes form-group w-100"><?php echo $feature_info['f_jira_notes']; ?></textarea></td>
                 </tr>
                 <tr>
                     <th>Ok, dass kein Match?:</th>
-                    <td colspan="2"><input type="checkbox" id="XXXX" name="XX" value="XXX"></td>
+                    <td colspan="2"><input class="f_jira_match" type="checkbox" data-f_id="<?php echo $feature_info['f_id'];?>" name="f_jira_match" <?php if($feature_info['f_jira_match'] == 1){ echo "checked"; }?> ></td>
                 </tr>
                 </tbody>
             </table>

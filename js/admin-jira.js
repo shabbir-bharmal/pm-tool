@@ -49,10 +49,31 @@ function storeJiraID() {
         });
     });
 }
+function storeMatchJira() {
+    $('.f_jira_match').on('change', function () {
+        var f_id = $(this).data('f_id');
+        var f_jira_match = 1;
+        if($(this).prop("checked") == true){
+             f_jira_match = 1;
+        }
+        else if($(this).prop("checked") == false){
+             f_jira_match = 0;
+        }
 
+        $.ajax({
+            type: "GET",
+            url    : wroot +'/ajax.php',
+            data: "action=update-feature-jira-match&f_id=" + f_id + "&f_jira_match=" + f_jira_match,
+            cache: false,
+            success: function(html) {
+            }
+        });
+    });
+}
 
 storeJiraNotes();
 storeJiraID();
+storeMatchJira();
 
 function displayRecordsforNonMatchedPM(numRecords, pageNum) {
 
@@ -68,6 +89,8 @@ function displayRecordsforNonMatchedPM(numRecords, pageNum) {
         success: function(html) {
             $("#non_matched_pm").html(html);
             storeJiraID();
+            storeJiraNotes();
+            storeMatchJira();
         }
     });
 }

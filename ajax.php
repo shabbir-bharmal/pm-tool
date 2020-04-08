@@ -126,7 +126,7 @@ switch ($action) {
 		}
 		
 		
-		$feature_list = $db->getFeatureNonMatchedByJiraId($selected_epic, $selected_status, $selected_pi, $lower_limit, $page_limit);
+		$feature_list      = $db->getFeatureNonMatchedByJiraId($selected_epic, $selected_status, $selected_pi, $lower_limit, $page_limit);
 		$getnotmatchedjira = $db->getJiraTicketsNotMatchedList();
 		
 		foreach ($feature_list as $feature) {
@@ -150,13 +150,13 @@ switch ($action) {
                         <th>Jira ID:</th>
                         <td>
 
-                            <select class="form-control f_jira_id" data-f_id="<?php echo $feature_info['f_id']; ?>"  name="jira">
+                            <select class="form-control f_jira_id" data-f_id="<?php echo $feature_info['f_id']; ?>" name="jira">
                                 <option value="">--bitte w<span>&#228;</span>hlen--</option>
 								<?php
 								foreach ($getnotmatchedjira as $jiraget) {
-				
+									
 									?>
-                                    <option value="<?php echo $jiraget['j_key']; ?>"><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; ?> / [<?php echo $jiraget['j_PI']; ?>])</option>
+                                    <option value="<?php echo $jiraget['j_key']; ?>"><?php echo $jiraget['title']; ?> (<?php echo $jiraget['j_key']; if($jiraget['j_PI']) { ?>  / [<?php echo $jiraget['j_PI']; ?>] <?php } ?> )</option>
 									<?php
 								}
 								?>
@@ -181,7 +181,13 @@ switch ($action) {
                     </tr>
                     <tr>
                         <th>Kommentar:</th>
-                        <td colspan="2"></td>
+                        <td colspan="2"><textarea name="f_jira_notes" data-f_id="<?php echo $feature_info['f_id']; ?>" class="f_jira_notes form-group w-100"><?php echo $feature_info['f_jira_notes']; ?></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Ok, dass kein Match?:</th>
+                        <td colspan="2"><input class="f_jira_match" type="checkbox" data-f_id="<?php echo $feature_info['f_id']; ?>" name="f_jira_match" <?php if ($feature_info['f_jira_match'] == 1) {
+								echo "checked";
+							} ?> ></td>
                     </tr>
                     </tbody>
                 </table>
@@ -682,9 +688,14 @@ switch ($action) {
 		$db->saveDrNotes($fp_id, $data);
 		break;
 	case 'update-feature-jira-id':
-		$f_id         = $_REQUEST['f_id'];
+		$f_id      = $_REQUEST['f_id'];
 		$f_jira_id = $_REQUEST['f_jira_id'];
 		$db->updateFeatureJiraId($f_id, $f_jira_id);
+		break;
+	case 'update-feature-jira-match':
+		$f_id      = $_REQUEST['f_id'];
+		$f_jira_match = $_REQUEST['f_jira_match'];
+		$db->updateFeatureJiraMatch($f_id, $f_jira_match);
 		break;
 	default:
 		break;

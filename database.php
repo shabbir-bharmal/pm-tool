@@ -2328,4 +2328,18 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 		}
 		return false;
 	}
+	public function updateFeatureJiraMatch($f_id,$f_jira_match)
+	{
+		try {
+			echo $f_jira_match;
+			$stm = $this->pdo->prepare("UPDATE `feature_details` SET f_jira_match = :f_jira_match WHERE `f_id` = :f_id ");
+			$stm->bindParam(':f_jira_match', $f_jira_match);
+			$stm->bindParam(':f_id', $f_id);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
 }
