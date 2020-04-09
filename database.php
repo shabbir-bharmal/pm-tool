@@ -2388,12 +2388,38 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	public function updateJiraMatch($j_key,$jira_match)
 	{
 		try {
-			echo $f_jira_match;
+			
 			$stm = $this->pdo->prepare("UPDATE `jira_tickets` SET jira_match = :jira_match WHERE `j_key` = :j_key ");
 			$stm->bindParam(':jira_match', $jira_match);
 			$stm->bindParam(':j_key', $j_key);
 			$stm->execute();
 			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function storeCustomerInput($staff_id,$customer_input_url)
+	{
+		try {
+			$stm = $this->pdo->prepare("UPDATE `staff` SET customer_input_url = :customer_input_url WHERE `staff_id` = :staff_id ");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->bindParam(':customer_input_url', $customer_input_url);
+			$stm->execute();
+			return true;
+		}
+		catch (PDOException $e) {
+		}
+		return false;
+	}
+	public function getCustomerInput($staff_id)
+	{
+		try {
+			$stm = $this->pdo->prepare("SELECT customer_input_url FROM `staff` WHERE `staff_id` = :staff_id");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->execute();
+			$staff_customer_url = $stm->fetch(PDO::FETCH_ASSOC);
+			return $staff_customer_url['customer_input_url'];
 		}
 		catch (PDOException $e) {
 		}

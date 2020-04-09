@@ -47,6 +47,19 @@ if (empty($_GET)) {
 }
 $feature_list = $db->getFeatureByStatusAndTopic($f_status, $f_topics);
 
+$login_id = $_SESSION['login_user_data']['staff_id'];
+if($_SERVER['QUERY_STRING']){
+       $db->storeCustomerInput($login_id,$_SERVER['QUERY_STRING']);
+}else{
+   $query_string = $db->getCustomerInput($login_id);
+   if($query_string){
+	   $url = W_ROOT.'/customers-input.php?'.$query_string;
+	   echo "<script>window.location.href='".$url."';</script>";
+	   exit;
+   }
+ 
+}
+
 ?>
 <div class="container-fluid mt-3 mb-3">
 
