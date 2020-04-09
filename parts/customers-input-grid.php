@@ -57,7 +57,6 @@ if($_SERVER['QUERY_STRING']){
 	   echo "<script>window.location.href='".$url."';</script>";
 	   exit;
    }
- 
 }
 
 ?>
