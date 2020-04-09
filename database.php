@@ -1025,11 +1025,20 @@ LEFT JOIN feature_details ON feature_details.f_id = features.f_id WHERE features
 	{
 		
 		try {
-			$stm = $this->pdo->prepare("SELECT staff_id,staff_firstname,staff_lastname,username,can_edit_roadmap,can_edit_epic_feature,can_manage_config,can_edit_customers_inputs,staff_avatar FROM `staff` WHERE `username` = :username AND `password` = :password");
+			$stm = $this->pdo->prepare("SELECT * FROM `staff` WHERE `username` = :username AND `password` = :password");
 			$stm->bindParam(':username', $username);
 			$stm->bindParam(':password', $password);
 			$stm->execute();
 			$userdata = $stm->fetch(PDO::FETCH_ASSOC);
+			unset($userdata['password']);
+			$staff_id = $userdata['staff_id'];
+			$last_login = date('Y-m-d H:i:s');
+			
+			$stm = $this->pdo->prepare("UPDATE `staff` SET last_login = :last_login WHERE `staff_id` = :staff_id ");
+			$stm->bindParam(':staff_id', $staff_id);
+			$stm->bindParam(':last_login', $last_login);
+			$stm->execute();
+			
 			return $userdata;
 		}
 		catch (PDOException $e) {

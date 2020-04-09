@@ -108,7 +108,7 @@
 #img-upload{
     width: 100%;
 }
-.watch-icon{
+.watch-icon,.copy-icon{
     cursor: pointer;
 }
 

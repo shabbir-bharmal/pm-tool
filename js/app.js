@@ -103,6 +103,7 @@ $(function () {
                     popover();
                     checkPermission();
                     commnetFunctionality();
+                    copyFeature();
                 }
             });
         });
@@ -659,6 +660,19 @@ $(function () {
             });
         });
     }
+    function copyFeature(){
+        $('.copy-icon').on('click', function () {
+          var f_id = $(this).data('f_id');
+            $.ajax({
+                url    : wroot + '/ajax.php?action=copy-feature&f_id=' + f_id,
+                type   : 'GET',
+                success:  function (response) {
+                    window.location.href = response;
+
+                }
+            });
+        });
+    }
 
     formFilter();
     updateStaffCapacity();
@@ -671,6 +685,7 @@ $(function () {
     avtarUpload();
     manageAccount();
     printAllfeaturesFromPI();
+
 });
 
 

@@ -728,6 +728,26 @@ switch ($action) {
 		$jira_match = $_REQUEST['jira_match'];
 		$db->updateJiraMatch($j_key, $jira_match);
 		break;
+	case 'copy-feature':
+		$f_id      = $_REQUEST['f_id'];
+		$feature_info     = $db->getFeatureByFeatureId($f_id);
+		unset($feature_info['f_id']);
+		unset($feature_info['created_date']);
+		unset($feature_info['edited_timestamp']);
+		unset($feature_info['f_jira_id']);
+		unset($feature_info['f_jira_notes']);
+		unset($feature_info['f_jira_match']);
+		unset($feature_info['id']);
+		
+		
+		$feature_info['f_title'] = $feature_info['f_title'].' (copied)';
+		$feature_info['topic_id'] = $feature_info['f_topic_id'];
+		$feature_info['pi_id'] = $feature_info['f_PI'];
+  
+		$new_f_id = $db->saveFeature($feature_info);
+		$url = W_ROOT.'/feature-request.php?f_id='.$new_f_id;
+		echo  $url;
+		break;
 	default:
 		break;
 }
