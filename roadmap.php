@@ -109,6 +109,7 @@ include_once F_ROOT . 'parts/layout/head.php';
 					<?php }else{ ?>
                         <option value="expand">Kurzbeschreibung ausblenden</option>
 					<?php }  ?>
+                    <option value="prev_pi">Vorheriges PI anzeigen</option>
                 </select>
             </div>
         </div>

@@ -157,3 +157,6 @@
 .td-block-2{
     background-color: #d4e3ff;
 }
+.hide-prev{
+    display: none;
+}

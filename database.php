@@ -102,8 +102,8 @@ class Database
 	public function getOtherProductIncrements($exclude_pi_id = 0)
 	{
 		try {
-			//	$stm = $this->pdo->prepare("SELECT * FROM `productincrements` WHERE `pi_id` != :exclude_pi_id AND `pi_id` > :exclude_pi_id limit 0,3");
-			$stm = $this->pdo->prepare("SELECT * FROM `productincrements` WHERE `pi_id` != :exclude_pi_id AND `pi_id` > :exclude_pi_id");
+			//$stm = $this->pdo->prepare("SELECT * FROM `productincrements` WHERE `pi_id` != :exclude_pi_id AND `pi_id` > :exclude_pi_id");
+			$stm = $this->pdo->prepare("SELECT * FROM `productincrements`");
 			$stm->bindParam(':exclude_pi_id', $exclude_pi_id);
 			$stm->execute();
 			$pis = $stm->fetchAll(PDO::FETCH_ASSOC);

@@ -17,8 +17,9 @@ $show_cardfooter_sp          = $show_cardfooter['cardfooter_sp'];
 $show_cardfooter_attachments = $show_cardfooter['cardfooter_attachments'];
 $show_cardfooter_sme         = $show_cardfooter['cardfooter_sme'];
 $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
+
 ?>
-<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+<div class="modal fade bd-print-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <form name="print_pi_features" id="print_pi_features" method="post" action="<?php echo W_ROOT; ?>/form-action.php">
         <div class="modal-dialog modal-sm">
             <div class="modal-content" style="width:375px;">
@@ -84,11 +85,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="0" title="under construction"></i></div>
                     <div style='font-size:10px;font-weight: normal;'>&nbsp;</div>
                 </th>
-                <th scope="col">Aktuelles PI - <?php echo $actual_product_increment['pi_title']; ?>
-                    <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $actual_product_increment['pi_id']; ?>" title="Alle Features in diesem PI ausdrucken"></i></div>
-                    <div style='font-size:10px;font-weight: normal;'><?php echo $actual_pi_date; ?></div>
-                </th>
 				<?php
+				
 				$i = 0;
 				foreach ($product_increments as $product_increment) { ?>
 					<?php
@@ -101,12 +99,22 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 					?>
                     <th scope="col" class="<?php if ($i > $_SESSION['show_pi']) {
 						echo 'd-none';
-					} ?>"><?php echo $product_increment['pi_title']; ?>
+					} if($product_increment['pi_id'] < ($actual_product_increment['pi_id'] - $_SESSION['show_prev'])){
+						echo 'hide-prev';
+					} ?>"><?php
+						if ($product_increment['pi_id'] == $actual_product_increment['pi_id']) {
+							echo "Aktuelles PI - " . $product_increment['pi_title'];
+						} else {
+							echo $product_increment['pi_title'];
+						}
+						?>
                         <div class="print_pi float-right"><i class="fa fa-print" aria-hidden="true" data-pi="<?php echo $product_increment['pi_id']; ?>" title="Alle Features in diesem PI ausdrucken"></i></div>
                         <div style='font-size:10px;font-weight: normal;'><?php echo $pi_date; ?></div>
                     </th>
 					<?php
-					$i++;
+					if ($product_increment['pi_id'] > $actual_product_increment['pi_id']) {
+						$i++;
+					}
 				}
 				?>
             </tr>
@@ -188,8 +196,8 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											<?php } ?>
 											<?php if ($feature_info['f_jira_id']) { ?>
                                                 <a class="float-left mr-1 " target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
-											<?php } ?>                      
-                      
+											<?php } ?>
+											
 											<?php
 											$cardfooter = "";
 											
@@ -203,7 +211,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 													$sme[0] = $db->getStaffById($feature_info['f_SME']);
 													if ($sme[0]['staff_avatar'] <> "") {
 														if ($sme[0]['username'] <> "") {
-															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
+															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">' . ' | ';
 														}
 													} else {
 														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
@@ -233,7 +241,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 												if ($feature['f_storypoints'] > -0.1) {
 													$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
 												}
-											}                         
+											}
 											echo '<font style="font-size:10px;">' . substr($cardfooter, 0, -3) . "</font>";
 											?>
                                         </div>
@@ -249,148 +257,25 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                             <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
 						<?php } ?>
                     </div>
-					
+
                 </td>
                 <!-- Funnel features end -->
-
-                <!-- Actual PI features start -->
-                <td>
-                    <div class=" product-increment <?php echo $_SESSION['show_all']; ?> pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" id="pi_sortable_<?php echo $actual_product_increment['pi_id']; ?>" data-topic_id="<?php echo $selected_topic; ?>">
-						
-						<?php
-						$pi_id    = $actual_product_increment['pi_id'];
-						$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
-						
-						if (isset($features) && !empty($features)) {
-							foreach ($features as $feature) {
-								
-								$feature_info = $db->getFeatureByFeatureId($feature['f_id']);
-								if ($feature['f_JS'] == 0) {
-									$wsjf = 0;
-								} else {
-									$wsjf = ($feature['f_BV'] + $feature['f_TC'] + $feature['f_RROE']) / $feature['f_JS'];
-								}
-								$actual_sp_total += $feature['f_storypoints'];
-								
-								?>
-                                <div class="card" id="<?php echo $feature['f_id']; ?>" data-sp="<?php echo $feature['f_storypoints']; ?>">
-                                    <div class="card-header" style=" background: <?php echo $feature['highlight_color'] ?>;">
-                                        <div class="row">
-                                            <div class="col-8"><?php echo $feature['f_title']; ?></div>
-                                            <div class="col-4">
-                                                <div class="float-right">
-													<?php if ($can_edit_roadmap == 1 || $feature['f_SME'] == $login_id || in_array($feature['f_topic_id'], $topic_permission)) { ?>
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Edit Feature"><i class="fa fa-pencil"></i></span>
-													<?php } else { ?>
-                                                        <span class="manage_feature" data-feature_id="<?php echo $feature['f_id']; ?>" data-pi_id="<?php echo $pi_id; ?>" title="View Feature"><i class="fa fa-sticky-note"></i></span>
-													<?php }
-													if ($can_edit_roadmap == 1) { ?>
-                                                        <span class="delete_feature" data-feature_id="<?php echo $feature['f_id']; ?>" title="Delete Feature"><i class="fa fa-trash"></i></span>
-													<?php } ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-									<?php if ($feature['f_desc']) { ?>
-                                        <div class="card-body <?php echo $_SESSION['expand']; ?>">
-											<?php
-											if (strlen($feature['f_desc']) > 250) {
-												echo substr($feature['f_desc'], 0, 250) . '[...]';
-											} else {
-												echo $feature['f_desc'];
-											}
-											?>
-                                        </div>
-									<?php } ?>
-                                    <div class="card-footer">
-                                        <div class="text-right">
-											<?php if ($feature['f_status_id'] == '3') { ?>
-                                                <span style="color: green;" class="float-left mr-1"><i class="fa fa-check-circle"></i></span>
-											<?php } ?>
-											<?php if ($feature['f_mehr_details']) { ?>
-                                                <a class="float-left mr-1" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
-											<?php } ?>
-                      
-											<?php if ($feature_info['f_jira_id']) { ?>
-                                                <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
-											<?php } ?>                          
-											
-											<?php
-											$cardfooter = "";
-											
-											if ($show_cardfooter_comments == 1) {
-												//if ($feature_info['f_SME']>0){
-												$cardfooter .= '<i class="fa fa-comments" title="Kommentare (under construction)"></i> ;-) | ';
-												//}
-											}
-											if ($show_cardfooter_sme == 1) {
-												if ($feature_info['f_SME'] > 0) {
-													$sme[0] = $db->getStaffById($feature_info['f_SME']);
-													if ($sme[0]['staff_avatar'] <> "") {
-														if ($sme[0]['username'] <> "") {
-															$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
-														}
-													} else {
-														$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
-													}
-													unset($sme);
-												}
-											}
-											if ($show_cardfooter_attachments == 1) {
-												$feature_files = $db->getFeatureFilesByFeatureId($feature['f_id']);
-												
-												if (count($feature_files) > 0) {
-													$cardfooter .= '<i class="fa fa-paperclip" title="Dateien vorhanden"></i> ' . count($feature_files) . '  | ';
-												}
-											}
-											if ($show_cardfooter_duedate == 1) {
-												if ($feature_info['f_due_date']) {
-													$cardfooter .= '<i class="fa fa-bell" title="gew&uuml;nschtes Fertigstellungsdatum"></i> ' . $feature_info['f_due_date'] . ' | ';
-												}
-											}
-											if ($show_cardfooter_wsjf == 1) {
-												if ($wsjf > 0) {
-													$cardfooter .= '<i class="fa fa-calculator" title="WSJF"></i> ' . number_format($wsjf, 3) . " | ";
-												}
-												
-											}
-											if ($show_cardfooter_sp == 1) {
-												if ($feature['f_storypoints'] > -0.1) {
-													$cardfooter .= '<i class="fa fa-tachometer" title="Storypoints"></i> ' . $feature['f_storypoints'] . " | ";
-												}
-											}
-											echo '<font style="font-size:10px;">' . substr($cardfooter, 0, -3) . "</font>";
-											?>
-
-                                        </div>
-                                    </div>
-                                </div>
-								<?php
-							}
-						}
-						?>
-						<?php if ($can_edit_roadmap == 1) { ?>
-                            <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
-						<?php } ?>
-                    </div>
-					
-                </td>
-                <!-- Actual PI features end -->
-
                 <!-- Other PI features start -->
 				<?php
 				$i = 0;
 				
-				foreach ($product_increments
-				
-				as $product_increment) {
-				if ($i > $_SESSION['show_pi']) {
-					$class = 'd-none';
-				} else {
-					$class = '';
-				}
+				foreach ($product_increments as $product_increment) {
+					
+					if ($i > $_SESSION['show_pi']) {
+						$class = 'd-none';
+					} elseif($product_increment['pi_id'] < ($actual_product_increment['pi_id'] - $_SESSION['show_prev'])){
+						$class = 'hide-prev';
+					}
+					else {
+						$class = '';
+					}
 				$pi_id = $product_increment['pi_id'];
-				echo "<td class='$class'><div class=' product-increment ".$_SESSION['show_all']." pi_sortable_" . $pi_id . "' id='pi_sortable_" . $pi_id . "' data-topic_id=" . $selected_topic . ">";
+				echo "<td class='$class'><div class=' product-increment " . $_SESSION['show_all'] . " pi_sortable_" . $pi_id . "' id='pi_sortable_" . $pi_id . "' data-topic_id=" . $selected_topic . ">";
 				
 				
 				$features = $db->getFeaturesByTopicAndPI($selected_topic, $pi_id);
@@ -444,10 +329,10 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 									<?php if ($feature['f_mehr_details']) { ?>
                                         <a class="float-left mr-1" target="_blank" href="<?php echo $feature['f_mehr_details']; ?>"><i class="fa fa-link" aria-hidden="true"></i></a>
 									<?php } ?>
-                  
-											<?php if ($feature_info['f_jira_id']) { ?>
-                                                <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
-											<?php } ?>                      
+									
+									<?php if ($feature_info['f_jira_id']) { ?>
+                                        <a class="float-left mr-1" target="_blank" href="https://jira.zhaw.ch/browse/<?php echo $feature_info['f_jira_id']; ?>" title="Infos auf Jira abrufen"><i class="fa fa-rocket" aria-hidden="true"></i></a>
+									<?php } ?>
 									
 									<?php
 									$cardfooter = "";
@@ -462,7 +347,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 											$sme[0] = $db->getStaffById($feature_info['f_SME']);
 											if ($sme[0]['staff_avatar'] <> "") {
 												if ($sme[0]['username'] <> "") {
-													$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">'. ' | ';
+													$cardfooter .= '<img id="img-upload" class="rounded-circle zoomavatar" src="' . $sme[0]['staff_avatar'] . '" title"Ansprechsperson (Fach): ' . $sme[0]['username'] . '">' . ' | ';
 												}
 											} else {
 												$cardfooter .= '<i class="fa fa-user" title="Ansprechsperson (Fach)"></i> ' . $sme[0]['username'] . ' | ';
@@ -509,10 +394,13 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
                     <span class="manage_feature btn btn-primary btn-sm" data-feature_id="0" data-team_id="<?php echo $selected_team; ?>" data-topic_id="<?php echo $selected_topic; ?>" data-pi_id="<?php echo $pi_id; ?>" title="Add Feature" style="width:100%">neues Feature erfassen</span>
 				<?php } ?>
     </div>
-	
+
     </td>
 	<?php
-	$i++;
+	
+	if ($product_increment['pi_id'] > $actual_product_increment['pi_id']) {
+		$i++;
+	}
 	} ?>
     <!-- Other PI features end -->
     </tr>
@@ -540,7 +428,6 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 			?>
 
         </td>
-        <td><span class="pi_total_capacity"><?php echo $actual_pi_total_capacity; ?></span></td>
 		<?php
 		if ($can_manage_config == 1) {
 			$i = 0;
@@ -554,11 +441,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				?>
                 <td class="<?php if ($i > $_SESSION['show_pi']) {
 					echo 'd-none';
+				}if($product_increment['pi_id'] < ($actual_product_increment['pi_id'] - $_SESSION['show_prev'])){
+					echo 'hide-prev';
 				} ?>">
                     <span class="pi_total_capacity"><?php echo $total_capacity; ?></span>
                 </td>
 				<?php
-				$i++;
+				if($product_increment['pi_id'] > $actual_product_increment['pi_id']){
+					$i++;
+				}
 			}
 		}
 		?>
@@ -573,20 +464,7 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 		?>
         <tr class="capacity-row">
             <td><?php echo($staff_member['staff_firstname'] . " " . $staff_member['staff_lastname']); ?></td>
-            <td>
-                <?php 
-                if ($pi_capacity['capacity']>-0.1){
-                ?>
-                <input type="number" name="<?php echo $capacity_input_name; ?>"
-                             value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
-                <?php 
-                }else{
-                echo "- Erfassung nicht m&ouml;glich -";
-                }
-                ?>             
-            </td>
-
-			<?php
+            <?php
 			$i = 0;
 			
 			foreach ($product_increments as $product_increment) {
@@ -599,21 +477,25 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 				?>
                 <td class="<?php if ($i > $_SESSION['show_pi']) {
 					echo 'd-none';
+				}if($product_increment['pi_id'] < ($actual_product_increment['pi_id'] - $_SESSION['show_prev'])){
+					echo 'hide-prev';
 				} ?>">
-                <?php 
-                if ($pi_capacity['capacity']>-0.1){
-                ?>
-                <input type="number" name="<?php echo $capacity_input_name; ?>"
-                             value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
-                <?php 
-                }else{
-                echo "- Erfassung nicht m&ouml;glich -";
-                }
-                ?>      
+					<?php
+					if ($pi_capacity['capacity'] > -0.1) {
+						?>
+                        <input type="number" name="<?php echo $capacity_input_name; ?>"
+                               value="<?php echo $pi_capacity['capacity']; ?>" class="form-control capacity_input">
+						<?php
+					} else {
+						echo "- Erfassung nicht m&ouml;glich -";
+					}
+					?>
                 </td>
 				
 				<?php
-				$i++;
+				if($product_increment['pi_id'] > $actual_product_increment['pi_id']){
+					$i++;
+				}
 			} ?>
         </tr>
 		<?php
@@ -633,11 +515,16 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 			$color = 'text-success';
 		}
 		?>
-        <td><span class="pi_total_sp <?php echo $color; ?>"><?php echo $actual_sp_total; ?></span></td>
-		<?php
+        <?php
 		$i = 0;
 		foreach ($product_increments as $product_increment) {
-			$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
+			
+			if ($selectedtopic != 0) {
+				$total_capacity = $db->getTotalCapacityByTopicPI($selected_topic, $product_increment['pi_id']);
+			} else {
+				$total_capacity = $db->getTotalCapacityByTeamPI($selected_team, $product_increment['pi_id']);
+			}
+			
 			
 			if ($total_capacity <= $sp_totals[$product_increment['pi_id']]) {
 				$color = 'text-danger';
@@ -647,11 +534,15 @@ $show_cardfooter_comments    = $show_cardfooter['cardfooter_comments'];
 			?>
             <td class="<?php if ($i > $_SESSION['show_pi']) {
 				echo 'd-none';
+			}if($product_increment['pi_id'] < ($actual_product_increment['pi_id'] - $_SESSION['show_prev'])){
+				echo 'hide-prev';
 			} ?>">
                 <span class="pi_total_sp <?php echo $color; ?>"><?php echo $sp_totals[$product_increment['pi_id']]; ?></span>
             </td>
 			<?php
-			$i++;
+			if($product_increment['pi_id'] > $actual_product_increment['pi_id']){
+				$i++;
+			}
 		}
 		?>
     </tr>

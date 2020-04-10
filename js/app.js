@@ -416,6 +416,13 @@ $(function () {
         }
 
     }
+    function showPrevPI() {
+
+        $('.table tr').each(function () {
+            $(this).find(".hide-prev:last").removeClass('hide-prev');
+        });
+
+    }
 
 
     function changeEvent() {
@@ -436,6 +443,8 @@ $(function () {
                 showAll();
             } else if (eveName == 'expand') {
                 expandDetails();
+            }else if (eveName == 'prev_pi') {
+                showPrevPI();
             }
             $('#event').prop('selectedIndex', 0);
         });

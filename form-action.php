@@ -19,6 +19,7 @@ switch ($action) {
 		if ($count > 1) {
 			$_SESSION['login_user_data'] = $result;
 			$_SESSION['show_pi'] = 2;
+			$_SESSION['show_prev'] = 0;
 			$_SESSION['show_all'] = '';
 			$_SESSION['expand'] = 'height0';
 			if($_SESSION['redirect_url']){

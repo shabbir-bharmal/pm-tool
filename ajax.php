@@ -73,6 +73,9 @@ switch ($action) {
 					$_SESSION['expand'] = 'height0';
 				}
 				break;
+			case 'prev_pi':
+				$_SESSION['show_prev'] = $_SESSION['show_prev'] + 1;
+				break;
 			default:
 				break;
 		}
