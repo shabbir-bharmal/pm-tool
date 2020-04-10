@@ -685,6 +685,7 @@ $(function () {
     avtarUpload();
     manageAccount();
     printAllfeaturesFromPI();
+    copyFeature();
 
 });
 

@@ -40,6 +40,8 @@ if ($login_id !== $staff_id) {
 	$disabled = '';
 }
 ?>
+
+
 <form action="<?php echo W_ROOT . '/form-action.php'; ?>" method="post" id="feature_request_form" name="feature_request_form" enctype='multipart/form-data'>
     <input type="hidden" name="f_id" value="<?php echo $f_id; ?>">
     <input type="hidden" name="action" value="feature-request">
@@ -47,9 +49,13 @@ if ($login_id !== $staff_id) {
     <div class="form-group row">
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Titel: <span class="text-danger ml-1">*</span></label>
 
-        <div class="col-6 col-xs-12">
+        <div class="col-5 col-xs-12">
             <input type="text" name="f_title" class="form-control" id="f_title" <?php echo $disabled; ?> value="<?php echo(!$f_id ? "" : $feature_info['f_title']) ?>">
         </div>
+        <div class="col-5 col-xs-12">
+         <i data-f_id="<?php echo $f_id; ?>" class="fa fa-copy float-right col-form-label text-secondary copy-icon" style="margin-right:10px;"></i>
+        </div>        
+
     </div>
     <div class="form-group row">
         <label for="f_title" class="col-2 col-xs-12 col-form-label">Status:</label>
